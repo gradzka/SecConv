@@ -80,7 +80,7 @@
             // TLogin
             // 
             this.TLogin.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TLogin.Location = new System.Drawing.Point(78, 237);
+            this.TLogin.Location = new System.Drawing.Point(87, 240);
             this.TLogin.Name = "TLogin";
             this.TLogin.Size = new System.Drawing.Size(145, 26);
             this.TLogin.TabIndex = 2;
@@ -92,7 +92,7 @@
             this.BLogIn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BLogIn.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BLogIn.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.BLogIn.Location = new System.Drawing.Point(78, 301);
+            this.BLogIn.Location = new System.Drawing.Point(87, 304);
             this.BLogIn.Name = "BLogIn";
             this.BLogIn.Size = new System.Drawing.Size(145, 26);
             this.BLogIn.TabIndex = 4;
@@ -103,7 +103,7 @@
             // TPassword
             // 
             this.TPassword.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TPassword.Location = new System.Drawing.Point(78, 269);
+            this.TPassword.Location = new System.Drawing.Point(87, 272);
             this.TPassword.Name = "TPassword";
             this.TPassword.Size = new System.Drawing.Size(145, 26);
             this.TPassword.TabIndex = 3;
@@ -116,7 +116,7 @@
             this.BRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BRegister.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BRegister.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.BRegister.Location = new System.Drawing.Point(78, 385);
+            this.BRegister.Location = new System.Drawing.Point(87, 388);
             this.BRegister.Name = "BRegister";
             this.BRegister.Size = new System.Drawing.Size(145, 26);
             this.BRegister.TabIndex = 5;

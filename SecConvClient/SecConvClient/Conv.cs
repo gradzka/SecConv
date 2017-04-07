@@ -10,22 +10,11 @@ using System.Windows.Forms;
 
 namespace SecConvClient
 {
-    public partial class SecConv : Form
+    public partial class Conv : Form
     {
-        public SecConv()
+        public Conv()
         {
             InitializeComponent();
-        }
-
-        private void BCall_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            DialogResult = DialogResult.No;
         }
     }
 }

@@ -101,7 +101,7 @@
             this.BRegister.Name = "BRegister";
             this.BRegister.Size = new System.Drawing.Size(145, 26);
             this.BRegister.TabIndex = 8;
-            this.BRegister.Text = "Rejestruj";
+            this.BRegister.Text = "Zarejestruj";
             this.BRegister.UseVisualStyleBackColor = false;
             this.BRegister.Click += new System.EventHandler(this.BBack_BRegister_Click);
             // 

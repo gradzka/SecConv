@@ -103,6 +103,16 @@ namespace SecConvClient.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap nocall {
+            get {
+                object obj = ResourceManager.GetObject("nocall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap sub {
             get {
                 object obj = ResourceManager.GetObject("sub", resourceCulture);

@@ -45,6 +45,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallIn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CallIn.Designer.cs">
+      <DependentUpon>CallIn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CallOut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CallOut.Designer.cs">
+      <DependentUpon>CallOut.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Conv.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Conv.Designer.cs">
+      <DependentUpon>Conv.cs</DependentUpon>
+    </Compile>
     <Compile Include="LogIn.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,6 +83,15 @@
     <Compile Include="SecConv.Designer.cs">
       <DependentUpon>SecConv.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CallIn.resx">
+      <DependentUpon>CallIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CallOut.resx">
+      <DependentUpon>CallOut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Conv.resx">
+      <DependentUpon>Conv.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LogIn.resx">
       <DependentUpon>LogIn.cs</DependentUpon>
     </EmbeddedResource>
@@ -111,6 +138,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Pics\sub.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pics\nocall.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -29,18 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecConv));
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Monika", 0);
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Robert", 1);
             System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("");
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecConv));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.BCall = new System.Windows.Forms.Button();
             this.listView1 = new System.Windows.Forms.ListView();
             this.Login = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -64,6 +58,12 @@
             this.TPassword1 = new System.Windows.Forms.TextBox();
             this.TPasswordOld = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.BCall = new System.Windows.Forms.Button();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -86,42 +86,6 @@
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton1.AutoToolTip = false;
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.ForeColor = System.Drawing.Color.Black;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(55, 22);
-            this.toolStripButton1.Text = "Wyloguj";
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton2.AutoToolTip = false;
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.ForeColor = System.Drawing.Color.Black;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(49, 22);
-            this.toolStripButton2.Text = "Pomoc";
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton3.AutoToolTip = false;
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton3.ForeColor = System.Drawing.Color.Black;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(52, 22);
-            this.toolStripButton3.Text = "Kontakt";
-            // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Tan;
@@ -136,39 +100,6 @@
             this.tabPage1.Size = new System.Drawing.Size(312, 422);
             this.tabPage1.TabIndex = 3;
             this.tabPage1.Text = "Kontakty";
-            // 
-            // button2
-            // 
-            this.button2.BackgroundImage = global::SecConvClient.Properties.Resources.sub;
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button2.Location = new System.Drawing.Point(214, 16);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(61, 61);
-            this.button2.TabIndex = 4;
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.BackgroundImage = global::SecConvClient.Properties.Resources.add;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.Location = new System.Drawing.Point(127, 16);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(61, 61);
-            this.button1.TabIndex = 3;
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // BCall
-            // 
-            this.BCall.BackgroundImage = global::SecConvClient.Properties.Resources.call;
-            this.BCall.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BCall.FlatAppearance.BorderColor = System.Drawing.Color.DarkSeaGreen;
-            this.BCall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BCall.Location = new System.Drawing.Point(38, 16);
-            this.BCall.Name = "BCall";
-            this.BCall.Size = new System.Drawing.Size(61, 61);
-            this.BCall.TabIndex = 2;
-            this.BCall.UseVisualStyleBackColor = true;
-            this.BCall.Click += new System.EventHandler(this.BCall_Click);
             // 
             // listView1
             // 
@@ -440,6 +371,76 @@
             this.TPasswordOld.Size = new System.Drawing.Size(145, 26);
             this.TPasswordOld.TabIndex = 7;
             this.TPasswordOld.UseSystemPasswordChar = true;
+            // 
+            // button2
+            // 
+            this.button2.BackgroundImage = global::SecConvClient.Properties.Resources.sub;
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button2.Location = new System.Drawing.Point(214, 16);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(61, 61);
+            this.button2.TabIndex = 4;
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.BackgroundImage = global::SecConvClient.Properties.Resources.add;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.Location = new System.Drawing.Point(127, 16);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(61, 61);
+            this.button1.TabIndex = 3;
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // BCall
+            // 
+            this.BCall.BackgroundImage = global::SecConvClient.Properties.Resources.call;
+            this.BCall.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BCall.FlatAppearance.BorderColor = System.Drawing.Color.DarkSeaGreen;
+            this.BCall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BCall.Location = new System.Drawing.Point(38, 16);
+            this.BCall.Name = "BCall";
+            this.BCall.Size = new System.Drawing.Size(61, 61);
+            this.BCall.TabIndex = 2;
+            this.BCall.UseVisualStyleBackColor = true;
+            this.BCall.Click += new System.EventHandler(this.BCall_Click);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton1.AutoToolTip = false;
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.ForeColor = System.Drawing.Color.Black;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(55, 22);
+            this.toolStripButton1.Text = "Wyloguj";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton2.AutoToolTip = false;
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton2.ForeColor = System.Drawing.Color.Black;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(49, 22);
+            this.toolStripButton2.Text = "Pomoc";
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton3.AutoToolTip = false;
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton3.ForeColor = System.Drawing.Color.Black;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(52, 22);
+            this.toolStripButton3.Text = "Kontakt";
             // 
             // SecConv
             // 
