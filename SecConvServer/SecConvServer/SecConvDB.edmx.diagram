@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f4d2cdf47ae244289a369aa8268c6128" Name="Diagram1">
+        <EntityTypeShape EntityType="SecConvDBModel.Friends" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SecConvDBModel.Histories" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SecConvDBModel.Users" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <AssociationConnector Association="SecConvDBModel.FK_Friends_0_0" ManuallyRouted="false" />
+        <AssociationConnector Association="SecConvDBModel.FK_Friends_1_0" ManuallyRouted="false" />
+        <AssociationConnector Association="SecConvDBModel.FK_Histories_0_0" ManuallyRouted="false" />
+        <AssociationConnector Association="SecConvDBModel.FK_Histories_1_0" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
