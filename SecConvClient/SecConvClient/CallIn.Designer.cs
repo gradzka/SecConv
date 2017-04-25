@@ -47,6 +47,7 @@
             this.BDecline.Size = new System.Drawing.Size(36, 36);
             this.BDecline.TabIndex = 4;
             this.BDecline.UseVisualStyleBackColor = true;
+            this.BDecline.Click += new System.EventHandler(this.BDecline_Click);
             // 
             // BAccept
             // 
@@ -59,6 +60,7 @@
             this.BAccept.Size = new System.Drawing.Size(36, 36);
             this.BAccept.TabIndex = 3;
             this.BAccept.UseVisualStyleBackColor = true;
+            this.BAccept.Click += new System.EventHandler(this.BAccept_Click);
             // 
             // LUser
             // 

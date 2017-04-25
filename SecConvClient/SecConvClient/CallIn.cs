@@ -16,5 +16,15 @@ namespace SecConvClient
         {
             InitializeComponent();
         }
+
+        private void BAccept_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BDecline_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

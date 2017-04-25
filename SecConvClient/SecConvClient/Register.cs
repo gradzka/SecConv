@@ -17,7 +17,7 @@ namespace SecConvClient
             InitializeComponent();
         }
 
-        private void BBack_BRegister_Click(object sender, EventArgs e)
+        private void BRegister_Click(object sender, EventArgs e)
         {
             if(TLogin.Text=="" || TPassword1.Text=="" || TPassword2.Text=="")
             {
@@ -42,5 +42,10 @@ namespace SecConvClient
             }
         }
 
+        private void BBack_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.No;
+            this.Close();
+        }
     }
 }

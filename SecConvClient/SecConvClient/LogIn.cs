@@ -19,12 +19,6 @@ namespace SecConvClient
 
         private void BLogIn_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Yes;
-            this.Close();
-        }
-
-        private void BRegister_Click(object sender, EventArgs e)
-        {
             if (TLogin.Text == "" || TPassword.Text == "")
             {
                 MessageBox.Show("Przynajmniej jedno z wymaganych pól jest nieuzupełnione!", "Błąd!");
@@ -33,7 +27,8 @@ namespace SecConvClient
             {
                 if (Communique.LogIn(TLogin.Text, TPassword.Text) == true)
                 {
-                    this.DialogResult = DialogResult.OK;
+                    Program.userLogin = TLogin.Text;
+                    this.DialogResult = DialogResult.Yes;
                     this.Close();
                 }
                 else
@@ -41,6 +36,12 @@ namespace SecConvClient
                     MessageBox.Show("Podane dane logowania są niepoprawne!", "Błąd!");
                 }
             }
+        }
+
+        private void BRegister_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

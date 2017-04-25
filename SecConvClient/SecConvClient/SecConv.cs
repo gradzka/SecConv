@@ -15,6 +15,7 @@ namespace SecConvClient
         public SecConv()
         {
             InitializeComponent();
+            this.Text = Program.userLogin + " - SecConv";
         }
 
         private void BCall_Click(object sender, EventArgs e)
@@ -24,8 +25,9 @@ namespace SecConvClient
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            if (Communique.LogOut(/*TLogin.Text*/"") == true)
+            if (Communique.LogOut(Program.userLogin) == true)
             {
+                Program.userLogin = "";
                 DialogResult = DialogResult.No;
                 this.Close();
             }
@@ -72,9 +74,12 @@ namespace SecConvClient
             }
             else
             {
-                if (Communique.PassChng(TPasswordOld.Text, TPassword1.Text) == true)
+                if (Communique.PassChng(Program.userLogin, TPasswordOld.Text, TPassword1.Text) == true)
                 {
-                    MessageBox.Show("Zmiana hasła przebiegła pomyślnie!", "Sukces!");
+                    MessageBox.Show("Zmiana hasła przebiegła pomyślnie!\nZaloguj się ponownie!", "Sukces!");
+                    Program.userLogin = "";
+                    DialogResult = DialogResult.No;
+                    this.Close();
                 }
                 else
                 {
@@ -91,8 +96,10 @@ namespace SecConvClient
             }
             else
             {
-                if (Communique.AccDel("", TPassword.Text) == true)
+                if (Communique.AccDel(Program.userLogin, TPassword.Text) == true)
                 {
+                    MessageBox.Show("Usunięcie konta użytkownika " + Program.userLogin + "przebiegła pomyślnie!", "Sukces!");
+                    Program.userLogin = "";
                     DialogResult = DialogResult.No;
                     this.Close();
                 }

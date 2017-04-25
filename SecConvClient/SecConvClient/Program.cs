@@ -8,6 +8,7 @@ namespace SecConvClient
 {
     static class Program
     {
+        public static string userLogin;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -17,6 +18,8 @@ namespace SecConvClient
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new SecConv());
+
+            userLogin = "";
 
             LogIn logIn;
             Register register;

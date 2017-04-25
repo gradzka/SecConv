@@ -103,7 +103,7 @@
             this.BRegister.TabIndex = 8;
             this.BRegister.Text = "Zarejestruj";
             this.BRegister.UseVisualStyleBackColor = false;
-            this.BRegister.Click += new System.EventHandler(this.BBack_BRegister_Click);
+            this.BRegister.Click += new System.EventHandler(this.BRegister_Click);
             // 
             // TLogin
             // 
@@ -184,7 +184,7 @@
             this.BBack.TabIndex = 9;
             this.BBack.Text = "Wstecz";
             this.BBack.UseVisualStyleBackColor = false;
-            this.BBack.Click += new System.EventHandler(this.BBack_BRegister_Click);
+            this.BBack.Click += new System.EventHandler(this.BBack_Click);
             // 
             // Register
             // 
