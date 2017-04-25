@@ -25,14 +25,22 @@ namespace SecConvClient
 
         private void BRegister_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        private void BLogIn_Click_1(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Yes;
-            this.Close();
+            if (TLogin.Text == "" || TPassword.Text == "")
+            {
+                MessageBox.Show("Przynajmniej jedno z wymaganych pól jest nieuzupełnione!", "Błąd!");
+            }
+            else
+            {
+                if (Communique.LogIn(TLogin.Text, TPassword.Text) == true)
+                {
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Podane dane logowania są niepoprawne!", "Błąd!");
+                }
+            }
         }
     }
 }

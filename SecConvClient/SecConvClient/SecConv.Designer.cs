@@ -29,12 +29,18 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecConv));
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Monika", 0);
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Robert", 1);
             System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("");
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecConv));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.BDeleteFriend = new System.Windows.Forms.Button();
+            this.BAddFriend = new System.Windows.Forms.Button();
+            this.BCall = new System.Windows.Forms.Button();
             this.listView1 = new System.Windows.Forms.ListView();
             this.Login = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -50,7 +56,7 @@
             this.BDeleteAccount = new System.Windows.Forms.Button();
             this.TPassword = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.BRegister = new System.Windows.Forms.Button();
+            this.BChangePassword = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.BTipPass1 = new System.Windows.Forms.Button();
@@ -58,12 +64,6 @@
             this.TPassword1 = new System.Windows.Forms.TextBox();
             this.TPasswordOld = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.BCall = new System.Windows.Forms.Button();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -86,12 +86,49 @@
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton1.AutoToolTip = false;
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.ForeColor = System.Drawing.Color.Black;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(55, 22);
+            this.toolStripButton1.Text = "Wyloguj";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton2.AutoToolTip = false;
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton2.ForeColor = System.Drawing.Color.Black;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(49, 22);
+            this.toolStripButton2.Text = "Pomoc";
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton3.AutoToolTip = false;
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton3.ForeColor = System.Drawing.Color.Black;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(52, 22);
+            this.toolStripButton3.Text = "Kontakt";
+            // 
             // tabPage1
             // 
-            this.tabPage1.BackColor = System.Drawing.Color.Tan;
+            this.tabPage1.BackColor = System.Drawing.Color.SeaShell;
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage1.Controls.Add(this.button2);
-            this.tabPage1.Controls.Add(this.button1);
+            this.tabPage1.Controls.Add(this.BDeleteFriend);
+            this.tabPage1.Controls.Add(this.BAddFriend);
             this.tabPage1.Controls.Add(this.BCall);
             this.tabPage1.Controls.Add(this.listView1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -101,9 +138,44 @@
             this.tabPage1.TabIndex = 3;
             this.tabPage1.Text = "Kontakty";
             // 
+            // BDeleteFriend
+            // 
+            this.BDeleteFriend.BackgroundImage = global::SecConvClient.Properties.Resources.sub;
+            this.BDeleteFriend.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.BDeleteFriend.Location = new System.Drawing.Point(214, 16);
+            this.BDeleteFriend.Name = "BDeleteFriend";
+            this.BDeleteFriend.Size = new System.Drawing.Size(61, 61);
+            this.BDeleteFriend.TabIndex = 4;
+            this.BDeleteFriend.UseVisualStyleBackColor = true;
+            this.BDeleteFriend.Click += new System.EventHandler(this.BDeleteFriend_Click);
+            // 
+            // BAddFriend
+            // 
+            this.BAddFriend.BackgroundImage = global::SecConvClient.Properties.Resources.add;
+            this.BAddFriend.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BAddFriend.Location = new System.Drawing.Point(127, 16);
+            this.BAddFriend.Name = "BAddFriend";
+            this.BAddFriend.Size = new System.Drawing.Size(61, 61);
+            this.BAddFriend.TabIndex = 3;
+            this.BAddFriend.UseVisualStyleBackColor = true;
+            this.BAddFriend.Click += new System.EventHandler(this.BAddFriend_Click);
+            // 
+            // BCall
+            // 
+            this.BCall.BackgroundImage = global::SecConvClient.Properties.Resources.call;
+            this.BCall.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BCall.FlatAppearance.BorderColor = System.Drawing.Color.DarkSeaGreen;
+            this.BCall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BCall.Location = new System.Drawing.Point(38, 16);
+            this.BCall.Name = "BCall";
+            this.BCall.Size = new System.Drawing.Size(61, 61);
+            this.BCall.TabIndex = 2;
+            this.BCall.UseVisualStyleBackColor = true;
+            this.BCall.Click += new System.EventHandler(this.BCall_Click);
+            // 
             // listView1
             // 
-            this.listView1.BackColor = System.Drawing.Color.Tan;
+            this.listView1.BackColor = System.Drawing.Color.SeaShell;
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Login});
@@ -148,7 +220,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.BackColor = System.Drawing.Color.Tan;
+            this.tabPage2.BackColor = System.Drawing.Color.SeaShell;
             this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabPage2.Controls.Add(this.listView2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -160,7 +232,7 @@
             // 
             // listView2
             // 
-            this.listView2.BackColor = System.Drawing.Color.Tan;
+            this.listView2.BackColor = System.Drawing.Color.SeaShell;
             this.listView2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
@@ -197,7 +269,7 @@
             // tabPage3
             // 
             this.tabPage3.AutoScroll = true;
-            this.tabPage3.BackColor = System.Drawing.Color.Tan;
+            this.tabPage3.BackColor = System.Drawing.Color.SeaShell;
             this.tabPage3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabPage3.Controls.Add(this.groupBox2);
             this.tabPage3.Controls.Add(this.groupBox1);
@@ -253,6 +325,7 @@
             this.BDeleteAccount.Text = "Usuń konto";
             this.toolTip1.SetToolTip(this.BDeleteAccount, "Usunięcia konta nie można cofnąć!");
             this.BDeleteAccount.UseVisualStyleBackColor = false;
+            this.BDeleteAccount.Click += new System.EventHandler(this.BDeleteAccount_Click);
             // 
             // TPassword
             // 
@@ -265,7 +338,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.BRegister);
+            this.groupBox1.Controls.Add(this.BChangePassword);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.BTipPass1);
@@ -281,19 +354,20 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Zmień hasło";
             // 
-            // BRegister
+            // BChangePassword
             // 
-            this.BRegister.BackColor = System.Drawing.Color.Brown;
-            this.BRegister.FlatAppearance.BorderSize = 0;
-            this.BRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BRegister.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.BRegister.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.BRegister.Location = new System.Drawing.Point(54, 128);
-            this.BRegister.Name = "BRegister";
-            this.BRegister.Size = new System.Drawing.Size(145, 26);
-            this.BRegister.TabIndex = 15;
-            this.BRegister.Text = "Zmień hasło";
-            this.BRegister.UseVisualStyleBackColor = false;
+            this.BChangePassword.BackColor = System.Drawing.Color.Brown;
+            this.BChangePassword.FlatAppearance.BorderSize = 0;
+            this.BChangePassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BChangePassword.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.BChangePassword.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.BChangePassword.Location = new System.Drawing.Point(54, 128);
+            this.BChangePassword.Name = "BChangePassword";
+            this.BChangePassword.Size = new System.Drawing.Size(145, 26);
+            this.BChangePassword.TabIndex = 15;
+            this.BChangePassword.Text = "Zmień hasło";
+            this.BChangePassword.UseVisualStyleBackColor = false;
+            this.BChangePassword.Click += new System.EventHandler(this.BChangePassword_Click);
             // 
             // button4
             // 
@@ -372,81 +446,11 @@
             this.TPasswordOld.TabIndex = 7;
             this.TPasswordOld.UseSystemPasswordChar = true;
             // 
-            // button2
-            // 
-            this.button2.BackgroundImage = global::SecConvClient.Properties.Resources.sub;
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button2.Location = new System.Drawing.Point(214, 16);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(61, 61);
-            this.button2.TabIndex = 4;
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.BackgroundImage = global::SecConvClient.Properties.Resources.add;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.Location = new System.Drawing.Point(127, 16);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(61, 61);
-            this.button1.TabIndex = 3;
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // BCall
-            // 
-            this.BCall.BackgroundImage = global::SecConvClient.Properties.Resources.call;
-            this.BCall.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BCall.FlatAppearance.BorderColor = System.Drawing.Color.DarkSeaGreen;
-            this.BCall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BCall.Location = new System.Drawing.Point(38, 16);
-            this.BCall.Name = "BCall";
-            this.BCall.Size = new System.Drawing.Size(61, 61);
-            this.BCall.TabIndex = 2;
-            this.BCall.UseVisualStyleBackColor = true;
-            this.BCall.Click += new System.EventHandler(this.BCall_Click);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton1.AutoToolTip = false;
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.ForeColor = System.Drawing.Color.Black;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(55, 22);
-            this.toolStripButton1.Text = "Wyloguj";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton2.AutoToolTip = false;
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.ForeColor = System.Drawing.Color.Black;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(49, 22);
-            this.toolStripButton2.Text = "Pomoc";
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton3.AutoToolTip = false;
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton3.ForeColor = System.Drawing.Color.Black;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(52, 22);
-            this.toolStripButton3.Text = "Kontakt";
-            // 
             // SecConv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Tan;
+            this.BackColor = System.Drawing.Color.Brown;
             this.ClientSize = new System.Drawing.Size(319, 476);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.toolStrip1);
@@ -483,8 +487,8 @@
         private System.Windows.Forms.ColumnHeader Login;
         private System.Windows.Forms.Button BCall;
         private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button BDeleteFriend;
+        private System.Windows.Forms.Button BAddFriend;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox TPassword2;
@@ -497,7 +501,7 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button BDeleteAccount;
         private System.Windows.Forms.TextBox TPassword;
-        private System.Windows.Forms.Button BRegister;
+        private System.Windows.Forms.Button BChangePassword;
         private System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader3;

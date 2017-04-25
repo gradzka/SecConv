@@ -57,6 +57,7 @@
     <Compile Include="CallOut.Designer.cs">
       <DependentUpon>CallOut.cs</DependentUpon>
     </Compile>
+    <Compile Include="Communique.cs" />
     <Compile Include="Conv.cs">
       <SubType>Form</SubType>
     </Compile>

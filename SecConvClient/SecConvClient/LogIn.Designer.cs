@@ -98,7 +98,7 @@
             this.BLogIn.TabIndex = 4;
             this.BLogIn.Text = "Zaloguj";
             this.BLogIn.UseVisualStyleBackColor = false;
-            this.BLogIn.Click += new System.EventHandler(this.BLogIn_Click_1);
+            this.BLogIn.Click += new System.EventHandler(this.BLogIn_Click);
             // 
             // TPassword
             // 
