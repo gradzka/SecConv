@@ -26,7 +26,6 @@ namespace SecConvServer
         public long UserID { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public bool Online { get; set; }
         public System.DateTime LastLogoutDate { get; set; }
         public System.DateTime RegistrationDate { get; set; }
     

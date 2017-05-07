@@ -7,9 +7,9 @@
       <Schema Namespace="SecConvDBModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=C:\Users\Monika\Documents\GitHub\SecConv\SecConvServer\SecConvServer\bin\Debug\SecConvDB.sqlite" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Friends">
           <Key>
-            <PropertyRef Name="FirendID" />
+            <PropertyRef Name="FriendID" />
           </Key>
-          <Property Name="FirendID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FriendID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID1" Type="integer" Nullable="false" />
           <Property Name="UserID2" Type="integer" Nullable="false" />
         </EntityType>
@@ -30,7 +30,6 @@
           <Property Name="UserID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Login" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="char" MaxLength="64" Nullable="false" />
-          <Property Name="Online" Type="bit" Nullable="false" />
           <Property Name="LastLogoutDate" Type="datetime" Nullable="false" />
           <Property Name="RegistrationDate" Type="datetime" Nullable="false" />
         </EntityType>
@@ -110,9 +109,9 @@
       <Schema Namespace="SecConvDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Friends">
           <Key>
-            <PropertyRef Name="FirendID" />
+            <PropertyRef Name="FriendID" />
           </Key>
-          <Property Name="FirendID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FriendID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID1" Type="Int64" Nullable="false" />
           <Property Name="UserID2" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Friends_0_0" FromRole="Friends" ToRole="Users" />
@@ -137,7 +136,6 @@
           <Property Name="UserID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="64" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Online" Type="Boolean" Nullable="false" />
           <Property Name="LastLogoutDate" Type="DateTime" Nullable="false" />
           <Property Name="RegistrationDate" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="Friends" Relationship="Self.FK_Friends_0_0" FromRole="Users" ToRole="Friends" />
@@ -193,7 +191,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SecConvDBEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="SecConvDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Friends" EntityType="Self.Friends" />
           <EntitySet Name="Histories" EntityType="Self.Histories" />
           <EntitySet Name="Users" EntityType="Self.Users" />
@@ -219,11 +217,11 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SecConvDBModelStoreContainer" CdmEntityContainer="SecConvDBEntities1">
+        <EntityContainerMapping StorageEntityContainer="SecConvDBModelStoreContainer" CdmEntityContainer="SecConvDBEntities">
           <EntitySetMapping Name="Friends">
             <EntityTypeMapping TypeName="SecConvDBModel.Friends">
               <MappingFragment StoreEntitySet="Friends">
-                <ScalarProperty Name="FirendID" ColumnName="FirendID" />
+                <ScalarProperty Name="FriendID" ColumnName="FriendID" />
                 <ScalarProperty Name="UserID1" ColumnName="UserID1" />
                 <ScalarProperty Name="UserID2" ColumnName="UserID2" />
               </MappingFragment>
@@ -246,7 +244,6 @@
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Online" ColumnName="Online" />
                 <ScalarProperty Name="LastLogoutDate" ColumnName="LastLogoutDate" />
                 <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
               </MappingFragment>

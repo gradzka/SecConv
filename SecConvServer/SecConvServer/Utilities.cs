@@ -19,6 +19,15 @@ namespace SecConvServer
                 return hashBytePasswdHex;
             }
         }
+        public static string getBinaryMessage(string message)
+        {
+            string binMessage = string.Empty;
+            foreach (char ch in message)
+            {
+                binMessage += Convert.ToString((int)ch, 2).PadLeft(8, '0');
+            }
+            return binMessage;
+        }
 
     }
 }

@@ -14,7 +14,7 @@ namespace SecConvServer
     
     public partial class Friends
     {
-        public long FirendID { get; set; }
+        public long FriendID { get; set; }
         public long UserID1 { get; set; }
         public long UserID2 { get; set; }
     

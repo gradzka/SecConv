@@ -4,30 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity.Infrastructure;
+using System.Net;
+using System.Net.Sockets;
 
 namespace SecConvServer
 {
     class Communique
     {
-        static Dictionary<int, Delegate> communiqueDictionary = new Dictionary<int, Delegate>(); //nalezy dodac do niego metody komunikatow
+        static Dictionary<int, Delegate> communiqueDictionary = new Dictionary<int, Delegate>();
 
-        static void addDelegateToDictionary()
+        public static void AddDelegateToDictionary()
         {
-            communiqueDictionary[0] = new Action<List<string>>(Communique.Register);
-            communiqueDictionary[1] = new Action<List<string>>(Communique.LogIn);
-            communiqueDictionary[2] = new Action<List<string>>(Communique.LogOut);
-            communiqueDictionary[3] = new Action<List<string>>(Communique.AccDel);
-            communiqueDictionary[4] = new Action<List<string>>(Communique.PassChng);
-            communiqueDictionary[8] = new Action<List<string>>(Communique.AddFriend);
-            communiqueDictionary[9] = new Action<List<string>>(Communique.DelFriend);
-            communiqueDictionary[11] = new Action<List<string>>(Communique.CallState);
-            communiqueDictionary[15] = new Action<List<string>>(Communique.Iam);
+            //in, out
+            communiqueDictionary[0] = new Func<List<string>, string> (Communique.Register);
+            communiqueDictionary[1] = new Func<List<string>,Socket, string>(Communique.LogIn);
+            communiqueDictionary[2] = new Func<List<string>, string>(Communique.LogOut);
+            communiqueDictionary[3] = new Func<List<string>, string>(Communique.AccDel);
+            communiqueDictionary[4] = new Func<List<string>, string>(Communique.PassChng);
+            communiqueDictionary[8] = new Func<List<string>, string>(Communique.AddFriend);
+            communiqueDictionary[9] = new Func<List<string>, string>(Communique.DelFriend);
+            communiqueDictionary[11] = new Func<List<string>, string>(Communique.CallState);
+            communiqueDictionary[15] = new Func<List<string>, string>(Communique.Iam);
         }
         //Incoming messages
-        public static void Register(List<string> param)
+        public static string Register(List<string> param)
         {
             //Communication with DB
-            using (var ctx = new SecConvDBEntities1())
+            using (var ctx = new SecConvDBEntities())
             {
                 var newUser = new Users();
                 string login= param[0];//login
@@ -37,7 +40,6 @@ namespace SecConvServer
                 {
                     newUser.Login = login;
                     newUser.Password = Utilities.hashBytePassHex(param[1]); //256 bit hash password          
-                    newUser.Online = false;
                     newUser.LastLogoutDate = DateTime.Now;
                     newUser.RegistrationDate = DateTime.Now;
 
@@ -48,94 +50,77 @@ namespace SecConvServer
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        Console.WriteLine("FAIL1");
-                        //FAIL
-                        return;
+                        return Fail(); ;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("FAIL2");
-                    //FAIL
-                    return;
+                    return Fail() ;
                 }
             }
             //OK
-            Console.WriteLine("OK");
+            return OK();
 
         }
-        public static void LogIn(List<string> param)
+        public static string LogIn(List<string> param, Socket client)
         {
             string login = param[0];
+
             string password = Utilities.hashBytePassHex(param[1]);
 
             //users -> online
-            using (var ctx = new SecConvDBEntities1())
+            using (var ctx = new SecConvDBEntities())
             {
-                var userToEdit = ctx.Users.Where(x => x.Login == login && x.Password == password).FirstOrDefault();
-                if (userToEdit!=null)
+                var user = ctx.Users.Where(x => x.Login == login && x.Password == password).FirstOrDefault();
+                if (user!=null)
                 {
-                    userToEdit.Online = true;
-                    try
-                    {
-                        ctx.Entry(userToEdit).State = System.Data.Entity.EntityState.Modified;
-                        ctx.SaveChanges();
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        Console.WriteLine("FAIL1");
-                        //FAIL
-                        return;
-                    }
+                    ConnectedClient connectedClient = new ConnectedClient();
+                    connectedClient.login = login;
+                    connectedClient.iAM = DateTime.Now;
+                    connectedClient.client = client;
+                    //add to dictionary
+                    Program.onlineUsers[user.UserID] = connectedClient;
+                    return OK();
                 }
                 else
                 {
-                    Console.WriteLine("FAIL2");
-                    //FAIL
-                    return;
+                    return Fail();
                 }
             }
-            //OK
-            Console.WriteLine("OK");
         }
-        public static void LogOut(List<string> param)
+        public static string LogOut(List<string> param)
         {
             string login = param[0];
 
-            using (var ctx = new SecConvDBEntities1())
+            using (var ctx = new SecConvDBEntities())
             {
                 var userToLogOut = ctx.Users.Where(x => x.Login == login).FirstOrDefault();
                 if (userToLogOut != null)
                 {
-                    userToLogOut.Online = false;
                     userToLogOut.LastLogoutDate = DateTime.Now;
                     try
                     {
+                        Program.onlineUsers.Remove(userToLogOut.UserID); //delete from dictionary
                         ctx.Entry(userToLogOut).State = System.Data.Entity.EntityState.Modified;
                         ctx.SaveChanges();
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        Console.WriteLine("FAIL1");
-                        //FAIL
-                        return;
+                        return Fail();
                     }
                 }
                 else
                 {
-                    Console.WriteLine("FAIL2");
-                    //FAIL
-                    return;
+                    return Fail();
                 }
-                //OK
-                Console.WriteLine("OK");
             }
+                return OK();
         }
-        public static void AccDel(List<string> param)
+        public static string AccDel(List<string> param)
         {
             string login = param[0];
             string password = Utilities.hashBytePassHex(param[1]);
-            using (var ctx = new SecConvDBEntities1())
+            using (var ctx = new SecConvDBEntities())
             {
                 var userToDelete = ctx.Users.Where(x => x.Login == login && x.Password == password).FirstOrDefault();
                 if (userToDelete!=null)
@@ -175,26 +160,21 @@ namespace SecConvServer
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        Console.WriteLine("FAIL1");
-                        //FAIL
-                        return;
+                        return Fail();
                     }
                 }
                 else
                 {
-                    Console.WriteLine("FAIL1");
-                    //FAIL
-                    return;
+                    return Fail();
                 }
             }
-            Console.WriteLine("OK");
-            //OK
+            return OK();
         }
-        public static void PassChng(List <string> param)
+        public static string PassChng(List <string> param)
         {
             string login = param[0];
             string password1 = Utilities.hashBytePassHex(param[1]);
-            using (var ctx = new SecConvDBEntities1())
+            using (var ctx = new SecConvDBEntities())
             {
                 var userToChngPasswd = ctx.Users.Where(x => x.Login == login && x.Password == password1).FirstOrDefault();
                 if (userToChngPasswd!=null)
@@ -207,26 +187,21 @@ namespace SecConvServer
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        Console.WriteLine("FAIL1");
-                        //FAIL
-                        return;
+                        return Fail();
                     }
                 }
                 else
                 {
-                    Console.WriteLine("FAIL2");
-                    //FAIL
-                    return;
+                    return Fail();
                 }
             }
-            Console.WriteLine("OK");
-            //OK
+            return OK();
         }
-        public static void AddFriend(List<string> param)
+        public static string AddFriend(List<string> param)
         {
             string login1 = param[0]; //user logged in
             string login2 = param[1]; //friend of logged in user
-            using (var ctx = new SecConvDBEntities1())
+            using (var ctx = new SecConvDBEntities())
             {
                 var acquaintance = new Friends();
                 //find users IDs
@@ -248,87 +223,201 @@ namespace SecConvServer
                             }
                             catch (DbUpdateConcurrencyException)
                             {
-                                Console.WriteLine("FAIL1");
-                                //FAIL
-                                return;
+                                return Fail();
                             }
                         }
                         else
                         {
-                            Console.WriteLine("FAIL2");
-                            //FAIL
-                            return;
+                            return Fail();
                         }
                     }
                     else
                     {
-                        Console.WriteLine("FAIL3");
-                        //FAIL
-                        return;
+                        return Fail();
                     }
                 }
                 else
                 {
-                    Console.WriteLine("FAIL4");
-                    //FAIL
-                    return;
+                    return Fail();
                 }
             }
-            //OK
-            Console.WriteLine("OK");
+            return OK();
         }
-        public static void DelFriend(List<string> param)
+        public static string DelFriend(List<string> param)
         {
-            string login1 = param[0];
+            string login1 = param[0]; //logged in user
             string login2 = param[1];
-        }
-        public static void CallState(List<string> param)
-        {
-            string login1 = param[0];
-            string login2 = param[1];
-            //yyyy-MM-dd-HH:mm:ss
-            DateTime start = DateTime.ParseExact(param[2], "yyyy-MM-dd-HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture);
-            //HH:mm:ss
-            TimeSpan duration = TimeSpan.Parse(param[3]);
 
-            //Console.WriteLine("L1: " + login1 + "\nL2: " + login2 + "\nS: " + start + "\nD: " + duration);
+            using (var ctx = new SecConvDBEntities())
+            {
+                var userLoggedInID1 = ctx.Users.Where(x => x.Login == login1).Select(x => x.UserID).FirstOrDefault();
+                if (userLoggedInID1!=0)
+                {
+                    var user1FriendID = ctx.Users.Where(x => x.Login == login2).Select(x => x.UserID).FirstOrDefault();
+                    if (user1FriendID!=0)
+                    {
+                        var friend = ctx.Friends.Where(x => x.UserID1 == userLoggedInID1 && x.UserID2 == user1FriendID).FirstOrDefault();
+                        ctx.Entry(friend).State = System.Data.Entity.EntityState.Deleted;
+                        try
+                        {
+                            ctx.SaveChanges();
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                            return Fail();
+                        }
+                    }
+                    else
+                    {
+                        return Fail();
+                    }
+                }
+                else
+                {
+                    return Fail();
+                }
+            }
+            return OK();
+        }
+        public static string CallState(List<string> param)
+        {
+            //kto 
+            //do kogo
+            //data rozpoczecia
+            //czas trwania //00:00:00 -> null
+
+            string login1 = param[0];
+            string login2 = param[1];
+
+            using (var ctx = new SecConvDBEntities())
+            {
+                var SenderID = ctx.Users.Where(x => x.Login == login1).Select(x => x.UserID).FirstOrDefault();
+                if (SenderID != 0)
+                {
+                    var ReceiverID = ctx.Users.Where(x => x.Login == login2).Select(x => x.UserID).FirstOrDefault();
+                    if (ReceiverID != 0)
+                    {
+                        var history = new Histories();
+                        history.UserSenderID = SenderID;
+                        history.UserReceiverID = ReceiverID;
+                        //yyyy-MM-dd-HH:mm:ss
+                        history.Start = DateTime.ParseExact(param[2], "yyyy-MM-dd-HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                        
+                        //HH:mm:ss
+                        //TimeSpan duration = TimeSpan.Parse(param[3]);
+                        history.Duration = new DateTime().Add(TimeSpan.Parse(param[3]));
+                        try
+                        {
+                            ctx.Histories.Add(history);
+                            ctx.SaveChanges();
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                            return Fail();
+                        }
+                    }
+                    else
+                    {
+                        return Fail();
+                    }
+                }
+                else
+                {
+                    return Fail();
+                }
+            }
+            return OK();
         }   
-        public static void Iam(List<string> param)
+        public static string Iam(List<string> param)
         {
             string login = string.Empty;
-        }
+            login = param[0];
 
+            //check if user exists
+            using (var ctx = new SecConvDBEntities())
+            {
+                var user = ctx.Users.Where(x => x.Login == login).FirstOrDefault();
+                if (user != null)
+                {
+                    Program.onlineUsers[user.UserID].iAM=DateTime.Now;
+                }
+            }
+            return "1";            
+        }
 
         //Outgoing messages
-        static void OK()
+        public static string OK()
         {
+            return ((char)5).ToString()+"<EOF>";
         }
-         static void Fail()
+         public static string Fail()
         {
+            return ((char)6).ToString() + "<EOF>";
+
         }
-        static void LogIP()
+        public static string LogIP(long userID)
         {
+            using (var ctx = new SecConvDBEntities())
+            {
+                var user = ctx.Users.Where(x => x.UserID == userID).FirstOrDefault();
+                if (user!=null)
+                {
+                    string message = string.Empty;
+                    //0111 login_1 status_1 IP_1 login_2 status_2 IP_2...login_n status_n IP_n)
+                    message = ((char)7).ToString() + ' ';
+                    var friends = ctx.Friends.Where(x => x.UserID1 == userID);//all friends
+                    
+                    foreach (var item in friends)
+                    {
+                        var friendLogin = ctx.Users.Where(x => x.UserID == item.UserID2).Select(x=>x.Login).FirstOrDefault();
+                        if (friendLogin!=null)
+                        {
+                            message += friendLogin+ " ";
+                            if (Program.onlineUsers.ContainsKey(item.UserID2))
+                            {
+                                message += "1 ";
+                                message += ((IPEndPoint)(Program.onlineUsers[item.UserID2].client).RemoteEndPoint).Address.ToString()+ " ";
+                            }
+                            else
+                            {
+                                message += "0 ";
+                                message += "0 ";
+                            }
+                            message += "<EOF>";
+
+                        }
+                        else
+                        {
+                            return Fail();
+                        }
+                    }
+                    return message;
+                }
+                else
+                {
+                    return Fail();
+                }
+            }        
         }
 
-        static void History()
+        static void History(long userID)
         {
+            using (var ctx = new SecConvDBEntities())
+            {
+
+            }
         }
         static void StateChng()
         {
+
         }
-        public static void Bye(List<string> param)
-        {
-        }
-        void chooseCommunique(string message)
+
+        public static string ChooseCommunique(string message, Socket client)
         {
             //odszyfruj   
-            string decryptedMessage = "";
+            string decryptedMessage = message;
 
-            string decryptedMessageBits = string.Empty; //message in binary form
-            foreach (char ch in decryptedMessage)
-            {
-                decryptedMessageBits += Convert.ToString((int)ch, 2);
-            }
+            string decryptedMessageBits = Utilities.getBinaryMessage(decryptedMessage);
             //take 8 bits to recognize the communique
             int bits8 = Convert.ToInt32(decryptedMessageBits.Substring(0, 8), 2);//decimal value
 
@@ -343,9 +432,33 @@ namespace SecConvServer
                     parameters.Add(sParameters[i]);
                 }
             }
-            //http://stackoverflow.com/a/4233539
-            //call proper method
-            communiqueDictionary[bits8].DynamicInvoke(parameters);
+
+            string result = string.Empty;
+            if (bits8!=1) //if it isn't login
+            {
+                //http://stackoverflow.com/a/4233539
+                //call proper method
+                result=(string)communiqueDictionary[bits8].DynamicInvoke(parameters);
+            }
+            else
+            {
+                result= (string)communiqueDictionary[bits8].DynamicInvoke(parameters, client);
+            }
+            return result;
+        }
+
+        public static long getUserIDHavingAdressIP(string addressIP)
+        {
+            long userID = -1;
+
+            foreach (KeyValuePair<long, ConnectedClient> item in Program.onlineUsers)
+            {            
+                if(((IPEndPoint)(item.Value.client).RemoteEndPoint).Address.ToString()==addressIP)
+                {
+                    userID = item.Key;
+                }
+            }
+            return userID;
         }
     }
 }

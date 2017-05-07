@@ -13,10 +13,10 @@ namespace SecConvServer
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class SecConvDBEntities1 : DbContext
+    public partial class SecConvDBEntities : DbContext
     {
-        public SecConvDBEntities1()
-            : base("name=SecConvDBEntities1")
+        public SecConvDBEntities()
+            : base("name=SecConvDBEntities")
         {
         }
     

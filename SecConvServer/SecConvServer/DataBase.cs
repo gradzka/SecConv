@@ -15,24 +15,23 @@ namespace SecConvServer
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
         }
-        static void DropTable(string TableName, SQLiteConnection m_dbConnection)
+        static void DropTable(string tableName, SQLiteConnection m_dbConnection)
         {
-            string sql = "DROP TABLE " + TableName;
+            string sql = "DROP TABLE " + tableName;
             ExecuteCommand(sql, m_dbConnection);
         }
-        static void createUsersTable(SQLiteConnection m_dbConnection)
+        static void CreateUsersTable(SQLiteConnection m_dbConnection)
         {
             string sql = "CREATE TABLE IF NOT EXISTS Users(" +
                                             "UserID INTEGER PRIMARY KEY AUTOINCREMENT," +
                                             "Login VARCHAR(50) UNIQUE NOT NULL," +
                                             "Password CHAR(64) NOT NULL," +
-                                            "Online BOOLEAN NOT NULL," +
                                             "LastLogoutDate DATETIME NOT NULL," +
                                             "RegistrationDate DATETIME NOT NULL);";
 
             ExecuteCommand(sql, m_dbConnection);
         }
-        static void createHistoriesTable(SQLiteConnection m_dbConnection)
+        static void CreateHistoriesTable(SQLiteConnection m_dbConnection)
         {
             string sql = "CREATE TABLE IF NOT EXISTS Histories(" +
                                             "HistoryID INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -43,25 +42,25 @@ namespace SecConvServer
             ExecuteCommand(sql, m_dbConnection);
 
         }
-        static void createFriendsTable(SQLiteConnection m_dbConnection)
+        static void CreateFriendsTable(SQLiteConnection m_dbConnection)
         {
             string sql = "CREATE TABLE IF NOT EXISTS Friends(" +
-                                            "FirendID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                                            "FriendID INTEGER PRIMARY KEY AUTOINCREMENT," +
                                             "UserID1 INTEGER NOT NULL REFERENCES Users(UserID)," +
                                             "UserID2 INTEGER NOT NULL REFERENCES Users(UserID));";
             ExecuteCommand(sql, m_dbConnection);
 
         }
-        public static void createDataBase(SQLiteConnection m_dbConnection)
+        public static void CreateDataBase(SQLiteConnection m_dbConnection)
         {
             if (!File.Exists("SecConvDB.sqlite"))
             {
                 SQLiteConnection.CreateFile("SecConvDB.sqlite"); //utworzenie bazy danych
 
             }
-            createUsersTable(m_dbConnection);
-            createFriendsTable(m_dbConnection);
-            createHistoriesTable(m_dbConnection);
+            CreateUsersTable(m_dbConnection);
+            CreateFriendsTable(m_dbConnection);
+            CreateHistoriesTable(m_dbConnection);
 
             //DropTable("Users", m_dbConnection);
             //DropTable("Friends", m_dbConnection);

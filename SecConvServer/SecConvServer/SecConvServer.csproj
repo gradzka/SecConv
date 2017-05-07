@@ -69,7 +69,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsynchronousSocketListener.cs" />
     <Compile Include="Communique.cs" />
+    <Compile Include="ConnectedClient.cs" />
     <Compile Include="DataBase.cs" />
     <Compile Include="Friends.cs">
       <DependentUpon>SecConvDB.tt</DependentUpon>
@@ -94,6 +96,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SecConvDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="StateObject.cs" />
     <Compile Include="Users.cs">
       <DependentUpon>SecConvDB.tt</DependentUpon>
     </Compile>
