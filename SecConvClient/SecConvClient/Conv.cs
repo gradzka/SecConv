@@ -16,5 +16,10 @@ namespace SecConvClient
         {
             InitializeComponent();
         }
+
+        private void BDisconnect_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

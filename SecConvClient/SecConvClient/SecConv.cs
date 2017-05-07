@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,29 +13,58 @@ namespace SecConvClient
 {
     public partial class SecConv : Form
     {
+        Thread commThread;
+
+        void waitForCommuniques()
+        {
+            while (true)
+            {
+                Program.client.Receive();
+                Program.client.receiveDone.WaitOne();
+                if (Program.client.response.Length > 0)
+                {
+                    Communique.commFromServer(Program.client.response);
+                }
+            }
+        }
+
         public SecConv()
         {
             InitializeComponent();
             this.Text = Program.userLogin + " - SecConv";
+            commThread = new Thread(waitForCommuniques);
+            commThread.Start(); 
         }
 
         private void BCall_Click(object sender, EventArgs e)
         {
+            if (listView1.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Nie wybrano żadnego znajomego!", "Błąd!");
+            }
+            else if (listView1.SelectedItems[0].ImageIndex==0)
+            {
+                MessageBox.Show("Znajomy nie jest dostępny!", "Błąd!");
+            }
+            else
+            {
 
+            }
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            if (Communique.LogOut(Program.userLogin) == true)
+            Communique.LogOut(Program.userLogin);
+            if (commThread.IsAlive)
             {
-                Program.userLogin = "";
-                DialogResult = DialogResult.No;
-                this.Close();
+                commThread.Abort();
             }
-            else
-            {
-                MessageBox.Show("Nastąpił błąd podczas wylogowywania!", "Błąd!");
-            }
+            Program.client.Disconnect();
+            Program.client.disconnectDone.WaitOne();
+            //Program.client.disconnectDone.Reset();
+            Program.userLogin = "";
+            DialogResult = DialogResult.No;
+            this.Close();
         }
 
         private void BDeleteFriend_Click(object sender, EventArgs e)

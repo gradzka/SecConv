@@ -82,6 +82,7 @@
             this.BDecline.Size = new System.Drawing.Size(36, 36);
             this.BDecline.TabIndex = 8;
             this.BDecline.UseVisualStyleBackColor = true;
+            this.BDecline.Click += new System.EventHandler(this.BDecline_Click);
             // 
             // CallOut
             // 

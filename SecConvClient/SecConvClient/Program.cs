@@ -9,6 +9,8 @@ namespace SecConvClient
     static class Program
     {
         public static string userLogin;
+        public static AsynchronousClient client;
+        public static SecConv secConv;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -23,7 +25,7 @@ namespace SecConvClient
 
             LogIn logIn;
             Register register;
-            SecConv secConv;
+
             DialogResult dialogResult = DialogResult.No;
 
             while (dialogResult != DialogResult.Cancel)

@@ -4,8 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Sockets;
 using System.Windows.Forms;
 
 namespace SecConvClient
@@ -19,7 +18,7 @@ namespace SecConvClient
 
         private void BRegister_Click(object sender, EventArgs e)
         {
-            if(TLogin.Text=="" || TPassword1.Text=="" || TPassword2.Text=="")
+            if(TLogin.Text=="" || TPassword1.Text=="" || TPassword2.Text=="" || TServerIP.Text=="")
             {
                 MessageBox.Show("Przynajmniej jedno z wymaganych pól jest nieuzupełnione!", "Błąd!");
             }
@@ -29,9 +28,10 @@ namespace SecConvClient
             }
             else
             {
+                Program.client = new AsynchronousClient(TServerIP.Text);
                 if (Communique.Register(TLogin.Text, TPassword1.Text) == true)
                 {
-                    MessageBox.Show("Rejestracja użytkownika " + TLogin.Text + "przebiegła pomyślnie!", "Sukces!");
+                    MessageBox.Show("Rejestracja użytkownika " + TLogin.Text + " przebiegła pomyślnie!", "Sukces!");
                     this.DialogResult = DialogResult.No;
                     this.Close();
                 }
@@ -39,6 +39,13 @@ namespace SecConvClient
                 {
                     MessageBox.Show("Podany login jest już zajęty!", "Błąd!");
                 }
+                Program.client.Disconnect();
+                Program.client.disconnectDone.WaitOne();
+                /* }
+                 catch (SocketException)
+                 {
+
+                 }*/
             }
         }
 
@@ -46,6 +53,11 @@ namespace SecConvClient
         {
             this.DialogResult = DialogResult.No;
             this.Close();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

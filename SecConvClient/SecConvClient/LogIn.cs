@@ -4,8 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Sockets;
 using System.Windows.Forms;
 
 namespace SecConvClient
@@ -19,21 +18,29 @@ namespace SecConvClient
 
         private void BLogIn_Click(object sender, EventArgs e)
         {
-            if (TLogin.Text == "" || TPassword.Text == "")
+            if (TLogin.Text == "" || TPassword.Text == "" || TServerIP.Text == "")
             {
                 MessageBox.Show("Przynajmniej jedno z wymaganych pól jest nieuzupełnione!", "Błąd!");
             }
             else
             {
-                if (Communique.LogIn(TLogin.Text, TPassword.Text) == true)
+                try
                 {
-                    Program.userLogin = TLogin.Text;
-                    this.DialogResult = DialogResult.Yes;
-                    this.Close();
+                    Program.client = new AsynchronousClient(TServerIP.Text);
+                    if (Communique.LogIn(TLogin.Text, TPassword.Text) == true)
+                    {
+                        Program.userLogin = TLogin.Text;
+                        this.DialogResult = DialogResult.Yes;
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Podane dane logowania są niepoprawne!", "Błąd!");
+                    }
                 }
-                else
+                catch (SocketException)
                 {
-                    MessageBox.Show("Podane dane logowania są niepoprawne!", "Błąd!");
+                    MessageBox.Show("Problem z połączeniem z serwerem lub adres jest niepoprawny!", "Błąd!");
                 }
             }
         }

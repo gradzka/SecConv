@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Conv));
             this.LInfo = new System.Windows.Forms.Label();
-            this.BDecline = new System.Windows.Forms.Button();
+            this.BDisconnect = new System.Windows.Forms.Button();
             this.LAddress = new System.Windows.Forms.Label();
             this.LUser = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -48,17 +48,18 @@
             this.LInfo.Text = "Rozmowa z";
             this.LInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // BDecline
+            // BDisconnect
             // 
-            this.BDecline.BackgroundImage = global::SecConvClient.Properties.Resources.nocall;
-            this.BDecline.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BDecline.FlatAppearance.BorderColor = System.Drawing.Color.DarkSeaGreen;
-            this.BDecline.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BDecline.Location = new System.Drawing.Point(126, 94);
-            this.BDecline.Name = "BDecline";
-            this.BDecline.Size = new System.Drawing.Size(36, 36);
-            this.BDecline.TabIndex = 12;
-            this.BDecline.UseVisualStyleBackColor = true;
+            this.BDisconnect.BackgroundImage = global::SecConvClient.Properties.Resources.nocall;
+            this.BDisconnect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BDisconnect.FlatAppearance.BorderColor = System.Drawing.Color.DarkSeaGreen;
+            this.BDisconnect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BDisconnect.Location = new System.Drawing.Point(126, 94);
+            this.BDisconnect.Name = "BDisconnect";
+            this.BDisconnect.Size = new System.Drawing.Size(36, 36);
+            this.BDisconnect.TabIndex = 12;
+            this.BDisconnect.UseVisualStyleBackColor = true;
+            this.BDisconnect.Click += new System.EventHandler(this.BDisconnect_Click);
             // 
             // LAddress
             // 
@@ -104,7 +105,7 @@
             this.ClientSize = new System.Drawing.Size(284, 141);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.LInfo);
-            this.Controls.Add(this.BDecline);
+            this.Controls.Add(this.BDisconnect);
             this.Controls.Add(this.LAddress);
             this.Controls.Add(this.LUser);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -120,7 +121,7 @@
         #endregion
 
         private System.Windows.Forms.Label LInfo;
-        private System.Windows.Forms.Button BDecline;
+        private System.Windows.Forms.Button BDisconnect;
         private System.Windows.Forms.Label LAddress;
         private System.Windows.Forms.Label LUser;
         private System.Windows.Forms.Label label1;
