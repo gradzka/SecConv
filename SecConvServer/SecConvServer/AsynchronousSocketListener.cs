@@ -116,17 +116,18 @@ namespace SecConvServer
 
                     Send(handler, content);
 
-                    if (bits8 == 1)
+                    if (bits8 == 1) //logIn
                     {
                         string userAddressIP = ((IPEndPoint)handler.RemoteEndPoint).Address.ToString();
-                        long UserID = Communique.getUserIDHavingAdressIP(userAddressIP);
-                        if (UserID == -1)
+                        long userID = Communique.getUserIDHavingAdressIP(userAddressIP);
+                        if (userID == -1)
                         {
                             Send(handler, Communique.Fail());
                         }
                         {
-                            Send(handler, Communique.LogIP(UserID)); //zwroc wiadomosci o znajomych
-                            //Send(handler, content); //zwroc historie
+                            Send(handler, Communique.LogIP(userID)); //data about friend
+                            Thread.Sleep(100);//miliseconds
+                            Send(handler, Communique.History(userID));//userID history
                         }
                     }
                     handler.Shutdown(SocketShutdown.Both); //TODO

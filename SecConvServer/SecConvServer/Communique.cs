@@ -24,7 +24,9 @@ namespace SecConvServer
             communiqueDictionary[8] = new Func<List<string>, string>(Communique.AddFriend);
             communiqueDictionary[9] = new Func<List<string>, string>(Communique.DelFriend);
             communiqueDictionary[11] = new Func<List<string>, string>(Communique.CallState);
+            communiqueDictionary[13] = new Func<long, string>(Communique.History);
             communiqueDictionary[15] = new Func<List<string>, string>(Communique.Iam);
+            
         }
         //Incoming messages
         public static string Register(List<string> param)
@@ -344,7 +346,6 @@ namespace SecConvServer
             }
             return "1";            
         }
-
         //Outgoing messages
         public static string OK()
         {
@@ -400,14 +401,39 @@ namespace SecConvServer
             }        
         }
 
-        static void History(long userID)
+        public static string History(long userID)
         {
+            string history = string.Empty;
+            history = ((char)13).ToString() + ' ';
             using (var ctx = new SecConvDBEntities())
             {
-
+                var histories = ctx.Histories.Where(x => x.UserSenderID == userID || x.UserReceiverID == userID).OrderBy(x=>x.Start).ToList();
+                if (histories.Count != 0)
+                {
+                    foreach (var item in histories)
+                    {
+                        if (item.UserSenderID==userID)//userID is sender
+                        {
+                            var friendLoginR = ctx.Users.Where(x => x.UserID == item.UserReceiverID).Select(x => x.Login).FirstOrDefault();
+                            if (friendLoginR != null)
+                            {
+                                history +=friendLoginR + " " + item.Start.ToString() + " " + item.Duration.ToString()+ " ";
+                            }
+                        }
+                        else //userID is receiver
+                        {
+                            var friendLoginS = ctx.Users.Where(x => x.UserID == item.UserSenderID).Select(x => x.Login).FirstOrDefault();
+                            if (friendLoginS != null)
+                            {
+                                history += friendLoginS + " " + item.Start.ToString() + " " + item.Duration.ToString() + " ";
+                            }
+                        }
+                    }
+                }
+                return history+"<EOF>";
             }
         }
-        static void StateChng()
+        public static void StateChng() //14
         {
 
         }
