@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecConv));
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
@@ -197,6 +196,10 @@
             this.Login.Text = "Znajomy";
             this.Login.Width = 310;
             // 
+            // IP
+            // 
+            this.IP.Width = 0;
+            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -239,8 +242,6 @@
             this.listView2.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.listView2.FullRowSelect = true;
             this.listView2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView2.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
             this.listView2.Location = new System.Drawing.Point(-1, 6);
             this.listView2.Name = "listView2";
             this.listView2.Size = new System.Drawing.Size(312, 412);
@@ -251,12 +252,12 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Znajomy";
-            this.columnHeader1.Width = 118;
+            this.columnHeader1.Width = 95;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Kiedy";
-            this.columnHeader3.Width = 107;
+            this.columnHeader3.Width = 130;
             // 
             // columnHeader4
             // 
@@ -451,6 +452,7 @@
             this.ClientSize = new System.Drawing.Size(319, 476);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.toolStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "SecConv";
@@ -499,7 +501,7 @@
         private System.Windows.Forms.Button BDeleteAccount;
         private System.Windows.Forms.TextBox TPassword;
         private System.Windows.Forms.Button BChangePassword;
-        private System.Windows.Forms.ListView listView2;
+        public System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;

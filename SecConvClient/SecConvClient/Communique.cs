@@ -161,11 +161,10 @@ namespace SecConvClient
         static void History(string messageFromServer)
         {
             string[] history = messageFromServer.Split(' ');
-            for (int i = 0; i < history.Length / 3; i++)
+            for (int i = 0; i < history.Length / 5; i++)
             {
-                //history[i] 
-                //history[i+1] 
-                //history[i+2] 
+                string[] historyDetails = { history[i], history[i + 1] + " " + history[i + 2],  history[i + 4] };
+                Program.secConv.listView2.Items.Add(new ListViewItem(historyDetails));
             }
         }
         static void StateChng(string messageFromServer)

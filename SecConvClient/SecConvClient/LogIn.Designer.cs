@@ -122,7 +122,7 @@
             this.BTipServerIP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTipServerIP.Font = new System.Drawing.Font("Calibri", 11.25F);
             this.BTipServerIP.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.BTipServerIP.Location = new System.Drawing.Point(221, 195);
+            this.BTipServerIP.Location = new System.Drawing.Point(223, 195);
             this.BTipServerIP.Name = "BTipServerIP";
             this.BTipServerIP.Size = new System.Drawing.Size(28, 26);
             this.BTipServerIP.TabIndex = 17;
@@ -181,7 +181,7 @@
             // TServerIP
             // 
             this.TServerIP.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TServerIP.Location = new System.Drawing.Point(70, 195);
+            this.TServerIP.Location = new System.Drawing.Point(72, 195);
             this.TServerIP.Name = "TServerIP";
             this.TServerIP.Size = new System.Drawing.Size(145, 26);
             this.TServerIP.TabIndex = 6;
