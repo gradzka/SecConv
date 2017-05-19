@@ -19,7 +19,7 @@ namespace SecConvClient
 
         private void BDisconnect_Click(object sender, EventArgs e)
         {
-            Voice.DropCall();
+            Program.voice.DropCall();
         }
     }
 }

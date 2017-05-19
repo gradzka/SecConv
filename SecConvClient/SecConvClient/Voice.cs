@@ -12,38 +12,38 @@ using System.Windows.Forms;
 
 namespace SecConvClient
 {
-    static class Voice
+    class Voice
     {
-        private static CaptureBufferDescription captureBufferDescription;
-        private static AutoResetEvent autoResetEvent;
-        private static Notify notify;
-        private static WaveFormat waveFormat;
-        private static Capture capture;
-        private static int bufferSize;
-        private static CaptureBuffer captureBuffer;
-        private static UdpClient udpClient;                //Listens and sends data on port 1550, used in synchronous mode.
-        private static Device device;
-        private static SecondaryBuffer playbackBuffer;
-        private static BufferDescription playbackBufferDescription;
-        private static Socket clientSocket;
-        private static bool bStop;                         //Flag to end the Start and Receive threads.
-        private static IPEndPoint otherPartyIP;            //IP of party we want to make a call.
-        private static EndPoint otherPartyEP;
-        private static volatile bool bIsCallActive;                 //Tells whether we have an active call.
-        private static Vocoder vocoder;
-        private static byte[] byteData = new byte[1024];   //Buffer to store the data received.
-        private static volatile int nUdpClientFlag;                 //Flag used to close the udpClient socket.
+        private CaptureBufferDescription captureBufferDescription;
+        private AutoResetEvent autoResetEvent;
+        private Notify notify;
+        private WaveFormat waveFormat;
+        private Capture capture;
+        private int bufferSize;
+        private CaptureBuffer captureBuffer;
+        private UdpClient udpClient;                //Listens and sends data on port 1550, used in synchronous mode.
+        private Device device;
+        private SecondaryBuffer playbackBuffer;
+        private BufferDescription playbackBufferDescription;
+        private Socket clientSocket;
+        private bool bStop;                         //Flag to end the Start and Receive threads.
+        private IPEndPoint otherPartyIP;            //IP of party we want to make a call.
+        private EndPoint otherPartyEP;
+        private volatile bool bIsCallActive;                 //Tells whether we have an active call.
+        private Vocoder vocoder;
+        private byte[] byteData = new byte[1024];   //Buffer to store the data received.
+        private volatile int nUdpClientFlag;                 //Flag used to close the udpClient socket.
 
-       /* public static Voice()
+        public Voice()
         {
             //InitializeComponent();
             Initialize();
-        }*/
+        }
 
         /*
          * Initializes all the data members.
          */
-        static public void Initialize()
+        private void Initialize()
         {
             try
             {
@@ -85,7 +85,7 @@ namespace SecConvClient
 
                 //Using UDP sockets
                 clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                EndPoint ourEP = new IPEndPoint(IPAddress.Any, 1450);
+                EndPoint ourEP = new IPEndPoint(IPAddress.Any, 14450);
                 //Listen asynchronously on port 1450 for coming messages (Invite, Bye, etc).
                 clientSocket.Bind(ourEP);
 
@@ -112,13 +112,13 @@ namespace SecConvClient
             Call();
         }*/
 
-        public static void Call()
+        public void Call()
         {
             try
             {
                 //Get the IP we want to call.
                 //otherPartyIP = new IPEndPoint(IPAddress.Parse(txtCallToIP.Text), 1450);
-                otherPartyIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1450);
+                otherPartyIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 14450);
                 otherPartyEP = (EndPoint)otherPartyIP;
 
                 //Get the vocoder to be used.
@@ -144,7 +144,7 @@ namespace SecConvClient
             }
         }
 
-        private static void OnSend(IAsyncResult ar)
+        private void OnSend(IAsyncResult ar)
         {
             try
             {
@@ -159,7 +159,7 @@ namespace SecConvClient
         /*
          * Commands are received asynchronously. OnReceive is the handler for them.
          */
-        private static void OnReceive(IAsyncResult ar)
+        private void OnReceive(IAsyncResult ar)
         {
             try
             {
@@ -247,7 +247,7 @@ namespace SecConvClient
         /*
          * Send synchronously sends data captured from microphone across the network on port 1550.
          */
-        private static void Send()
+        private void Send()
         {
             try
             {
@@ -322,7 +322,7 @@ namespace SecConvClient
         /*
          * Receive audio data coming on port 1550 and feed it to the speakers to be played.
          */
-        private static void Receive()
+        private void Receive()
         {
             try
             {
@@ -370,7 +370,7 @@ namespace SecConvClient
             }
         }
 
-        private static void CreateNotifyPositions()
+        private void CreateNotifyPositions()
         {
             try
             {
@@ -396,7 +396,7 @@ namespace SecConvClient
             DropCall();
         }*/
 
-        private static void UninitializeCall()
+        private void UninitializeCall()
         {
             //Set the flag to end the Send and Receive threads.
             bStop = true;
@@ -406,7 +406,7 @@ namespace SecConvClient
             btnEndCall.Enabled = false;*/
         }
 
-        public static void DropCall()
+        public void DropCall()
         {
             try
             {
@@ -420,7 +420,7 @@ namespace SecConvClient
             }
         }
 
-        private static void InitializeCall()
+        private void InitializeCall()
         {
             try
             {
@@ -446,7 +446,7 @@ namespace SecConvClient
         /*
          * Send a message to the remote party.
          */
-        private static void SendMessage(Command cmd, EndPoint sendToEP)
+        private void SendMessage(Command cmd, EndPoint sendToEP)
         {
             try
             {
@@ -469,7 +469,7 @@ namespace SecConvClient
             }
         }
 
-        private static void VoiceChat_FormClosing(object sender, FormClosingEventArgs e)
+        private void VoiceChat_FormClosing(object sender, FormClosingEventArgs e)
         {
 
             if (bIsCallActive)

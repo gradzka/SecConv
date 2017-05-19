@@ -34,8 +34,6 @@ namespace SecConvClient
             this.Text = Program.userLogin + " - SecConv";
             commThread = new Thread(waitForCommuniques);
             commThread.Start();
-            //voice = new Voice();
-            Voice.Initialize();
         }
 
         private void BCall_Click(object sender, EventArgs e)
@@ -50,7 +48,7 @@ namespace SecConvClient
             }
             else
             {
-                Voice.Call();
+                Program.voice.Call();
             }
         }
 

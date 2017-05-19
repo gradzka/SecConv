@@ -11,6 +11,7 @@ namespace SecConvClient
         public static string userLogin;
         public static AsynchronousClient client;
         public static SecConv secConv;
+        public static Voice voice;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -38,6 +39,7 @@ namespace SecConvClient
                 if (dialogResult==DialogResult.Yes) //user is logIn
                 {
                     secConv = new SecConv();
+                    voice = new Voice();
                     dialogResult = secConv.ShowDialog();
                 }
                 if(dialogResult==DialogResult.OK) //user want to register
