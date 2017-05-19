@@ -17,7 +17,6 @@ namespace SecConvServer
         public static Dictionary<long, ConnectedClient> onlineUsers = new Dictionary<long, ConnectedClient>();
         static void Main(string[] args)
         {
-
             SQLiteConnection m_dbConnection;
             m_dbConnection = new SQLiteConnection("Data Source=SecConvDB.sqlite; Version=3;");
             m_dbConnection.Open();

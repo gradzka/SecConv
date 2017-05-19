@@ -433,9 +433,20 @@ namespace SecConvServer
                 return history+"<EOF>";
             }
         }
-        public static void StateChng() //14
+        public static string StateChng(long userID) //ma byc pomocnicza //wyslac do innych 14
         {
-
+            //delete from dictionary
+            if (Program.onlineUsers.ContainsKey(userID))
+            {
+                Program.onlineUsers.Remove(userID);
+                return OK();
+            }
+            else
+            {
+                return Fail();
+            }
+            //informa everybody that this person log out
+            
         }
 
         public static string ChooseCommunique(string message, Socket client)
