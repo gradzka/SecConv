@@ -10,26 +10,23 @@ namespace SecConvClient
 {
     class SynchronousClient
     {
-        Socket sender;
+        Socket socket;
 
         // Data buffer for incoming data.
-        byte[] bytes = new byte[1024];
+        byte[] bytes;
 
         public SynchronousClient(string AddressIP)
         {
             IPEndPoint remoteEP = new IPEndPoint(IPAddress.Parse(AddressIP), 11000);
 
             // Create a TCP/IP socket.
-            sender = new Socket(AddressFamily.InterNetwork,
+            socket = new Socket(AddressFamily.InterNetwork,
                 SocketType.Stream, ProtocolType.Tcp);
 
             // Connect the socket to the remote endpoint. Catch any errors.
             try
             {
-                sender.Connect(remoteEP);
-
-                Console.WriteLine("Socket connected to {0}",
-                    sender.RemoteEndPoint.ToString());
+                socket.Connect(remoteEP);
             }
             catch (ArgumentNullException ane)
             {
@@ -51,9 +48,7 @@ namespace SecConvClient
             try
             {
                 // Receive the response from the remote device.
-                bytesRec = sender.Receive(bytes);
-                //Console.WriteLine("Echoed test = {0}",
-                //);
+                bytesRec = socket.Receive(bytes);
             }
             catch (ArgumentNullException ane)
             {
@@ -78,7 +73,7 @@ namespace SecConvClient
                 byte[] msg = Encoding.ASCII.GetBytes(data);
 
                 // Send the data through the socket.
-                int bytesSent = sender.Send(msg);
+                int bytesSent = socket.Send(msg);
             }
             catch (ArgumentNullException ane)
             {
@@ -99,8 +94,8 @@ namespace SecConvClient
             try
             {
                 // Release the socket.
-                sender.Shutdown(SocketShutdown.Both);
-                sender.Close();
+                socket.Shutdown(SocketShutdown.Both);
+                socket.Close();
             }
             catch (ArgumentNullException ane)
             {
