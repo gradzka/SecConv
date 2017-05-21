@@ -9,7 +9,7 @@ namespace SecConvClient
     static class Program
     {
         public static string userLogin;
-        public static AsynchronousClient client;
+        public static SynchronousClient client;
         public static SecConv secConv;
         public static Voice voice;
         /// <summary>

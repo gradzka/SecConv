@@ -28,7 +28,7 @@ namespace SecConvClient
             }
             else
             {
-                Program.client = new AsynchronousClient(TServerIP.Text);
+                Program.client = new SynchronousClient(TServerIP.Text);
                 if (Communique.Register(TLogin.Text, TPassword1.Text) == true)
                 {
                     MessageBox.Show("Rejestracja użytkownika " + TLogin.Text + " przebiegła pomyślnie!", "Sukces!");
@@ -40,7 +40,6 @@ namespace SecConvClient
                     MessageBox.Show("Podany login jest już zajęty!", "Błąd!");
                 }
                 Program.client.Disconnect();
-                Program.client.disconnectDone.WaitOne();
                 /* }
                  catch (SocketException)
                  {

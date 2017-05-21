@@ -14,16 +14,15 @@ namespace SecConvClient
     public partial class SecConv : Form
     {
         Thread commThread;
-
         void waitForCommuniques()
         {
+            string response = String.Empty;
             while (true)
             {
-                Program.client.Receive();
-                Program.client.receiveDone.WaitOne();
-                if (Program.client.response.Length > 0)
+                response=Program.client.Receive();
+                if (response.Length > 0)
                 {
-                    Communique.commFromServer(Program.client.response);
+                    Communique.commFromServer(response);
                 }
             }
         }
@@ -54,16 +53,8 @@ namespace SecConvClient
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            Communique.LogOut(Program.userLogin);
-            if (commThread.IsAlive)
-            {
-                commThread.Abort();
-            }
-            Program.client.Disconnect();
-            Program.client.disconnectDone.WaitOne();
-            //Program.client.disconnectDone.Reset();
-            Program.userLogin = "";
             DialogResult = DialogResult.No;
+            SecConv_FormClosed(null, null);
             this.Close();
         }
 
@@ -138,6 +129,17 @@ namespace SecConvClient
                     MessageBox.Show("Podane dane logowania są niepoprawne!", "Błąd!");
                 }
             }
+        }
+
+        private void SecConv_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Communique.LogOut(Program.userLogin);
+            if (commThread.IsAlive)
+            {
+                commThread.Abort();
+            }
+            Program.client.Disconnect();
+            Program.userLogin = "";
         }
     }
 }

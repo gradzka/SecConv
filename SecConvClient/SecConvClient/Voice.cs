@@ -118,7 +118,7 @@ namespace SecConvClient
             {
                 //Get the IP we want to call.
                 //otherPartyIP = new IPEndPoint(IPAddress.Parse(txtCallToIP.Text), 1450);
-                otherPartyIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 14450);
+                otherPartyIP = new IPEndPoint(IPAddress.Parse(Program.secConv.listView1.SelectedItems[0].SubItems[1].ToString()), 14450);
                 otherPartyEP = (EndPoint)otherPartyIP;
 
                 //Get the vocoder to be used.

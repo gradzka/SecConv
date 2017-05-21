@@ -31,12 +31,7 @@ namespace SecConvClient
             string message = comm + " " + login + " " + password + " <EOF>";
 
             Program.client.Send(message);
-            Program.client.sendDone.WaitOne();
-
-            Program.client.Receive();
-            Program.client.receiveDone.WaitOne();
-
-            return Response(Program.client.response[0]);
+            return Response(Program.client.Receive()[0]);
         }
         public static bool LogIn(string login, string password)
         {
@@ -44,12 +39,8 @@ namespace SecConvClient
             string message = comm + " " + login + " " + password + " <EOF>";
 
             Program.client.Send(message);
-            Program.client.sendDone.WaitOne();
-
-            Program.client.Receive();
-            Program.client.receiveDone.WaitOne();
-
-            return Response(Program.client.response[0]);
+   
+            return Response(Program.client.Receive()[0]);
         }
         public static void LogOut(string login)
         {
@@ -57,8 +48,6 @@ namespace SecConvClient
             string message = comm + " " + login + " <EOF>";
 
             Program.client.Send(message);
-            Program.client.sendDone.WaitOne();
-
             return;
         }
         public static bool AccDel(string login, string password)
@@ -111,7 +100,6 @@ namespace SecConvClient
             char comm = (char)15;
             string message = comm + " " + login + " <EOF>";
             Program.client.Send(message);
-            Program.client.sendDone.WaitOne();
         }
 
         public static void commFromServer(string messageFromServer)

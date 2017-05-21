@@ -57,7 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AsynchronousClient.cs" />
     <Compile Include="CallIn.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,6 +96,7 @@
     <Compile Include="SecConv.Designer.cs">
       <DependentUpon>SecConv.cs</DependentUpon>
     </Compile>
+    <Compile Include="SynchronousClient.cs" />
     <Compile Include="Voice.cs" />
     <EmbeddedResource Include="CallIn.resx">
       <DependentUpon>CallIn.cs</DependentUpon>

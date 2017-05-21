@@ -26,7 +26,7 @@ namespace SecConvClient
             {
                 try
                 {
-                    Program.client = new AsynchronousClient(TServerIP.Text);
+                    Program.client = new SynchronousClient(TServerIP.Text);
                     if (Communique.LogIn(TLogin.Text, TPassword.Text) == true)
                     {
                         Program.userLogin = TLogin.Text;
