@@ -41,7 +41,7 @@ namespace SecConvServer
                 if (loginUnique == 0)
                 {
                     newUser.Login = login;
-                    newUser.Password = Utilities.hashBytePassHex(param[1]); //256 bit hash password          
+                    newUser.Password = Utilities.hashBytePassHex(param[1]+login); //256 bit hash password          
                     newUser.LastLogoutDate = DateTime.Now;
                     newUser.RegistrationDate = DateTime.Now;
 
@@ -68,7 +68,7 @@ namespace SecConvServer
         {
             string login = param[0];
 
-            string password = Utilities.hashBytePassHex(param[1]);
+            string password = Utilities.hashBytePassHex(param[1]+login);
 
             //users -> online
             using (var ctx = new SecConvDBEntities())

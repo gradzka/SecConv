@@ -12,8 +12,9 @@ namespace SecConvClient
 {
     public partial class CallIn : Form
     {
-        public CallIn()
+        public CallIn(string login)
         {
+            LInfo.Text = login;
             InitializeComponent();
         }
 

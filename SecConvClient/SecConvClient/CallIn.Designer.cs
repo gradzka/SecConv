@@ -32,7 +32,6 @@
             this.BDecline = new System.Windows.Forms.Button();
             this.BAccept = new System.Windows.Forms.Button();
             this.LUser = new System.Windows.Forms.Label();
-            this.LAddress = new System.Windows.Forms.Label();
             this.LInfo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -67,31 +66,19 @@
             this.LUser.BackColor = System.Drawing.Color.Transparent;
             this.LUser.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LUser.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.LUser.Location = new System.Drawing.Point(12, 9);
+            this.LUser.Location = new System.Drawing.Point(12, 14);
             this.LUser.Name = "LUser";
             this.LUser.Size = new System.Drawing.Size(260, 18);
             this.LUser.TabIndex = 5;
             this.LUser.Text = "Użytkownik";
             this.LUser.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LAddress
-            // 
-            this.LAddress.BackColor = System.Drawing.Color.Transparent;
-            this.LAddress.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LAddress.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.LAddress.Location = new System.Drawing.Point(12, 28);
-            this.LAddress.Name = "LAddress";
-            this.LAddress.Size = new System.Drawing.Size(260, 18);
-            this.LAddress.TabIndex = 6;
-            this.LAddress.Text = "(adres IP)";
-            this.LAddress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // LInfo
             // 
             this.LInfo.BackColor = System.Drawing.Color.Transparent;
             this.LInfo.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LInfo.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.LInfo.Location = new System.Drawing.Point(12, 47);
+            this.LInfo.Location = new System.Drawing.Point(12, 34);
             this.LInfo.Name = "LInfo";
             this.LInfo.Size = new System.Drawing.Size(260, 18);
             this.LInfo.TabIndex = 7;
@@ -105,7 +92,6 @@
             this.BackgroundImage = global::SecConvClient.Properties.Resources.background3;
             this.ClientSize = new System.Drawing.Size(284, 119);
             this.Controls.Add(this.LInfo);
-            this.Controls.Add(this.LAddress);
             this.Controls.Add(this.LUser);
             this.Controls.Add(this.BDecline);
             this.Controls.Add(this.BAccept);
@@ -125,7 +111,6 @@
         private System.Windows.Forms.Button BAccept;
         private System.Windows.Forms.Button BDecline;
         private System.Windows.Forms.Label LUser;
-        private System.Windows.Forms.Label LAddress;
         private System.Windows.Forms.Label LInfo;
     }
 }

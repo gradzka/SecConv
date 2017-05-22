@@ -162,50 +162,5 @@ namespace SecConvClient
             //friend[i+1] status
             //friend[i+2] IP
         }
-
-        static void OK()
-        {
-
-        }
-        static void Fail()
-        {
-
-        }
-
-
-        static void RingIn()
-        {
-            CallIn callIn = new CallIn();
-            DialogResult callInResult= callIn.ShowDialog();
-            if (callInResult == DialogResult.Yes)
-            {
-
-            }
-            else
-            {
-
-            }
-        }
-        static void RingOut()
-        {
-            CallOut callOut = new CallOut();
-            DialogResult callOutResult = callOut.ShowDialog();
-            if (callOutResult == DialogResult.Yes)
-            {
-
-            }
-            else
-            {
-
-            }
-        }
-        static void ByeIn()
-        {
-
-        }
-        static void ByeOut()
-        {
-
-        }
     }
 }

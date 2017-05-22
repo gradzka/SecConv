@@ -137,7 +137,9 @@ namespace SecConvClient
                 }
 
                 //Send an invite message.
-                SendMessage(Command.Invite, otherPartyEP);
+                char comm = (char)10;
+                string message = comm + " " + Program.userLogin +" "+ vocoder +" <EOF>";
+                SendMessage(message, otherPartyEP);
             }
             catch (Exception ex)
             {
@@ -170,45 +172,53 @@ namespace SecConvClient
                 clientSocket.EndReceiveFrom(ar, ref receivedFromEP);
 
                 //Convert the bytes received into an object of type Data.
-                Data msgReceived = new Data(byteData);
+                string message = Encoding.ASCII.GetString(byteData);
 
+                //Data msgReceived = new Data(byteData);
                 //Act according to the received message.
-                switch (msgReceived.cmdCommand)
+                switch (message[0])
                 {
                     //We have an incoming call.
-                    case Command.Invite:
+                    case (char)10:
                         {
+                            string msgTmp = string.Empty;
                             if (bIsCallActive == false)
                             {
+                                //split message
+                                //message = comm + " " + Program.userLogin + " " + vocoder + " <EOF>";
+                                string []msgTable = message.Split(' ');
                                 //We have no active call.
 
                                 //Ask the user to accept the call or not.
                                 //if (MessageBox.Show("Call coming from " + msgReceived.strName + ".\r\n\r\nAccept it?",
                                  //   "VoiceChat", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                                if(new CallIn().ShowDialog()== DialogResult.Yes)
+                                if(new CallIn(msgTable[1]).ShowDialog()== DialogResult.Yes)
                                 {
-                                    SendMessage(Command.OK, receivedFromEP);
-                                    vocoder = msgReceived.vocoder;
+                                    msgTmp = (char)5 + " <EOF>";
+                                    SendMessage(msgTmp, receivedFromEP);
+                                    vocoder = Vocoder.None;//msgReceived.vocoder;
                                     otherPartyEP = receivedFromEP;
                                     otherPartyIP = (IPEndPoint)receivedFromEP;
                                     InitializeCall();
                                 }
                                 else
                                 {
+                                    msgTmp = (char)6 + " <EOF>";
                                     //The call is declined. Send a busy response.
-                                    SendMessage(Command.Busy, receivedFromEP);
+                                    SendMessage(msgTmp, receivedFromEP);
                                 }
                             }
                             else
                             {
+                                msgTmp = (char)6 + " <EOF>";
                                 //We already have an existing call. Send a busy response.
-                                SendMessage(Command.Busy, receivedFromEP);
+                                SendMessage(msgTmp, receivedFromEP);
                             }
                             break;
                         }
 
                     //OK is received in response to an Invite.
-                    case Command.OK:
+                    case (char)5:
                         {
                             //Start a call.
                             InitializeCall();
@@ -216,13 +226,13 @@ namespace SecConvClient
                         }
 
                     //Remote party is busy.
-                    case Command.Busy:
+                    case (char)6: //FAIL
                         {
                             MessageBox.Show("User busy.", "VoiceChat", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             break;
                         }
 
-                    case Command.Bye:
+                    case (char)12: //BYE
                         {
                             //Check if the Bye command has indeed come from the user/IP with which we have
                             //a call established. This is used to prevent other users from sending a Bye, which
@@ -412,8 +422,10 @@ namespace SecConvClient
         {
             try
             {
+                char comm = (char)12;
+                string message = comm + " <EOF>";
                 //Send a Bye message to the user to end the call.
-                SendMessage(Command.Bye, otherPartyEP);
+                SendMessage(message, otherPartyEP);
                 UninitializeCall();
             }
             catch (Exception ex)
@@ -448,22 +460,24 @@ namespace SecConvClient
         /*
          * Send a message to the remote party.
          */
-        private void SendMessage(Command cmd, EndPoint sendToEP)
+        private void SendMessage(string message, EndPoint sendToEP)
         {
             try
             {
                 //Create the message to send.
-                Data msgToSend = new Data();
+                //Data msgToSend = new Data();
+                //char comm = (char)10;
+                //message = comm + " " + Program.userLogin +" "+ vocoder +" <EOF>";
 
                 // msgToSend.strName = txtName.Text;   //Name of the user.
-                msgToSend.strName = "Tajny agent";
-                msgToSend.cmdCommand = cmd;         //Message to send.
-                msgToSend.vocoder = Vocoder.None;        //Vocoder to be used.
+                //msgToSend.strName = "Tajny agent";
+                //msgToSend.cmdCommand = cmd;         //Message to send.
+                //msgToSend.vocoder = Vocoder.None;        //Vocoder to be used.
 
-                byte[] message = msgToSend.ToByte();
+                byte[] msg = Encoding.ASCII.GetBytes(message);
 
                 //Send the message asynchronously.
-                clientSocket.BeginSendTo(message, 0, message.Length, SocketFlags.None, sendToEP, new AsyncCallback(OnSend), null);
+                clientSocket.BeginSendTo(msg, 0, message.Length, SocketFlags.None, sendToEP, new AsyncCallback(OnSend), null);
             }
             catch (Exception ex)
             {
@@ -483,14 +497,14 @@ namespace SecConvClient
     }
 
     //The commands for interaction between the two parties.
-    enum Command
+   /* enum Command
     {
         Invite, //Make a call.
         Bye,    //End a call.
         Busy,   //User busy.
         OK,     //Response to an invite message. OK is send to indicate that call is accepted.
         Null,   //No command.
-    }
+    }*/
 
     //Vocoder
     enum Vocoder
@@ -502,7 +516,7 @@ namespace SecConvClient
 
     //The data structure by which the server and the client interact with 
     //each other.
-    class Data
+    /*class Data
     {
         //Default constructor.
         public Data()
@@ -552,5 +566,5 @@ namespace SecConvClient
         public string strName;      //Name by which the client logs into the room.
         public Command cmdCommand;  //Command type (login, logout, send message, etc).
         public Vocoder vocoder;
-    }
+    }*/
 }

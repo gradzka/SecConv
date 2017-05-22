@@ -104,7 +104,7 @@ namespace SecConvServer
                 {
                     // All the data has been read from the 
                     // client. Display it on the console.
-                    Console.WriteLine("Read {0} bytes from socket. \n Data : {1}",
+                    Console.WriteLine("Read {0} bytes from socket. \nData : {1}",
                         content.Length, content);
 
                     string messageBits = Utilities.getBinaryMessage(content);
@@ -130,8 +130,11 @@ namespace SecConvServer
                             Send(handler, Communique.History(userID));//userID history
                         }
                     }
-                    handler.Shutdown(SocketShutdown.Both); //TODO
-                    handler.Close(); //TODO
+                    if (bits8 == 0 || bits8 == 2)
+                    {
+                        handler.Shutdown(SocketShutdown.Both);
+                        handler.Close();
+                    }
 
 
                 }
