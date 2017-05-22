@@ -183,8 +183,9 @@ namespace SecConvClient
                                 //We have no active call.
 
                                 //Ask the user to accept the call or not.
-                                if (MessageBox.Show("Call coming from " + msgReceived.strName + ".\r\n\r\nAccept it?",
-                                    "VoiceChat", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                //if (MessageBox.Show("Call coming from " + msgReceived.strName + ".\r\n\r\nAccept it?",
+                                 //   "VoiceChat", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                if(new CallIn().ShowDialog()== DialogResult.Yes)
                                 {
                                     SendMessage(Command.OK, receivedFromEP);
                                     vocoder = msgReceived.vocoder;
@@ -457,7 +458,7 @@ namespace SecConvClient
                 // msgToSend.strName = txtName.Text;   //Name of the user.
                 msgToSend.strName = "Tajny agent";
                 msgToSend.cmdCommand = cmd;         //Message to send.
-                msgToSend.vocoder = vocoder;        //Vocoder to be used.
+                msgToSend.vocoder = Vocoder.None;        //Vocoder to be used.
 
                 byte[] message = msgToSend.ToByte();
 
@@ -494,9 +495,9 @@ namespace SecConvClient
     //Vocoder
     enum Vocoder
     {
+        None,   //Don't use any vocoder.
         ALaw,   //A-Law vocoder.
         uLaw,   //u-Law vocoder.
-        None,   //Don't use any vocoder.
     }
 
     //The data structure by which the server and the client interact with 
@@ -508,7 +509,7 @@ namespace SecConvClient
         {
             this.cmdCommand = Command.Null;
             this.strName = null;
-            vocoder = Vocoder.ALaw;
+            vocoder = Vocoder.None;
         }
 
         //Converts the bytes into an object of type Data.

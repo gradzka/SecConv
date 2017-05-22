@@ -19,12 +19,14 @@ namespace SecConvClient
 
         private void BAccept_Click(object sender, EventArgs e)
         {
-
+            this.DialogResult = DialogResult.Yes;
+            this.Close();
         }
 
         private void BDecline_Click(object sender, EventArgs e)
         {
-
+            this.DialogResult = DialogResult.No;
+            this.Close();
         }
     }
 }
