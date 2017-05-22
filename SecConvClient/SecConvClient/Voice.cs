@@ -34,6 +34,7 @@ namespace SecConvClient
         private byte[] byteData = new byte[1024];   //Buffer to store the data received.
         private volatile int nUdpClientFlag;                 //Flag used to close the udpClient socket.
         CallOut callOut;
+        CallIn callIN;
 
         public Voice()
         {
@@ -142,7 +143,7 @@ namespace SecConvClient
                 string message = comm + " " + Program.userLogin +" "+ vocoder +" <EOF>";
                 SendMessage(message, otherPartyEP);
                 callOut = new CallOut(Program.secConv.listView1.SelectedItems[0].SubItems[0].Text.ToString());
-                if (callOut.ShowDialog() == DialogResult.No)
+                if (callOut.ShowDialog(Program.secConv) == DialogResult.No)
                 { 
                     message = (char)6 + " <EOF>"; //FAIL
                     SendMessage(message, otherPartyEP);
@@ -199,7 +200,7 @@ namespace SecConvClient
                                 //Ask the user to accept the call or not.
                                 //if (MessageBox.Show("Call coming from " + msgReceived.strName + ".\r\n\r\nAccept it?",
                                 //   "VoiceChat", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                                CallIn callIN = new CallIn(msgTable[1]);
+                                callIN = new CallIn(msgTable[1]);
                                 if (callIN.ShowDialog()== DialogResult.Yes)
                                 {
                                     msgTmp = (char)5 + " <EOF>";
@@ -237,8 +238,15 @@ namespace SecConvClient
                     //Remote party is busy.
                     case (char)6: //FAIL
                         {
-                            callOut.Close();
-                            MessageBox.Show("User busy.", "VoiceChat", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            if (callIN != null && !callIN.IsDisposed)
+                            {
+                                callIN.Close();
+                            }
+                            if (callOut != null && !callOut.IsDisposed)
+                            {
+                                callOut.Close();
+                                MessageBox.Show("Połaczenie odrzucone.", "SecConv", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            }
                             break;
                         }
 
