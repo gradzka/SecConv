@@ -14,8 +14,8 @@ namespace SecConvClient
     {
         public CallIn(string login)
         {
-            LInfo.Text = login;
             InitializeComponent();
+            LUser.Text = login;
         }
 
         private void BAccept_Click(object sender, EventArgs e)
@@ -29,5 +29,29 @@ namespace SecConvClient
             this.DialogResult = DialogResult.No;
             this.Close();
         }
+
+        /*private void CallIn_Shown(object sender, EventArgs e)
+        {
+            //https://www.autoitscript.com/forum/topic/40848-beep-music-mario-bros-theme/
+            while (true)
+            {
+                Console.Beep(480, 200);
+                Console.Beep(1568, 200);
+                Console.Beep(1568, 200);
+                Console.Beep(1568, 200);
+
+
+                Console.Beep(740, 200);
+                Console.Beep(784, 200);
+                Console.Beep(784, 200);
+                Console.Beep(784, 200);
+
+                Console.Beep(370, 200);
+                Console.Beep(392, 200);
+                Console.Beep(370, 200);
+                Console.Beep(392, 200);
+                Console.Beep(392, 400);
+            }
+        }*/
     }
 }

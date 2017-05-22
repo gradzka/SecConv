@@ -12,14 +12,18 @@ namespace SecConvClient
 {
     public partial class CallOut : Form
     {
-        public CallOut()
+        //int callOutState = 0; //0 - ringing | 1 - OK    | 2 - FAIL
+        public CallOut(string receiver)
         {
+            //callOutState = 0;
             InitializeComponent();
+            LUser.Text = receiver;
         }
 
         private void BDecline_Click(object sender, EventArgs e)
         {
-
+            this.DialogResult = DialogResult.No;
+            this.Close();
         }
     }
 }

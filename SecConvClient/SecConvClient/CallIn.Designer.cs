@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CallIn));
             this.BDecline = new System.Windows.Forms.Button();
             this.BAccept = new System.Windows.Forms.Button();
             this.LUser = new System.Windows.Forms.Label();
             this.LInfo = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // BDecline
@@ -102,6 +104,7 @@
             this.Name = "CallIn";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CallIn";
+           // this.Shown += new System.EventHandler(this.CallIn_Shown);
             this.ResumeLayout(false);
 
         }
@@ -112,5 +115,6 @@
         private System.Windows.Forms.Button BDecline;
         private System.Windows.Forms.Label LUser;
         private System.Windows.Forms.Label LInfo;
+        private System.Windows.Forms.Timer timer1;
     }
 }

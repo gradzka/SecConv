@@ -33,6 +33,7 @@ namespace SecConvClient
         private Vocoder vocoder;
         private byte[] byteData = new byte[1024];   //Buffer to store the data received.
         private volatile int nUdpClientFlag;                 //Flag used to close the udpClient socket.
+        CallOut callOut;
 
         public Voice()
         {
@@ -140,6 +141,12 @@ namespace SecConvClient
                 char comm = (char)10;
                 string message = comm + " " + Program.userLogin +" "+ vocoder +" <EOF>";
                 SendMessage(message, otherPartyEP);
+                callOut = new CallOut(Program.secConv.listView1.SelectedItems[0].SubItems[0].Text.ToString());
+                if (callOut.ShowDialog() == DialogResult.No)
+                { 
+                    message = (char)6 + " <EOF>"; //FAIL
+                    SendMessage(message, otherPartyEP);
+                }
             }
             catch (Exception ex)
             {
@@ -191,8 +198,9 @@ namespace SecConvClient
 
                                 //Ask the user to accept the call or not.
                                 //if (MessageBox.Show("Call coming from " + msgReceived.strName + ".\r\n\r\nAccept it?",
-                                 //   "VoiceChat", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                                if(new CallIn(msgTable[1]).ShowDialog()== DialogResult.Yes)
+                                //   "VoiceChat", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                CallIn callIN = new CallIn(msgTable[1]);
+                                if (callIN.ShowDialog()== DialogResult.Yes)
                                 {
                                     msgTmp = (char)5 + " <EOF>";
                                     SendMessage(msgTmp, receivedFromEP);
@@ -203,7 +211,7 @@ namespace SecConvClient
                                 }
                                 else
                                 {
-                                    msgTmp = (char)6 + " <EOF>";
+                                    msgTmp = (char)6 + " <EOF>"; //FAIL
                                     //The call is declined. Send a busy response.
                                     SendMessage(msgTmp, receivedFromEP);
                                 }
@@ -220,6 +228,7 @@ namespace SecConvClient
                     //OK is received in response to an Invite.
                     case (char)5:
                         {
+                            callOut.Close();
                             //Start a call.
                             InitializeCall();
                             break;
@@ -228,6 +237,7 @@ namespace SecConvClient
                     //Remote party is busy.
                     case (char)6: //FAIL
                         {
+                            callOut.Close();
                             MessageBox.Show("User busy.", "VoiceChat", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             break;
                         }
