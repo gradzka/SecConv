@@ -43,7 +43,7 @@ namespace SecConvServer
                     // Set the event to nonsignaled state.
                     allDone.Reset();
 
-                    // Start an asynchronous socket to listen for connections.                  
+                    // Start an asynchronous socket to listen for connections.                
                     listener.BeginAccept(
                         new AsyncCallback(AcceptCallback),
                         listener);
@@ -114,9 +114,12 @@ namespace SecConvServer
                     content = Communique.ChooseCommunique(content, handler);
                     // Echo the data back to the client.
 
-                    Send(handler, content);
+                    if (bits8 != 2)
+                    {
+                        Send(handler, content);
+                    }
 
-                    if (bits8 == 1) //logIn
+                    if (bits8 == 1 && content== ((char)5).ToString() + "<EOF>") //logIn
                     {
                         string userAddressIP = ((IPEndPoint)handler.RemoteEndPoint).Address.ToString();
                         long userID = Communique.getUserIDHavingAdressIP(userAddressIP);
@@ -130,12 +133,14 @@ namespace SecConvServer
                             Send(handler, Communique.History(userID));//userID history
                         }
                     }
-                    if (bits8 == 0 || bits8 == 2)
-                    {
+                   
                         handler.Shutdown(SocketShutdown.Both);
                         handler.Close();
-                    }
 
+                    if (bits8 == 0 || bits8 == 2)
+                    {
+
+                    }
 
                 }
                 else

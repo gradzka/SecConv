@@ -12,6 +12,6 @@ namespace SecConvServer
     {
         public string login { get; set; }
         public DateTime iAM { get; set; }
-        public Socket client { get; set; }
+        public string addressIP { get; set; }
     }
 }

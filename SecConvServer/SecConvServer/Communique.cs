@@ -76,10 +76,14 @@ namespace SecConvServer
                 var user = ctx.Users.Where(x => x.Login == login && x.Password == password).FirstOrDefault();
                 if (user!=null)
                 {
+                    if (Program.onlineUsers.ContainsKey(user.UserID))
+                    {
+                        return Fail();
+                    }
                     ConnectedClient connectedClient = new ConnectedClient();
                     connectedClient.login = login;
                     connectedClient.iAM = DateTime.Now;
-                    connectedClient.client = client;
+                    connectedClient.addressIP = ((IPEndPoint)client.RemoteEndPoint).Address.ToString();
                     //add to dictionary
                     Program.onlineUsers[user.UserID] = connectedClient;
                     return OK();
@@ -121,7 +125,7 @@ namespace SecConvServer
         public static string AccDel(List<string> param)
         {
             string login = param[0];
-            string password = Utilities.hashBytePassHex(param[1]);
+            string password = Utilities.hashBytePassHex(param[1]+login);
             using (var ctx = new SecConvDBEntities())
             {
                 var userToDelete = ctx.Users.Where(x => x.Login == login && x.Password == password).FirstOrDefault();
@@ -175,13 +179,13 @@ namespace SecConvServer
         public static string PassChng(List <string> param)
         {
             string login = param[0];
-            string password1 = Utilities.hashBytePassHex(param[1]);
+            string password1 = Utilities.hashBytePassHex(param[1]+login);
             using (var ctx = new SecConvDBEntities())
             {
                 var userToChngPasswd = ctx.Users.Where(x => x.Login == login && x.Password == password1).FirstOrDefault();
                 if (userToChngPasswd!=null)
                 {
-                    userToChngPasswd.Password = Utilities.hashBytePassHex(param[2]);
+                    userToChngPasswd.Password = Utilities.hashBytePassHex(param[2]+login);
                     try
                     {
                         ctx.Entry(userToChngPasswd).State = System.Data.Entity.EntityState.Modified;
@@ -377,7 +381,7 @@ namespace SecConvServer
                             if (Program.onlineUsers.ContainsKey(item.UserID2))
                             {
                                 message += "1 ";
-                                message += ((IPEndPoint)(Program.onlineUsers[item.UserID2].client).RemoteEndPoint).Address.ToString()+ " ";
+                                message += Program.onlineUsers[item.UserID2].addressIP+ " ";
                             }
                             else
                             {
@@ -433,18 +437,14 @@ namespace SecConvServer
                 return history+"<EOF>";
             }
         }
-        public static string StateChng(long userID) //ma byc pomocnicza //wyslac do innych 14
+        public static void StateChng(long userID) //ma byc pomocnicza //wyslac do innych 14
         {
             //delete from dictionary
             if (Program.onlineUsers.ContainsKey(userID))
             {
                 Program.onlineUsers.Remove(userID);
-                return OK();
             }
-            else
-            {
-                return Fail();
-            }
+
             //informa everybody that this person log out
             
         }
@@ -490,7 +490,7 @@ namespace SecConvServer
 
             foreach (KeyValuePair<long, ConnectedClient> item in Program.onlineUsers)
             {            
-                if(((IPEndPoint)(item.Value.client).RemoteEndPoint).Address.ToString()==addressIP)
+                if(item.Value.addressIP==addressIP)
                 {
                     userID = item.Key;
                 }
