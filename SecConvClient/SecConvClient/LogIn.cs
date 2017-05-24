@@ -30,12 +30,13 @@ namespace SecConvClient
                     if (Communique.LogIn(TLogin.Text, TPassword.Text) == true)
                     {
                         Program.userLogin = TLogin.Text;
+                        Program.serverAddress = TServerIP.Text;
                         this.DialogResult = DialogResult.Yes;
                         this.Close();
                     }
                     else
                     {
-                        MessageBox.Show("Podane dane logowania są niepoprawne!", "Błąd!");
+                        MessageBox.Show("Podane dane logowania są niepoprawne lub użytkownik jest już zalogowany!", "Błąd!");
                     }
                 }
                 catch (SocketException)

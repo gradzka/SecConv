@@ -38,7 +38,6 @@ namespace SecConvClient
 
         public Voice()
         {
-            //InitializeComponent();
             Initialize();
         }
 
@@ -87,6 +86,7 @@ namespace SecConvClient
 
                 //Using UDP sockets
                 clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                clientSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
                 EndPoint ourEP = new IPEndPoint(IPAddress.Any, 14450);
                 //Listen asynchronously on port 1450 for coming messages (Invite, Bye, etc).
                 clientSocket.Bind(ourEP);

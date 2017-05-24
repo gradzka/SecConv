@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,14 +18,18 @@ namespace SecConvClient
         void waitForCommuniques()
         {
             string response = String.Empty;
-            while (true)
+            int numberOfComm = 0;
+            while (numberOfComm<2)
             {
                 response=Program.client.Receive();
                 if (response.Length > 0)
                 {
                     Communique.commFromServer(response);
+                    numberOfComm++;
                 }
             }
+            Thread.Sleep(1000);
+            Program.client.Disconnect();
         }
 
         public SecConv()
@@ -54,7 +59,6 @@ namespace SecConvClient
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.No;
-            SecConv_FormClosed(null, null);
             this.Close();
         }
 
@@ -80,7 +84,7 @@ namespace SecConvClient
 
         private void BAddFriend_Click(object sender, EventArgs e)
         {
-
+            string promptValue = Prompt.ShowDialog();
         }
 
         private void BChangePassword_Click(object sender, EventArgs e)
@@ -95,15 +99,17 @@ namespace SecConvClient
             }
             else
             {
+                Program.client = new SynchronousClient(Program.serverAddress);
                 if (Communique.PassChng(Program.userLogin, TPasswordOld.Text, TPassword1.Text) == true)
                 {
                     MessageBox.Show("Zmiana hasła przebiegła pomyślnie!\nZaloguj się ponownie!", "Sukces!");
-                    Program.userLogin = "";
                     DialogResult = DialogResult.No;
+                    Program.client.Disconnect(); 
                     this.Close();
                 }
                 else
                 {
+                    Program.client.Disconnect();
                     MessageBox.Show("Stare hasło jest niepoprawne!", "Błąd!");
                 }
             }
@@ -117,15 +123,17 @@ namespace SecConvClient
             }
             else
             {
+                Program.client = new SynchronousClient(Program.serverAddress);
                 if (Communique.AccDel(Program.userLogin, TPassword.Text) == true)
                 {
-                    MessageBox.Show("Usunięcie konta użytkownika " + Program.userLogin + "przebiegła pomyślnie!", "Sukces!");
-                    Program.userLogin = "";
+                    MessageBox.Show("Usunięcie konta użytkownika " + Program.userLogin + " przebiegła pomyślnie!", "Sukces!");
                     DialogResult = DialogResult.No;
+                    Program.client.Disconnect();
                     this.Close();
                 }
                 else
                 {
+                    Program.client.Disconnect();
                     MessageBox.Show("Podane dane logowania są niepoprawne!", "Błąd!");
                 }
             }
@@ -133,13 +141,60 @@ namespace SecConvClient
 
         private void SecConv_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Communique.LogOut(Program.userLogin);
-            if (commThread.IsAlive)
+            try
             {
-                commThread.Abort();
+                if (commThread.IsAlive)
+                {
+                    Program.client.Disconnect();
+                    commThread.Abort();
+                }
+                Program.client = new SynchronousClient(Program.serverAddress);
+                Communique.LogOut(Program.userLogin);
+                Program.userLogin = "";
+                Program.serverAddress = "";
+                Program.client.Disconnect();               
             }
-            Program.client.Disconnect();
-            Program.userLogin = "";
+            catch (SocketException)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem!", "Błąd!");
+            }
+        }
+    }
+
+    public static class Prompt
+    {
+        public static string ShowDialog()
+        {
+            Form prompt = new Form()
+            {
+                Width = 260,
+                Height = 145,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = "Dodaj znajomego",
+                StartPosition = FormStartPosition.CenterScreen
+            };
+
+            Label textLabel = new Label() { Left = 19, Top = 15, Width = 200, Text = "Podaj login znajomego:" };
+            
+            TextBox textBox = new TextBox() { Left = 20, Top = 35, Width = 200 };
+
+
+            Button confirmation = new Button() { Text = "Dodaj", Left = 141, Width = 80, Height = 26, Top = 65,
+                BackColor = System.Drawing.Color.Brown,
+                ForeColor = System.Drawing.SystemColors.ControlLightLight, DialogResult = DialogResult.OK };
+
+            confirmation.FlatAppearance.BorderSize = 0;
+            confirmation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            confirmation.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            confirmation.UseVisualStyleBackColor = false;
+
+            confirmation.Click += (sender, e) => { prompt.Close(); };
+            prompt.Controls.Add(textBox);
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(textLabel);
+            prompt.AcceptButton = confirmation;
+
+            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
         }
     }
 }

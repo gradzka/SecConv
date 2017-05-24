@@ -53,20 +53,16 @@ namespace SecConvClient
         public static bool AccDel(string login, string password)
         {
             char comm = (char)3;
-            string message = comm + " " + login + " " + password;
-            //szyfruj
-            //wyślij do serwera
-            //sprawdz odpowiedz
-            return Response(comm);
+            string message = comm + " " + login + " " + password + " <EOF>";
+            Program.client.Send(message);
+            return Response(Program.client.Receive()[0]);
         }
         public static bool PassChng(string login, string oldPassword, string newPassword)
         {
             char comm = (char)4;
-            string message = comm + " " + login + " " + oldPassword + " " + newPassword;
-            //szyfruj
-            //wyślij do serwera
-            //sprawdz odpowiedz
-            return Response(comm);
+            string message = comm + " " + login + " " + oldPassword + " " + newPassword + " <EOF>";
+            Program.client.Send(message);
+            return Response(Program.client.Receive()[0]);
         }
         public static bool AddFriend(string friendLogin)
         {

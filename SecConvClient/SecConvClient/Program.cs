@@ -9,6 +9,7 @@ namespace SecConvClient
     static class Program
     {
         public static string userLogin;
+        public static string serverAddress;
         public static SynchronousClient client;
         public static SecConv secConv;
         public static Voice voice;
@@ -23,6 +24,7 @@ namespace SecConvClient
             //Application.Run(new SecConv());
 
             userLogin = "";
+            serverAddress = "";
 
             LogIn logIn;
             Register register;
