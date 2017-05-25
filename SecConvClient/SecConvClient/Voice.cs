@@ -33,9 +33,9 @@ namespace SecConvClient
         private Vocoder vocoder;
         private byte[] byteData = new byte[1024];   //Buffer to store the data received.
         private volatile int nUdpClientFlag;                 //Flag used to close the udpClient socket.
-        CallOut callOut;
-        CallIn callIN;
-        Conv conv;
+        //CallOut callOut;
+        //CallIn callIN;
+        //Conv conv;
 
         public Voice()
         {
@@ -138,18 +138,31 @@ namespace SecConvClient
                 char comm = (char)10;
                 string message = comm + " " + Program.userLogin +" "+ vocoder +" <EOF>";
                 SendMessage(message, otherPartyEP);
-                callOut = new CallOut(Program.secConv.listView1.SelectedItems[0].Text.ToString());
-                if (callOut.ShowDialog(Program.secConv) == DialogResult.No)
-                { 
-                    message = (char)6 + " <EOF>"; //FAIL
-                    SendMessage(message, otherPartyEP);
-                }
+                //if (callOut.ShowDialog(Program.secConv) == DialogResult.No)
+                //{ 
+                //    message = (char)6 + " <EOF>"; //FAIL
+                //    SendMessage(message, otherPartyEP);
+                //}
             }
             catch (Exception)
             {
                 MessageBox.Show("Wystąpił problem z nawiązaniem połączenia!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public void CancelCall()
+        {
+            try
+            {
+                string message = (char)6 + " <EOF>"; //FAIL
+                SendMessage(message, otherPartyEP);
+                Program.secConv.gBCallOut.Visible = false;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Wystąpił problem z anulowaniem połączenia!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+}
 
         private void OnSend(IAsyncResult ar)
         {
@@ -196,28 +209,15 @@ namespace SecConvClient
                                 //Ask the user to accept the call or not.
                                 //if (MessageBox.Show("Call coming from " + msgReceived.strName + ".\r\n\r\nAccept it?",
                                 //   "VoiceChat", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                                callIN = new CallIn(msgTable[1]);
-                                if (callIN.ShowDialog() == DialogResult.Yes)
-                                {
-                                    msgTmp = (char)5 + " <EOF>";
-                                    SendMessage(msgTmp, receivedFromEP);
-                                    vocoder = Vocoder.None;//msgReceived.vocoder;
-                                    otherPartyEP = receivedFromEP;
-                                    otherPartyIP = (IPEndPoint)receivedFromEP;
-                                    InitializeCall(msgTable[1]);
-                                }
-                                else
-                                {
-                                    msgTmp = (char)6 + " <EOF>"; //FAIL
-                                    //The call is declined. Send a busy response.
-                                    SendMessage(msgTmp, receivedFromEP);
-                                }
+
+                                Program.secConv.gBCallIn.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = true; });
+                                Program.secConv.LUserCallIn.Invoke((MethodInvoker)delegate { Program.secConv.LUserCallIn.Text = msgTable[1]; });
+                                Program.secConv.callerEndPoint = receivedFromEP;
+                                //Program.secConv.Refresh();
                             }
                             else
                             {
-                                msgTmp = (char)6 + " <EOF>";
-                                //We already have an existing call. Send a busy response.
-                                SendMessage(msgTmp, receivedFromEP);
+                                DeclineCall(receivedFromEP);
                             }
                             break;
                         }
@@ -225,22 +225,19 @@ namespace SecConvClient
                     //OK is received in response to an Invite.
                     case (char)5:
                         {
-                            callOut.Close();
+                            //callOut.Close();
                             //Start a call.
-                            InitializeCall(Program.secConv.listView1.SelectedItems[0].Text);
+                            InitializeCall();
                             break;
                         }
 
                     //Remote party is busy.
                     case (char)6: //FAIL
                         {
-                            if (callIN != null && !callIN.IsDisposed)
+                            Program.secConv.gBCallIn.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = false; });
+                            if (Program.secConv.gBCallOut.Visible==true)
                             {
-                                callIN.Close();
-                            }
-                            if (callOut != null && !callOut.IsDisposed)
-                            {
-                                callOut.Close();
+                                CancelCall();
                                 MessageBox.Show("Połaczenie odrzucone.", "SecConv", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             }
                             break;
@@ -253,6 +250,10 @@ namespace SecConvClient
                             //would otherwise end the call.
                             if (receivedFromEP.Equals(otherPartyEP) == true)
                             {
+                                //if (conv != null && !conv.IsDisposed)
+                                //{
+                                //    conv.Close();
+                                //}
                                 //End the call.
                                 UninitializeCall();
                             }
@@ -268,6 +269,23 @@ namespace SecConvClient
             {
                 MessageBox.Show("Wystąpił problem podczas odbierania pakietów!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public void AcceptCall(EndPoint receivedFromEP)
+        {
+            string msgTmp = (char)5 + " <EOF>";
+            SendMessage(msgTmp, receivedFromEP);
+            vocoder = Vocoder.None;//msgReceived.vocoder;
+            otherPartyEP = receivedFromEP;
+            otherPartyIP = (IPEndPoint)receivedFromEP;
+            InitializeCall();
+        }
+
+        public void DeclineCall(EndPoint receivedFromEP)
+        {
+            string msgTmp = (char)6 + " <EOF>"; //FAIL
+                                         //The call is declined. Send a busy response.
+            SendMessage(msgTmp, receivedFromEP);
         }
 
         /*
@@ -420,6 +438,7 @@ namespace SecConvClient
 
         private void UninitializeCall()
         {
+            Program.secConv.gbConv.Invoke((MethodInvoker)delegate { Program.secConv.gbConv.Visible = false; });
             //Set the flag to end the Send and Receive threads.
             bStop = true;
 
@@ -444,8 +463,10 @@ namespace SecConvClient
             }
         }
 
-        private void InitializeCall(string login)
+        private void InitializeCall()
         {
+            Program.secConv.gBCallOut.Invoke((MethodInvoker)delegate { Program.secConv.gBCallOut.Visible = false; });
+            Program.secConv.gBCallIn.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = false; });
             try
             {
                 //Start listening on port 1500.
@@ -461,11 +482,15 @@ namespace SecConvClient
                 /* btnCall.Enabled = false;
                  btnEndCall.Enabled = true;*/
 
-                conv = new Conv(login);
-                if (conv.ShowDialog() == DialogResult.No)
-                {
+                //conv = new Conv(login);
 
-                }
+                Program.secConv.gbConv.Invoke((MethodInvoker)delegate { Program.secConv.gbConv.Visible = true; });
+                Program.secConv.begin = DateTime.UtcNow;
+                Program.secConv.timerConv.Start();
+                Program.secConv.LUserConv.Invoke((MethodInvoker)delegate { Program.secConv.LUserConv.Text = "z " + Program.secConv.LUserCallIn.Text; });
+
+
+
             }
             catch (Exception)
             {

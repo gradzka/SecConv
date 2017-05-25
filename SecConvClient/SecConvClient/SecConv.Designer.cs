@@ -34,6 +34,20 @@
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.tSBContact = new System.Windows.Forms.ToolStripButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.gBCallOut = new System.Windows.Forms.GroupBox();
+            this.BCancel = new System.Windows.Forms.Button();
+            this.LUserCallOut = new System.Windows.Forms.Label();
+            this.LInfoCallOut = new System.Windows.Forms.Label();
+            this.gBCallIn = new System.Windows.Forms.GroupBox();
+            this.LInfoCallIn = new System.Windows.Forms.Label();
+            this.LUserCallIn = new System.Windows.Forms.Label();
+            this.BDecline = new System.Windows.Forms.Button();
+            this.BAccept = new System.Windows.Forms.Button();
+            this.gbConv = new System.Windows.Forms.GroupBox();
+            this.LTimeConv = new System.Windows.Forms.Label();
+            this.LInfoConv = new System.Windows.Forms.Label();
+            this.BDisconnect = new System.Windows.Forms.Button();
+            this.LUserConv = new System.Windows.Forms.Label();
             this.BDeleteFriend = new System.Windows.Forms.Button();
             this.BAddFriend = new System.Windows.Forms.Button();
             this.BCall = new System.Windows.Forms.Button();
@@ -61,9 +75,13 @@
             this.TPassword1 = new System.Windows.Forms.TextBox();
             this.TPasswordOld = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timerIAM = new System.Windows.Forms.Timer(this.components);
+            this.timerConv = new System.Windows.Forms.Timer(this.components);
             this.toolStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.gBCallOut.SuspendLayout();
+            this.gBCallIn.SuspendLayout();
+            this.gbConv.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -113,6 +131,9 @@
             // 
             this.tabPage1.BackColor = System.Drawing.Color.White;
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage1.Controls.Add(this.gBCallOut);
+            this.tabPage1.Controls.Add(this.gBCallIn);
+            this.tabPage1.Controls.Add(this.gbConv);
             this.tabPage1.Controls.Add(this.BDeleteFriend);
             this.tabPage1.Controls.Add(this.BAddFriend);
             this.tabPage1.Controls.Add(this.BCall);
@@ -123,6 +144,183 @@
             this.tabPage1.Size = new System.Drawing.Size(312, 422);
             this.tabPage1.TabIndex = 3;
             this.tabPage1.Text = "Kontakty";
+            // 
+            // gBCallOut
+            // 
+            this.gBCallOut.BackColor = System.Drawing.Color.Brown;
+            this.gBCallOut.Controls.Add(this.BCancel);
+            this.gBCallOut.Controls.Add(this.LUserCallOut);
+            this.gBCallOut.Controls.Add(this.LInfoCallOut);
+            this.gBCallOut.Location = new System.Drawing.Point(6, 6);
+            this.gBCallOut.Name = "gBCallOut";
+            this.gBCallOut.Size = new System.Drawing.Size(298, 92);
+            this.gBCallOut.TabIndex = 5;
+            this.gBCallOut.TabStop = false;
+            this.gBCallOut.Visible = false;
+            // 
+            // BCancel
+            // 
+            this.BCancel.BackgroundImage = global::SecConvClient.Properties.Resources.nocall;
+            this.BCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BCancel.FlatAppearance.BorderColor = System.Drawing.Color.DarkSeaGreen;
+            this.BCancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BCancel.Location = new System.Drawing.Point(132, 46);
+            this.BCancel.Name = "BCancel";
+            this.BCancel.Size = new System.Drawing.Size(36, 36);
+            this.BCancel.TabIndex = 14;
+            this.BCancel.UseVisualStyleBackColor = true;
+            this.BCancel.Click += new System.EventHandler(this.BCancel_Click);
+            // 
+            // LUserCallOut
+            // 
+            this.LUserCallOut.BackColor = System.Drawing.Color.Transparent;
+            this.LUserCallOut.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LUserCallOut.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.LUserCallOut.Location = new System.Drawing.Point(6, 26);
+            this.LUserCallOut.Name = "LUserCallOut";
+            this.LUserCallOut.Size = new System.Drawing.Size(286, 18);
+            this.LUserCallOut.TabIndex = 13;
+            this.LUserCallOut.Text = "Użytkownik";
+            this.LUserCallOut.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LInfoCallOut
+            // 
+            this.LInfoCallOut.BackColor = System.Drawing.Color.Transparent;
+            this.LInfoCallOut.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LInfoCallOut.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.LInfoCallOut.Location = new System.Drawing.Point(6, 8);
+            this.LInfoCallOut.Name = "LInfoCallOut";
+            this.LInfoCallOut.Size = new System.Drawing.Size(286, 18);
+            this.LInfoCallOut.TabIndex = 12;
+            this.LInfoCallOut.Text = "Łączę";
+            this.LInfoCallOut.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // gBCallIn
+            // 
+            this.gBCallIn.BackColor = System.Drawing.Color.Brown;
+            this.gBCallIn.Controls.Add(this.LInfoCallIn);
+            this.gBCallIn.Controls.Add(this.LUserCallIn);
+            this.gBCallIn.Controls.Add(this.BDecline);
+            this.gBCallIn.Controls.Add(this.BAccept);
+            this.gBCallIn.Location = new System.Drawing.Point(6, 6);
+            this.gBCallIn.Name = "gBCallIn";
+            this.gBCallIn.Size = new System.Drawing.Size(298, 92);
+            this.gBCallIn.TabIndex = 6;
+            this.gBCallIn.TabStop = false;
+            this.gBCallIn.Visible = false;
+            // 
+            // LInfoCallIn
+            // 
+            this.LInfoCallIn.BackColor = System.Drawing.Color.Transparent;
+            this.LInfoCallIn.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LInfoCallIn.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.LInfoCallIn.Location = new System.Drawing.Point(9, 25);
+            this.LInfoCallIn.Name = "LInfoCallIn";
+            this.LInfoCallIn.Size = new System.Drawing.Size(283, 18);
+            this.LInfoCallIn.TabIndex = 11;
+            this.LInfoCallIn.Text = "dzwoni!";
+            this.LInfoCallIn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LUserCallIn
+            // 
+            this.LUserCallIn.BackColor = System.Drawing.Color.Transparent;
+            this.LUserCallIn.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LUserCallIn.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.LUserCallIn.Location = new System.Drawing.Point(9, 8);
+            this.LUserCallIn.Name = "LUserCallIn";
+            this.LUserCallIn.Size = new System.Drawing.Size(283, 18);
+            this.LUserCallIn.TabIndex = 10;
+            this.LUserCallIn.Text = "Użytkownik";
+            this.LUserCallIn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // BDecline
+            // 
+            this.BDecline.BackgroundImage = global::SecConvClient.Properties.Resources.nocall;
+            this.BDecline.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BDecline.FlatAppearance.BorderColor = System.Drawing.Color.DarkSeaGreen;
+            this.BDecline.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BDecline.Location = new System.Drawing.Point(174, 48);
+            this.BDecline.Name = "BDecline";
+            this.BDecline.Size = new System.Drawing.Size(36, 36);
+            this.BDecline.TabIndex = 9;
+            this.BDecline.UseVisualStyleBackColor = true;
+            this.BDecline.Click += new System.EventHandler(this.BDecline_Click);
+            // 
+            // BAccept
+            // 
+            this.BAccept.BackgroundImage = global::SecConvClient.Properties.Resources.call;
+            this.BAccept.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BAccept.FlatAppearance.BorderColor = System.Drawing.Color.DarkSeaGreen;
+            this.BAccept.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BAccept.Location = new System.Drawing.Point(83, 48);
+            this.BAccept.Name = "BAccept";
+            this.BAccept.Size = new System.Drawing.Size(36, 36);
+            this.BAccept.TabIndex = 8;
+            this.BAccept.UseVisualStyleBackColor = true;
+            this.BAccept.Click += new System.EventHandler(this.BAccept_Click);
+            // 
+            // gbConv
+            // 
+            this.gbConv.BackColor = System.Drawing.Color.Brown;
+            this.gbConv.Controls.Add(this.LTimeConv);
+            this.gbConv.Controls.Add(this.LInfoConv);
+            this.gbConv.Controls.Add(this.BDisconnect);
+            this.gbConv.Controls.Add(this.LUserConv);
+            this.gbConv.Location = new System.Drawing.Point(6, 6);
+            this.gbConv.Name = "gbConv";
+            this.gbConv.Size = new System.Drawing.Size(298, 92);
+            this.gbConv.TabIndex = 12;
+            this.gbConv.TabStop = false;
+            this.gbConv.Visible = false;
+            // 
+            // LTimeConv
+            // 
+            this.LTimeConv.BackColor = System.Drawing.Color.Transparent;
+            this.LTimeConv.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.LTimeConv.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.LTimeConv.Location = new System.Drawing.Point(19, 73);
+            this.LTimeConv.Name = "LTimeConv";
+            this.LTimeConv.Size = new System.Drawing.Size(260, 18);
+            this.LTimeConv.TabIndex = 20;
+            this.LTimeConv.Text = "Czas trwania";
+            this.LTimeConv.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LInfoConv
+            // 
+            this.LInfoConv.BackColor = System.Drawing.Color.Transparent;
+            this.LInfoConv.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LInfoConv.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.LInfoConv.Location = new System.Drawing.Point(19, 6);
+            this.LInfoConv.Name = "LInfoConv";
+            this.LInfoConv.Size = new System.Drawing.Size(260, 18);
+            this.LInfoConv.TabIndex = 19;
+            this.LInfoConv.Text = "Rozmowa";
+            this.LInfoConv.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // BDisconnect
+            // 
+            this.BDisconnect.BackgroundImage = global::SecConvClient.Properties.Resources.nocall;
+            this.BDisconnect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BDisconnect.FlatAppearance.BorderColor = System.Drawing.Color.DarkSeaGreen;
+            this.BDisconnect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BDisconnect.Location = new System.Drawing.Point(132, 39);
+            this.BDisconnect.Name = "BDisconnect";
+            this.BDisconnect.Size = new System.Drawing.Size(36, 36);
+            this.BDisconnect.TabIndex = 17;
+            this.BDisconnect.UseVisualStyleBackColor = true;
+            this.BDisconnect.Click += new System.EventHandler(this.BDisconnect_Click);
+            // 
+            // LUserConv
+            // 
+            this.LUserConv.BackColor = System.Drawing.Color.Transparent;
+            this.LUserConv.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LUserConv.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.LUserConv.Location = new System.Drawing.Point(19, 21);
+            this.LUserConv.Name = "LUserConv";
+            this.LUserConv.Size = new System.Drawing.Size(260, 18);
+            this.LUserConv.TabIndex = 18;
+            this.LUserConv.Text = "Użytkownik";
+            this.LUserConv.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // BDeleteFriend
             // 
@@ -169,10 +367,10 @@
             this.listView1.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.listView1.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listView1.Location = new System.Drawing.Point(0, 93);
+            this.listView1.Location = new System.Drawing.Point(0, 104);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(310, 320);
+            this.listView1.Size = new System.Drawing.Size(310, 309);
             this.listView1.SmallImageList = this.imageList1;
             this.listView1.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listView1.TabIndex = 1;
@@ -432,10 +630,15 @@
             this.TPasswordOld.TabIndex = 7;
             this.TPasswordOld.UseSystemPasswordChar = true;
             // 
-            // timer1
+            // timerIAM
             // 
-            this.timer1.Interval = 60000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timerIAM.Interval = 60000;
+            this.timerIAM.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // timerConv
+            // 
+            this.timerConv.Interval = 200;
+            this.timerConv.Tick += new System.EventHandler(this.timerConv_Tick);
             // 
             // SecConv
             // 
@@ -454,6 +657,9 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.tabPage1.ResumeLayout(false);
+            this.gBCallOut.ResumeLayout(false);
+            this.gBCallIn.ResumeLayout(false);
+            this.gbConv.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
@@ -499,6 +705,21 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader IP;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timerIAM;
+        public System.Windows.Forms.GroupBox gBCallOut;
+        private System.Windows.Forms.Label LInfoCallOut;
+        private System.Windows.Forms.Label LUserCallOut;
+        private System.Windows.Forms.Button BCancel;
+        public System.Windows.Forms.GroupBox gBCallIn;
+        private System.Windows.Forms.Label LInfoCallIn;
+        public System.Windows.Forms.Label LUserCallIn;
+        private System.Windows.Forms.Button BDecline;
+        private System.Windows.Forms.Button BAccept;
+        public System.Windows.Forms.GroupBox gbConv;
+        private System.Windows.Forms.Label LTimeConv;
+        private System.Windows.Forms.Label LInfoConv;
+        private System.Windows.Forms.Button BDisconnect;
+        public System.Windows.Forms.Label LUserConv;
+        public System.Windows.Forms.Timer timerConv;
     }
 }

@@ -57,18 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CallIn.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CallIn.Designer.cs">
-      <DependentUpon>CallIn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CallOut.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CallOut.Designer.cs">
-      <DependentUpon>CallOut.cs</DependentUpon>
-    </Compile>
     <Compile Include="Communique.cs" />
     <Compile Include="Conv.cs">
       <SubType>Form</SubType>
@@ -98,12 +86,6 @@
     </Compile>
     <Compile Include="SynchronousClient.cs" />
     <Compile Include="Voice.cs" />
-    <EmbeddedResource Include="CallIn.resx">
-      <DependentUpon>CallIn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CallOut.resx">
-      <DependentUpon>CallOut.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Conv.resx">
       <DependentUpon>Conv.cs</DependentUpon>
     </EmbeddedResource>

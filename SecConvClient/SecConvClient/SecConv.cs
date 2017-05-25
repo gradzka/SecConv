@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,6 +17,10 @@ namespace SecConvClient
     public partial class SecConv : Form
     {
         Thread commThread;
+        public EndPoint callerEndPoint;
+        public DateTime begin;
+        DateTime end;
+
         void waitForCommuniques()
         {
             Thread.Sleep(200);
@@ -45,7 +50,7 @@ namespace SecConvClient
             this.Text = Program.userLogin + " - SecConv";
             commThread = new Thread(waitForCommuniques);
             commThread.Start();
-            timer1.Start();
+            timerIAM.Start();
         }
 
         private void BCall_Click(object sender, EventArgs e)
@@ -69,6 +74,8 @@ namespace SecConvClient
             }
             else
             {
+                LUserCallOut.Text = "z " + listView1.SelectedItems[0].Text.ToString();
+                gBCallOut.Visible = true;
                 Program.voice.Call();
             }
         }
@@ -215,7 +222,7 @@ namespace SecConvClient
 
         private void SecConv_FormClosed(object sender, FormClosedEventArgs e)
         {
-            timer1.Stop();
+            timerIAM.Stop();
             if (commThread.IsAlive)
             {
                 Program.client.Disconnect();
@@ -253,6 +260,35 @@ namespace SecConvClient
                            "Monika Grądzka:\t https://github.com/gradzka \n" +
                            "Robert Kazimierczak:\t https://github.com/kazimierczak-robert",
                            "Autorzy projektu");
+        }
+
+        private void BCancel_Click(object sender, EventArgs e)
+        {
+            Program.voice.CancelCall();
+        }
+
+        private void BAccept_Click(object sender, EventArgs e)
+        {
+            Program.voice.AcceptCall(callerEndPoint);
+        }
+
+        private void BDecline_Click(object sender, EventArgs e)
+        {
+            Program.voice.DeclineCall(callerEndPoint);
+            gBCallIn.Visible = false;
+        }
+
+        private void BDisconnect_Click(object sender, EventArgs e)
+        {
+            end = DateTime.UtcNow;
+            timerConv.Stop();
+            Program.voice.DropCall();
+        }
+
+        private void timerConv_Tick(object sender, EventArgs e)
+        {
+            end = DateTime.UtcNow;
+            LTimeConv.Text = (end - begin).Hours.ToString().PadLeft(2, '0') + ":" + (end - begin).Minutes.ToString().PadLeft(2, '0') + ":" + (end - begin).Seconds.ToString().PadLeft(2, '0');
         }
     }
 
