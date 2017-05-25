@@ -6,12 +6,41 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Timers;
 
 //https://msdn.microsoft.com/pl-pl/library/fx6588te(v=vs.110).aspx
 namespace SecConvServer
 {
     class AsynchronousSocketListener
     {
+        private static System.Timers.Timer aTimer;
+        private static void SetTimer()
+        {
+            // Create a timer with a two second interval.
+            aTimer = new System.Timers.Timer(60000);
+            // Hook up the Elapsed event for the timer. 
+            aTimer.Elapsed += OnTimedEvent;
+            aTimer.AutoReset = true;
+            aTimer.Enabled = true;
+        }
+
+        private static void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            DateTime time = DateTime.Now;
+            List<long> usersIDToRemove = new List<long>();
+            foreach (var item in Program.onlineUsers)
+            {
+                if((time - item.Value.iAM).TotalSeconds>60)
+                {
+                    //Program.onlineUsers.Remove(item.Key);
+                    usersIDToRemove.Add(item.Key);
+                }
+            }
+            foreach (var item in usersIDToRemove)
+            {
+                Program.onlineUsers.Remove(item);
+            }
+        }
         // Thread signal.
         public static ManualResetEvent allDone = new ManualResetEvent(false);
 
@@ -38,6 +67,7 @@ namespace SecConvServer
                 listener.Listen(100);
 
                 Console.WriteLine("Server is running...");
+                SetTimer();
                 while (true)
                 {
                     // Set the event to nonsignaled state.
