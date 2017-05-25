@@ -62,6 +62,7 @@
             this.TPassword1 = new System.Windows.Forms.TextBox();
             this.TPasswordOld = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.toolStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -444,6 +445,11 @@
             this.TPasswordOld.TabIndex = 7;
             this.TPasswordOld.UseSystemPasswordChar = true;
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 60000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // SecConv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -507,5 +513,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader IP;
+        private System.Windows.Forms.Timer timer1;
     }
 }

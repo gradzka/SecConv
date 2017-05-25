@@ -38,6 +38,7 @@ namespace SecConvClient
             this.Text = Program.userLogin + " - SecConv";
             commThread = new Thread(waitForCommuniques);
             commThread.Start();
+            timer1.Start();
         }
 
         private void BCall_Click(object sender, EventArgs e)
@@ -48,7 +49,10 @@ namespace SecConvClient
             }
             else if (listView1.SelectedItems[0].ImageIndex==0)
             {
-                MessageBox.Show("Znajomy nie jest dostępny!", "Błąd!");
+                Program.client = new SynchronousClient(Program.serverAddress);
+                Communique.CallState(Program.userLogin, listView1.SelectedItems[0].Text, DateTime.Now, TimeSpan.Zero);
+                MessageBox.Show("Znajomy nie jest dostępny! Wysłano powiadomienie o próbie nawiązania połączenia.", "Błąd!");
+                Program.client.Disconnect();
             }
             else
             {
@@ -70,21 +74,37 @@ namespace SecConvClient
             }
             else
             {
-                if (Communique.DelFriend(listView1.SelectedItems[0].Text) == true)
+                Program.client = new SynchronousClient(Program.serverAddress);
+                if (Communique.DelFriend(Program.userLogin, listView1.SelectedItems[0].Text) == true)
                 {
+                    MessageBox.Show("Pomyślnie usunięto " + listView1.SelectedItems[0].Text + " ze znajomych!", "Sukces!");
                     listView1.Items.Remove(listView1.SelectedItems[0]);
                     listView1.Refresh();
                 }
                 else
                 {
-                    MessageBox.Show("Nastąpił błąd podczas wylogowywania!", "Błąd!");
+                    MessageBox.Show("Nastąpił błąd podczas usuwania znajomego!", "Błąd!");
                 }
+                Program.client.Disconnect();
             }
         }
 
         private void BAddFriend_Click(object sender, EventArgs e)
         {
             string promptValue = Prompt.ShowDialog();
+            if (promptValue != "")
+            {
+                Program.client = new SynchronousClient(Program.serverAddress);
+                if (Communique.AddFriend(Program.userLogin, promptValue)==true)
+                {
+                    MessageBox.Show("Pomyślnie dodano " + promptValue + " do znajomych!", "Sukces!");
+                }
+                else
+                {
+                    MessageBox.Show("Nie znaleziono użytkownika o podanym loginie lub masz już go w znajomych!", "Błąd!");
+                }
+                Program.client.Disconnect();
+            }
         }
 
         private void BChangePassword_Click(object sender, EventArgs e)
@@ -143,6 +163,7 @@ namespace SecConvClient
         {
             try
             {
+                timer1.Stop();
                 if (commThread.IsAlive)
                 {
                     Program.client.Disconnect();
@@ -158,6 +179,13 @@ namespace SecConvClient
             {
                 MessageBox.Show("Problem z połączeniem z serwerem!", "Błąd!");
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Program.client = new SynchronousClient(Program.serverAddress);
+            Communique.Iam(Program.userLogin);
+            Program.client.Disconnect();
         }
     }
 
