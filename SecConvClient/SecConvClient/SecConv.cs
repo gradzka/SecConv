@@ -98,6 +98,10 @@ namespace SecConvClient
                 if (Communique.AddFriend(Program.userLogin, promptValue)==true)
                 {
                     MessageBox.Show("Pomyślnie dodano " + promptValue + " do znajomych!", "Sukces!");
+                    string[] friendDetails = { promptValue, "0" };
+                    ListViewItem friend = new ListViewItem(friendDetails, 0);
+                    Program.secConv.listView1.Items.Add(friend);
+                    listView1.Refresh();
                 }
                 else
                 {

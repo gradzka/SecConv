@@ -152,14 +152,15 @@ namespace SecConvClient
             string[] friends = messageFromServer.Split(' ');
             for (int i = 0; i < friends.Length / 2; i += 2)
             {
-                Program.secConv.listView1.Items[Program.secConv.listView1.Items.IndexOfKey(friends[i])].SubItems[1].Text = friends[i + 1];
+                int index = Program.secConv.listView1.FindItemWithText(friends[i]).Index;
+                Program.secConv.listView1.Items[index].SubItems[1].Text = friends[i + 1];
                 if (friends[i + 1] == "0")
                 {
-                    Program.secConv.listView1.Items[Program.secConv.listView1.Items.IndexOfKey(friends[i])].ImageIndex = 0;
+                    Program.secConv.listView1.Items[index].ImageIndex = 0;
                 }
                 else
                 {
-                    Program.secConv.listView1.Items[Program.secConv.listView1.Items.IndexOfKey(friends[i])].ImageIndex = 1;
+                    Program.secConv.listView1.Items[index].ImageIndex = 1;
                 }
             }
             Program.secConv.listView1.Refresh();
