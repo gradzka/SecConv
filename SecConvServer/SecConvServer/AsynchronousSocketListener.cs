@@ -129,7 +129,7 @@ namespace SecConvServer
                         }
                         {
                             Send(handler, Communique.LogIP(userID)); //data about friend
-                            Thread.Sleep(100);//miliseconds
+                            Thread.Sleep(250);//miliseconds
                             Send(handler, Communique.History(userID));//userID history
                         }
                     }

@@ -422,14 +422,13 @@ namespace SecConvServer
                                 message += "0 ";
                                 message += "0 ";
                             }
-                            message += "<EOF>";
-
                         }
                         else
                         {
                             return Fail();
                         }
                     }
+                    message += "<EOF>";
                     return message;
                 }
                 else

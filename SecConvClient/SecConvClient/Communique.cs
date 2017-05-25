@@ -118,7 +118,7 @@ namespace SecConvClient
         {
             string[] friends = messageFromServer.Split(' ');
             ListViewItem friend;
-            for (int i = 0; i < friends.Length/3; i+=3)
+            for (int i = 0; i < friends.Length-1; i+=3)
             {
                 //friends[i] login
                 //friends[i+1] status
@@ -141,16 +141,20 @@ namespace SecConvClient
         static void History(string messageFromServer)
         {
             string[] history = messageFromServer.Split(' ');
-            for (int i = 0; i < history.Length / 5; i++)
+            string[] historyDetails;
+            for (int i = 0; i < history.Length-1; i+=5)
             {
-                string[] historyDetails = { history[i], history[i + 1] + " " + history[i + 2],  history[i + 4] };
-                Program.secConv.listView2.Items.Add(new ListViewItem(historyDetails));
+                historyDetails = new string[3];
+                historyDetails[0] = history[i];
+                historyDetails[1] = history[i + 1] + " " + history[i + 2];
+                historyDetails[2] = history[i + 4] == "00:00:00"? "nieodebrane": history[i + 4];                 
+                Program.secConv.listView2.Items.Insert(0,new ListViewItem(historyDetails));
             }
         }
         static void StateChng(string messageFromServer)
         {
             string[] friends = messageFromServer.Split(' ');
-            for (int i = 0; i < friends.Length / 2; i += 2)
+            for (int i = 0; i < friends.Length-1; i += 2)
             {
                 int index = Program.secConv.listView1.FindItemWithText(friends[i]).Index;
                 Program.secConv.listView1.Items[index].SubItems[1].Text = friends[i + 1];

@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Register));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.TPassword1 = new System.Windows.Forms.TextBox();
             this.BRegister = new System.Windows.Forms.Button();
@@ -53,25 +52,12 @@
             // 
             this.toolStrip1.BackColor = System.Drawing.Color.Transparent;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton2,
             this.toolStripButton3});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(320, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton2.AutoToolTip = false;
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(49, 22);
-            this.toolStripButton2.Text = "Pomoc";
             // 
             // toolStripButton3
             // 
@@ -84,6 +70,7 @@
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(52, 22);
             this.toolStripButton3.Text = "Kontakt";
+            this.toolStripButton3.Click += new System.EventHandler(this.tSBContact_Click);
             // 
             // TPassword1
             // 
@@ -155,9 +142,10 @@
             this.BTipPass1.TabIndex = 11;
             this.BTipPass1.TabStop = false;
             this.BTipPass1.Text = "?";
-            this.toolTip1.SetToolTip(this.BTipPass1, "Wpisz hasło.\r\nHasło musi być conajmniej 8 znakowe\r\ni spełniać 1 z poniższych wyma" +
-        "gań:\r\n- 2 wielkie litery,\r\n- 2 małe litery,\r\n- 2 liczby,\r\n- 2 znaki specjalne.");
+            this.toolTip1.SetToolTip(this.BTipPass1, "Wpisz hasło.\r\nHasło musi być co najmniej 8 znakowe\r\ni spełniać poniższe wymagania" +
+        ":\r\n- minimum 1 cyfra,\r\n- minimum 1 wielka litera,\r\n- minimum 1 mała litera.");
             this.BTipPass1.UseVisualStyleBackColor = false;
+            this.BTipPass1.Click += new System.EventHandler(this.BTipPass1_Click);
             // 
             // BTipPass2
             // 
@@ -193,8 +181,8 @@
             // 
             // BBack
             // 
-            this.BBack.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.BBack.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.BBack.BackColor = System.Drawing.SystemColors.Highlight;
+            this.BBack.FlatAppearance.BorderColor = System.Drawing.SystemColors.Highlight;
             this.BBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BBack.Font = new System.Drawing.Font("Calibri", 11.25F);
             this.BBack.ForeColor = System.Drawing.SystemColors.ControlLightLight;
@@ -261,7 +249,6 @@
         #endregion
 
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.TextBox TPassword1;
         private System.Windows.Forms.Button BRegister;

@@ -51,5 +51,13 @@ namespace SecConvClient
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
+
+        private void tSBContact_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                           "Monika Grądzka:\t https://github.com/gradzka \n" +
+                           "Robert Kazimierczak:\t https://github.com/kazimierczak-robert",
+                           "Autorzy projektu");
+        }
     }
 }

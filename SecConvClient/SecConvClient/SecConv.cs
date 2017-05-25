@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,6 +18,7 @@ namespace SecConvClient
         Thread commThread;
         void waitForCommuniques()
         {
+            Thread.Sleep(200);
             string response = String.Empty;
             int numberOfComm = 0;
             while (numberOfComm<2)
@@ -50,8 +52,14 @@ namespace SecConvClient
             else if (listView1.SelectedItems[0].ImageIndex==0)
             {
                 Program.client = new SynchronousClient(Program.serverAddress);
-                Communique.CallState(Program.userLogin, listView1.SelectedItems[0].Text, DateTime.Now, TimeSpan.Zero);
-                MessageBox.Show("Znajomy nie jest dostępny! Wysłano powiadomienie o próbie nawiązania połączenia.", "Błąd!");
+                Communique.CallState(Program.userLogin, listView1.SelectedItems[0].Text, DateTime.Now, TimeSpan.Zero);            
+                string[] historyDetails=new string[3];
+                historyDetails[0] = listView1.SelectedItems[0].Text;
+                historyDetails[1] = DateTime.Now.ToString();
+                historyDetails[2] = "nieodebrane";
+                listView2.Items.Insert(0,(new ListViewItem(historyDetails)));
+                listView2.Refresh();
+                MessageBox.Show("Znajomy nie jest dostępny! Wysłano powiadomienie o próbie nawiązania połączenia.", "Niedostępny znajomy!");
                 Program.client.Disconnect();
             }
             else
@@ -92,7 +100,7 @@ namespace SecConvClient
         private void BAddFriend_Click(object sender, EventArgs e)
         {
             string promptValue = Prompt.ShowDialog();
-            if (promptValue != "")
+            if (promptValue != "" && promptValue!=Program.userLogin)
             {
                 Program.client = new SynchronousClient(Program.serverAddress);
                 if (Communique.AddFriend(Program.userLogin, promptValue)==true)
@@ -123,18 +131,27 @@ namespace SecConvClient
             }
             else
             {
-                Program.client = new SynchronousClient(Program.serverAddress);
-                if (Communique.PassChng(Program.userLogin, TPasswordOld.Text, TPassword1.Text) == true)
+                Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$");
+                Match match = regex.Match(TPassword1.Text);
+                if (match.Success)
                 {
-                    MessageBox.Show("Zmiana hasła przebiegła pomyślnie!\nZaloguj się ponownie!", "Sukces!");
-                    DialogResult = DialogResult.No;
-                    Program.client.Disconnect(); 
-                    this.Close();
+                    Program.client = new SynchronousClient(Program.serverAddress);
+                    if (Communique.PassChng(Program.userLogin, TPasswordOld.Text, TPassword1.Text) == true)
+                    {
+                        MessageBox.Show("Zmiana hasła przebiegła pomyślnie!\nZaloguj się ponownie!", "Sukces!");
+                        DialogResult = DialogResult.No;
+                        Program.client.Disconnect();
+                        this.Close();
+                    }
+                    else
+                    {
+                        Program.client.Disconnect();
+                        MessageBox.Show("Stare hasło jest niepoprawne!", "Błąd!");
+                    }
                 }
                 else
                 {
-                    Program.client.Disconnect();
-                    MessageBox.Show("Stare hasło jest niepoprawne!", "Błąd!");
+                    MessageBox.Show("Hasło nie spełnia kryteriów!", "Błąd!");
                 }
             }
         }
@@ -190,6 +207,14 @@ namespace SecConvClient
             Program.client = new SynchronousClient(Program.serverAddress);
             Communique.Iam(Program.userLogin);
             Program.client.Disconnect();
+        }
+
+        private void tSBContact_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                           "Monika Grądzka:\t https://github.com/gradzka \n" +
+                           "Robert Kazimierczak:\t https://github.com/kazimierczak-robert",
+                           "Autorzy projektu");
         }
     }
 

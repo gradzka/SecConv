@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.Sockets;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SecConvClient
@@ -28,18 +29,27 @@ namespace SecConvClient
             }
             else
             {
-                Program.client = new SynchronousClient(TServerIP.Text);
-                if (Communique.Register(TLogin.Text, TPassword1.Text) == true)
+                Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$");
+                Match match = regex.Match(TPassword1.Text);
+                if (match.Success)
                 {
-                    MessageBox.Show("Rejestracja użytkownika " + TLogin.Text + " przebiegła pomyślnie!", "Sukces!");
-                    this.DialogResult = DialogResult.No;
-                    this.Close();
+                    Program.client = new SynchronousClient(TServerIP.Text);
+                    if (Communique.Register(TLogin.Text, TPassword1.Text) == true)
+                    {
+                        MessageBox.Show("Rejestracja użytkownika " + TLogin.Text + " przebiegła pomyślnie!", "Sukces!");
+                        this.DialogResult = DialogResult.No;
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Podany login jest już zajęty!", "Błąd!");
+                        Program.client.Disconnect();
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Podany login jest już zajęty!", "Błąd!");
-                }
-                Program.client.Disconnect();
+                    MessageBox.Show("Hasło nie spełnia kryteriów!", "Błąd!");
+                }        
                 /* }
                  catch (SocketException)
                  {
@@ -55,6 +65,19 @@ namespace SecConvClient
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tSBContact_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                           "Monika Grądzka:\t https://github.com/gradzka \n" +
+                           "Robert Kazimierczak:\t https://github.com/kazimierczak-robert",
+                           "Autorzy projektu");
+        }
+
+        private void BTipPass1_Click(object sender, EventArgs e)
         {
 
         }

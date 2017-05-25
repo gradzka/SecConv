@@ -32,8 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecConv));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.tSBContact = new System.Windows.Forms.ToolStripButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.BDeleteFriend = new System.Windows.Forms.Button();
             this.BAddFriend = new System.Windows.Forms.Button();
@@ -77,8 +76,7 @@
             this.toolStrip1.BackColor = System.Drawing.Color.Transparent;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
-            this.toolStripButton2,
-            this.toolStripButton3});
+            this.tSBContact});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(319, 25);
@@ -98,33 +96,22 @@
             this.toolStripButton1.Text = "Wyloguj";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
-            // toolStripButton2
+            // tSBContact
             // 
-            this.toolStripButton2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton2.AutoToolTip = false;
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.ForeColor = System.Drawing.Color.Black;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(49, 22);
-            this.toolStripButton2.Text = "Pomoc";
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton3.AutoToolTip = false;
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton3.ForeColor = System.Drawing.Color.Black;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(52, 22);
-            this.toolStripButton3.Text = "Kontakt";
+            this.tSBContact.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tSBContact.AutoToolTip = false;
+            this.tSBContact.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tSBContact.ForeColor = System.Drawing.Color.Black;
+            this.tSBContact.Image = ((System.Drawing.Image)(resources.GetObject("tSBContact.Image")));
+            this.tSBContact.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tSBContact.Name = "tSBContact";
+            this.tSBContact.Size = new System.Drawing.Size(52, 22);
+            this.tSBContact.Text = "Kontakt";
+            this.tSBContact.Click += new System.EventHandler(this.tSBContact_Click);
             // 
             // tabPage1
             // 
-            this.tabPage1.BackColor = System.Drawing.Color.SeaShell;
+            this.tabPage1.BackColor = System.Drawing.Color.White;
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabPage1.Controls.Add(this.BDeleteFriend);
             this.tabPage1.Controls.Add(this.BAddFriend);
@@ -174,7 +161,7 @@
             // 
             // listView1
             // 
-            this.listView1.BackColor = System.Drawing.Color.SeaShell;
+            this.listView1.BackColor = System.Drawing.Color.White;
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Login,
@@ -221,7 +208,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.BackColor = System.Drawing.Color.SeaShell;
+            this.tabPage2.BackColor = System.Drawing.Color.White;
             this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabPage2.Controls.Add(this.listView2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -233,7 +220,7 @@
             // 
             // listView2
             // 
-            this.listView2.BackColor = System.Drawing.Color.SeaShell;
+            this.listView2.BackColor = System.Drawing.Color.White;
             this.listView2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
@@ -253,7 +240,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Znajomy";
-            this.columnHeader1.Width = 95;
+            this.columnHeader1.Width = 96;
             // 
             // columnHeader3
             // 
@@ -268,7 +255,7 @@
             // tabPage3
             // 
             this.tabPage3.AutoScroll = true;
-            this.tabPage3.BackColor = System.Drawing.Color.SeaShell;
+            this.tabPage3.BackColor = System.Drawing.Color.White;
             this.tabPage3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabPage3.Controls.Add(this.groupBox2);
             this.tabPage3.Controls.Add(this.groupBox1);
@@ -397,9 +384,9 @@
             this.button3.TabIndex = 13;
             this.button3.TabStop = false;
             this.button3.Text = "?";
-            this.toolTip1.SetToolTip(this.button3, "Wpisz nowe hasło.\r\nHasło musi być conajmniej 8 znakowe\r\ni spełniać 1 z poniższych" +
-        " wymagań:\r\n- 2 wielkie litery,\r\n- 2 małe litery,\r\n- 2 liczby,\r\n- 2 znaki specjal" +
-        "ne.");
+            this.toolTip1.SetToolTip(this.button3, "Wpisz nowe hasło.\r\nHasło musi być co najmniej 8 znakowe\r\ni spełniać poniższe wyma" +
+        "gania:\r\n- minimum 1 cyfra,\r\n- minimum 1 wielka litera,\r\n- minimum 1 mała litera." +
+        "");
             this.button3.UseVisualStyleBackColor = false;
             // 
             // BTipPass1
@@ -482,8 +469,7 @@
         #endregion
 
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton tSBContact;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabControl tabControl1;
