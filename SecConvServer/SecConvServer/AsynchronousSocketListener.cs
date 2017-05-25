@@ -114,7 +114,7 @@ namespace SecConvServer
                     content = Communique.ChooseCommunique(content, handler);
                     // Echo the data back to the client.
 
-                    if (bits8 != 2)
+                    if (bits8 != 2 && bits8!=11)
                     {
                         Send(handler, content);
                     }

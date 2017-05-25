@@ -84,8 +84,20 @@ namespace SecConvServer
                     connectedClient.login = login;
                     connectedClient.iAM = DateTime.Now;
                     connectedClient.addressIP = ((IPEndPoint)client.RemoteEndPoint).Address.ToString();
+                    connectedClient.friendWithChangedState = new Dictionary<string, string>();
                     //add to dictionary
                     Program.onlineUsers[user.UserID] = connectedClient;
+                    //find people who have friend that is logged in
+                    var friends = ctx.Friends.Where(x => x.UserID2 == user.UserID).Select(x => x.UserID1);
+                    //wyszukaj znajomych w slowniku online i dodaj/zmień w słowniku adres IP
+                    foreach (var item in friends)
+                    {
+                        if (Program.onlineUsers.ContainsKey(item))
+                        {
+                            Program.onlineUsers[item].friendWithChangedState[login] = connectedClient.addressIP;
+                        }
+                    }
+
                     return OK();
                 }
                 else
@@ -109,6 +121,16 @@ namespace SecConvServer
                         Program.onlineUsers.Remove(userToLogOut.UserID); //delete from dictionary
                         ctx.Entry(userToLogOut).State = System.Data.Entity.EntityState.Modified;
                         ctx.SaveChanges();
+                        //find people who have friend that is logged in
+                        var friends = ctx.Friends.Where(x => x.UserID2 == userToLogOut.UserID).Select(x => x.UserID1);
+                        //wyszukaj znajomych w slowniku online i dodaj/zmień w słowniku adres IP
+                        foreach (var item in friends)
+                        {
+                            if (Program.onlineUsers.ContainsKey(item))
+                            {
+                                Program.onlineUsers[item].friendWithChangedState[login] = "0";
+                            }
+                        }
                     }
                     catch (DbUpdateConcurrencyException)
                     {
@@ -214,18 +236,28 @@ namespace SecConvServer
                 var userID1 = ctx.Users.Where(x => x.Login == login1).Select(x => x.UserID).FirstOrDefault();
                 if (userID1!=0)
                 {
-                    var userID2 = ctx.Users.Where(x => x.Login == login2).Select(x=>x.UserID).FirstOrDefault();
-                    if (userID2!=0)
+                    var user2 = ctx.Users.Where(x => x.Login == login2).Select(x=>new { x.UserID, x.Login }).FirstOrDefault();
+                    if (user2.UserID!=0)
                     {
-                        var acq = ctx.Friends.Where(x => x.UserID1 == userID1 && x.UserID2 == userID2).FirstOrDefault();
+                        var acq = ctx.Friends.Where(x => x.UserID1 == userID1 && x.UserID2 == user2.UserID).FirstOrDefault();
                         if (acq == null)
                         {
                             acquaintance.UserID1 = userID1;
-                            acquaintance.UserID2 = userID2;
+                            acquaintance.UserID2 = user2.UserID;
                             try
                             {
                                 ctx.Friends.Add(acquaintance);
                                 ctx.SaveChanges();
+                                string acqLogin = user2.Login;
+                                if (Program.onlineUsers.ContainsKey(user2.UserID))
+                                {
+                                    Program.onlineUsers[userID1].friendWithChangedState.Add(acqLogin, Program.onlineUsers[user2.UserID].addressIP);
+                                }
+                                else
+                                {
+                                    Program.onlineUsers[userID1].friendWithChangedState.Add(acqLogin, "0");
+                                }
+                                
                             }
                             catch (DbUpdateConcurrencyException)
                             {
@@ -259,14 +291,15 @@ namespace SecConvServer
                 var userLoggedInID1 = ctx.Users.Where(x => x.Login == login1).Select(x => x.UserID).FirstOrDefault();
                 if (userLoggedInID1!=0)
                 {
-                    var user1FriendID = ctx.Users.Where(x => x.Login == login2).Select(x => x.UserID).FirstOrDefault();
-                    if (user1FriendID!=0)
+                    var user1Friend = ctx.Users.Where(x => x.Login == login2).Select(x => new { x.UserID, x.Login }).FirstOrDefault();
+                    if (user1Friend.UserID!=0)
                     {
-                        var friend = ctx.Friends.Where(x => x.UserID1 == userLoggedInID1 && x.UserID2 == user1FriendID).FirstOrDefault();
+                        var friend = ctx.Friends.Where(x => x.UserID1 == userLoggedInID1 && x.UserID2 == user1Friend.UserID).FirstOrDefault();
                         ctx.Entry(friend).State = System.Data.Entity.EntityState.Deleted;
                         try
-                        {
+                        {           
                             ctx.SaveChanges();
+                            Program.onlineUsers[userLoggedInID1].friendWithChangedState.Remove(user1Friend.Login);
                         }
                         catch (DbUpdateConcurrencyException)
                         {
@@ -345,10 +378,11 @@ namespace SecConvServer
                 var user = ctx.Users.Where(x => x.Login == login).FirstOrDefault();
                 if (user != null)
                 {
-                    Program.onlineUsers[user.UserID].iAM=DateTime.Now;
+                    Program.onlineUsers[user.UserID].iAM = DateTime.Now;
                 }
+
+                return StateChng(user.UserID);
             }
-            return "1";            
         }
         //Outgoing messages
         public static string OK()
@@ -437,16 +471,22 @@ namespace SecConvServer
                 return history+"<EOF>";
             }
         }
-        public static void StateChng(long userID) //ma byc pomocnicza //wyslac do innych 14
+        public static string StateChng(long userID)
         {
-            //delete from dictionary
-            if (Program.onlineUsers.ContainsKey(userID))
+            //delete from dictionary if user who is in dictionary change state
+            //if (Program.onlineUsers.ContainsKey(userID))
+            //{
+            //    Program.onlineUsers.Remove(userID);
+            //}
+            string message = (char)14 + " ";//zwróć cały słownik jako string
+            foreach (var item in Program.onlineUsers[userID].friendWithChangedState)
             {
-                Program.onlineUsers.Remove(userID);
+                message += item.Key + " " + item.Value + " ";
             }
+            message += "<EOF>";
+            Program.onlineUsers[userID].friendWithChangedState.Clear();//remove elements from dictionary
 
-            //informa everybody that this person log out
-            
+            return message;
         }
 
         public static string ChooseCommunique(string message, Socket client)
