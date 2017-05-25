@@ -23,12 +23,17 @@ namespace SecConvClient
             int numberOfComm = 0;
             while (numberOfComm<2)
             {
-                response=Program.client.Receive();
-                if (response.Length > 0)
+                try
                 {
-                    Communique.commFromServer(response);
-                    numberOfComm++;
+                    response = Program.client.Receive();
+                    if (response.Length > 0)
+                    {
+                        Communique.commFromServer(response);
+                        numberOfComm++;
+                    }
                 }
+                catch (Exception)
+                {  }
             }
             Thread.Sleep(1000);
             Program.client.Disconnect();
@@ -82,18 +87,25 @@ namespace SecConvClient
             }
             else
             {
-                Program.client = new SynchronousClient(Program.serverAddress);
-                if (Communique.DelFriend(Program.userLogin, listView1.SelectedItems[0].Text) == true)
+                try
                 {
-                    MessageBox.Show("Pomyślnie usunięto " + listView1.SelectedItems[0].Text + " ze znajomych!", "Sukces!");
-                    listView1.Items.Remove(listView1.SelectedItems[0]);
-                    listView1.Refresh();
+                    Program.client = new SynchronousClient(Program.serverAddress);
+                    if (Communique.DelFriend(Program.userLogin, listView1.SelectedItems[0].Text) == true)
+                    {
+                        MessageBox.Show("Pomyślnie usunięto " + listView1.SelectedItems[0].Text + " ze znajomych!", "Sukces!");
+                        listView1.Items.Remove(listView1.SelectedItems[0]);
+                        listView1.Refresh();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nastąpił błąd podczas usuwania znajomego!", "Błąd!");
+                    }
+                    Program.client.Disconnect();
                 }
-                else
+                catch (Exception)
                 {
-                    MessageBox.Show("Nastąpił błąd podczas usuwania znajomego!", "Błąd!");
+                    MessageBox.Show("Problem z połączeniem z serwerem!", "Błąd!");
                 }
-                Program.client.Disconnect();
             }
         }
 
@@ -102,20 +114,27 @@ namespace SecConvClient
             string promptValue = Prompt.ShowDialog();
             if (promptValue != "" && promptValue!=Program.userLogin)
             {
-                Program.client = new SynchronousClient(Program.serverAddress);
-                if (Communique.AddFriend(Program.userLogin, promptValue)==true)
+                try
                 {
-                    MessageBox.Show("Pomyślnie dodano " + promptValue + " do znajomych!", "Sukces!");
-                    string[] friendDetails = { promptValue, "0" };
-                    ListViewItem friend = new ListViewItem(friendDetails, 0);
-                    Program.secConv.listView1.Items.Add(friend);
-                    listView1.Refresh();
+                    Program.client = new SynchronousClient(Program.serverAddress);
+                    if (Communique.AddFriend(Program.userLogin, promptValue) == true)
+                    {
+                        MessageBox.Show("Pomyślnie dodano " + promptValue + " do znajomych!", "Sukces!");
+                        string[] friendDetails = { promptValue, "0" };
+                        ListViewItem friend = new ListViewItem(friendDetails, 0);
+                        Program.secConv.listView1.Items.Add(friend);
+                        listView1.Refresh();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nie znaleziono użytkownika o podanym loginie lub masz już go w znajomych!", "Błąd!");
+                    }
+                    Program.client.Disconnect();
                 }
-                else
+                catch (Exception)
                 {
-                    MessageBox.Show("Nie znaleziono użytkownika o podanym loginie lub masz już go w znajomych!", "Błąd!");
+                    MessageBox.Show("Problem z połączeniem z serwerem!", "Błąd!");
                 }
-                Program.client.Disconnect();
             }
         }
 
@@ -135,18 +154,25 @@ namespace SecConvClient
                 Match match = regex.Match(TPassword1.Text);
                 if (match.Success)
                 {
-                    Program.client = new SynchronousClient(Program.serverAddress);
-                    if (Communique.PassChng(Program.userLogin, TPasswordOld.Text, TPassword1.Text) == true)
+                    try
                     {
-                        MessageBox.Show("Zmiana hasła przebiegła pomyślnie!\nZaloguj się ponownie!", "Sukces!");
-                        DialogResult = DialogResult.No;
-                        Program.client.Disconnect();
-                        this.Close();
+                        Program.client = new SynchronousClient(Program.serverAddress);
+                        if (Communique.PassChng(Program.userLogin, TPasswordOld.Text, TPassword1.Text) == true)
+                        {
+                            MessageBox.Show("Zmiana hasła przebiegła pomyślnie!\nZaloguj się ponownie!", "Sukces!");
+                            DialogResult = DialogResult.No;
+                            Program.client.Disconnect();
+                            this.Close();
+                        }
+                        else
+                        {
+                            Program.client.Disconnect();
+                            MessageBox.Show("Stare hasło jest niepoprawne!", "Błąd!");
+                        }
                     }
-                    else
+                    catch (Exception)
                     {
-                        Program.client.Disconnect();
-                        MessageBox.Show("Stare hasło jest niepoprawne!", "Błąd!");
+                        MessageBox.Show("Problem z połączeniem z serwerem!", "Błąd!");
                     }
                 }
                 else
@@ -164,49 +190,61 @@ namespace SecConvClient
             }
             else
             {
-                Program.client = new SynchronousClient(Program.serverAddress);
-                if (Communique.AccDel(Program.userLogin, TPassword.Text) == true)
+                try
                 {
-                    MessageBox.Show("Usunięcie konta użytkownika " + Program.userLogin + " przebiegła pomyślnie!", "Sukces!");
-                    DialogResult = DialogResult.No;
-                    Program.client.Disconnect();
-                    this.Close();
+                    Program.client = new SynchronousClient(Program.serverAddress);
+                    if (Communique.AccDel(Program.userLogin, TPassword.Text) == true)
+                    {
+                        MessageBox.Show("Usunięcie konta użytkownika " + Program.userLogin + " przebiegła pomyślnie!", "Sukces!");
+                        DialogResult = DialogResult.No;
+                        Program.client.Disconnect();
+                        this.Close();
+                    }
+                    else
+                    {
+                        Program.client.Disconnect();
+                        MessageBox.Show("Podane dane logowania są niepoprawne!", "Błąd!");
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Program.client.Disconnect();
-                    MessageBox.Show("Podane dane logowania są niepoprawne!", "Błąd!");
+                    MessageBox.Show("Problem z połączeniem z serwerem!", "Błąd!");
                 }
             }
         }
 
         private void SecConv_FormClosed(object sender, FormClosedEventArgs e)
         {
+            timer1.Stop();
+            if (commThread.IsAlive)
+            {
+                Program.client.Disconnect();
+                commThread.Abort();
+            }
             try
             {
-                timer1.Stop();
-                if (commThread.IsAlive)
-                {
-                    Program.client.Disconnect();
-                    commThread.Abort();
-                }
                 Program.client = new SynchronousClient(Program.serverAddress);
                 Communique.LogOut(Program.userLogin);
-                Program.userLogin = "";
-                Program.serverAddress = "";
                 Program.client.Disconnect();               
             }
-            catch (SocketException)
+            catch (Exception)
             {
                 MessageBox.Show("Problem z połączeniem z serwerem!", "Błąd!");
             }
+            Program.userLogin = "";
+            Program.serverAddress = "";
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            Program.client = new SynchronousClient(Program.serverAddress);
-            Communique.Iam(Program.userLogin);
-            Program.client.Disconnect();
+            try
+            {
+                Program.client = new SynchronousClient(Program.serverAddress);
+                Communique.Iam(Program.userLogin);
+                Program.client.Disconnect();
+            }
+            catch (Exception)
+            {  }
         }
 
         private void tSBContact_Click(object sender, EventArgs e)

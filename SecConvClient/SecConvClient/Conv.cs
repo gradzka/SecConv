@@ -12,14 +12,28 @@ namespace SecConvClient
 {
     public partial class Conv : Form
     {
-        public Conv()
+        DateTime begin;
+        DateTime end = DateTime.UtcNow;
+        public Conv(string login)
         {
             InitializeComponent();
+            begin = DateTime.UtcNow;
+            timer1.Start();
+            LUser.Text = login;
         }
 
         private void BDisconnect_Click(object sender, EventArgs e)
         {
-            Program.voice.DropCall();
+            end = DateTime.UtcNow;
+            timer1.Stop();
+            this.DialogResult = DialogResult.No;
+            Program.voice.DropCall();       
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            end = DateTime.UtcNow;
+            LTime.Text = (end - begin).Hours.ToString().PadLeft(2,'0') + ":" + (end - begin).Minutes.ToString().PadLeft(2, '0') + ":" + (end - begin).Seconds.ToString().PadLeft(2, '0');
         }
     }
 }

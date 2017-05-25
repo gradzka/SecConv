@@ -33,28 +33,31 @@ namespace SecConvClient
                 Match match = regex.Match(TPassword1.Text);
                 if (match.Success)
                 {
-                    Program.client = new SynchronousClient(TServerIP.Text);
-                    if (Communique.Register(TLogin.Text, TPassword1.Text) == true)
+                    try
                     {
-                        MessageBox.Show("Rejestracja użytkownika " + TLogin.Text + " przebiegła pomyślnie!", "Sukces!");
-                        this.DialogResult = DialogResult.No;
-                        this.Close();
+                        Program.client = new SynchronousClient(TServerIP.Text);
+                        if (Communique.Register(TLogin.Text, TPassword1.Text) == true)
+                        {
+                            MessageBox.Show("Rejestracja użytkownika " + TLogin.Text + " przebiegła pomyślnie!", "Sukces!");
+                            this.DialogResult = DialogResult.No;
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Podany login jest już zajęty!", "Błąd!");
+                            Program.client.Disconnect();
+                        }
                     }
-                    else
+                    catch (Exception)
                     {
-                        MessageBox.Show("Podany login jest już zajęty!", "Błąd!");
-                        Program.client.Disconnect();
+                        MessageBox.Show("Problem z połączeniem z serwerem lub adres jest niepoprawny!", "Błąd!");
                     }
                 }
                 else
                 {
                     MessageBox.Show("Hasło nie spełnia kryteriów!", "Błąd!");
                 }        
-                /* }
-                 catch (SocketException)
-                 {
-
-                 }*/
+                
             }
         }
 
@@ -64,10 +67,6 @@ namespace SecConvClient
             this.Close();
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
 
         private void tSBContact_Click(object sender, EventArgs e)
         {
@@ -75,11 +74,6 @@ namespace SecConvClient
                            "Monika Grądzka:\t https://github.com/gradzka \n" +
                            "Robert Kazimierczak:\t https://github.com/kazimierczak-robert",
                            "Autorzy projektu");
-        }
-
-        private void BTipPass1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

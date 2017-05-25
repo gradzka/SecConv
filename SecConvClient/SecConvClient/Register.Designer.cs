@@ -145,7 +145,6 @@
             this.toolTip1.SetToolTip(this.BTipPass1, "Wpisz hasło.\r\nHasło musi być co najmniej 8 znakowe\r\ni spełniać poniższe wymagania" +
         ":\r\n- minimum 1 cyfra,\r\n- minimum 1 wielka litera,\r\n- minimum 1 mała litera.");
             this.BTipPass1.UseVisualStyleBackColor = false;
-            this.BTipPass1.Click += new System.EventHandler(this.BTipPass1_Click);
             // 
             // BTipPass2
             // 
@@ -218,7 +217,6 @@
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "DANE REJESTRACJI";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // Register
             // 

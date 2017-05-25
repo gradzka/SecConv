@@ -9,7 +9,6 @@ using System.Windows.Forms;
 
 namespace SecConvClient
 {
-
     class Communique
     {
         static bool Response(char answer)
@@ -170,7 +169,6 @@ namespace SecConvClient
             Program.secConv.listView1.Refresh();
             //friend[i] login
             //friend[i+1] IP
-
         }
     }
 }

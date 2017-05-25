@@ -39,7 +39,7 @@ namespace SecConvClient
                         MessageBox.Show("Podane dane logowania są niepoprawne lub użytkownik jest już zalogowany!", "Błąd!");
                     }
                 }
-                catch (SocketException)
+                catch (Exception)
                 {
                     MessageBox.Show("Problem z połączeniem z serwerem lub adres jest niepoprawny!", "Błąd!");
                 }

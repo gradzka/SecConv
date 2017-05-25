@@ -35,6 +35,7 @@ namespace SecConvClient
         private volatile int nUdpClientFlag;                 //Flag used to close the udpClient socket.
         CallOut callOut;
         CallIn callIN;
+        Conv conv;
 
         public Voice()
         {
@@ -88,7 +89,7 @@ namespace SecConvClient
                 clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 clientSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
                 EndPoint ourEP = new IPEndPoint(IPAddress.Any, 14450);
-                //Listen asynchronously on port 1450 for coming messages (Invite, Bye, etc).
+                //Listen asynchronously on port 1450 for coming messages.
                 clientSocket.Bind(ourEP);
 
                 //Receive data from any IP.
@@ -103,16 +104,11 @@ namespace SecConvClient
                                            new AsyncCallback(OnReceive),
                                            null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "VoiceChat-Initialize ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Wystąpił problem z inicjalizacją obiektu Voice!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        /*private void btnCall_Click(object sender, EventArgs e)
-        {
-            Call();
-        }*/
 
         public void Call()
         {
@@ -142,16 +138,16 @@ namespace SecConvClient
                 char comm = (char)10;
                 string message = comm + " " + Program.userLogin +" "+ vocoder +" <EOF>";
                 SendMessage(message, otherPartyEP);
-                callOut = new CallOut(Program.secConv.listView1.SelectedItems[0].SubItems[0].Text.ToString());
+                callOut = new CallOut(Program.secConv.listView1.SelectedItems[0].Text.ToString());
                 if (callOut.ShowDialog(Program.secConv) == DialogResult.No)
                 { 
                     message = (char)6 + " <EOF>"; //FAIL
                     SendMessage(message, otherPartyEP);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "VoiceChat-Call ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Wystąpił problem z nawiązaniem połączenia!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -161,9 +157,9 @@ namespace SecConvClient
             {
                 clientSocket.EndSendTo(ar);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "VoiceChat-OnSend ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Wystąpił problem podczas wysyłania pakietów!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -201,14 +197,14 @@ namespace SecConvClient
                                 //if (MessageBox.Show("Call coming from " + msgReceived.strName + ".\r\n\r\nAccept it?",
                                 //   "VoiceChat", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                                 callIN = new CallIn(msgTable[1]);
-                                if (callIN.ShowDialog()== DialogResult.Yes)
+                                if (callIN.ShowDialog() == DialogResult.Yes)
                                 {
                                     msgTmp = (char)5 + " <EOF>";
                                     SendMessage(msgTmp, receivedFromEP);
                                     vocoder = Vocoder.None;//msgReceived.vocoder;
                                     otherPartyEP = receivedFromEP;
                                     otherPartyIP = (IPEndPoint)receivedFromEP;
-                                    InitializeCall();
+                                    InitializeCall(msgTable[1]);
                                 }
                                 else
                                 {
@@ -231,7 +227,7 @@ namespace SecConvClient
                         {
                             callOut.Close();
                             //Start a call.
-                            InitializeCall();
+                            InitializeCall(Program.secConv.listView1.SelectedItems[0].Text);
                             break;
                         }
 
@@ -268,9 +264,9 @@ namespace SecConvClient
                 //Get ready to receive more commands.
                 clientSocket.BeginReceiveFrom(byteData, 0, byteData.Length, SocketFlags.None, ref receivedFromEP, new AsyncCallback(OnReceive), null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "VoiceChat-OnReceive ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Wystąpił problem podczas odbierania pakietów!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -326,9 +322,9 @@ namespace SecConvClient
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "VoiceChat-Send ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Wystąpił problem podczas wysyłania pakietów!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -390,9 +386,9 @@ namespace SecConvClient
                     playbackBuffer.Play(0, BufferPlayFlags.Default);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "VoiceChat-Receive ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Wystąpił problem podczas odbierania pakietów!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -415,16 +411,12 @@ namespace SecConvClient
 
                 notify.SetNotificationPositions(new BufferPositionNotify[] { bufferPositionNotify1, bufferPositionNotify2 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "VoiceChat-CreateNotifyPositions ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Wystąpił problem podczas metody \"CreateNotifyPositions()\"!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        /*private void btnEndCall_Click(object sender, EventArgs e)
-        {
-            DropCall();
-        }*/
 
         private void UninitializeCall()
         {
@@ -446,13 +438,13 @@ namespace SecConvClient
                 SendMessage(message, otherPartyEP);
                 UninitializeCall();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "VoiceChat-DropCall ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Wystąpił problem podczas rozłączania!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void InitializeCall()
+        private void InitializeCall(string login)
         {
             try
             {
@@ -466,12 +458,18 @@ namespace SecConvClient
                 //Start the receiver and sender thread.
                 receiverThread.Start();
                 senderThread.Start();
-               /* btnCall.Enabled = false;
-                btnEndCall.Enabled = true;*/
+                /* btnCall.Enabled = false;
+                 btnEndCall.Enabled = true;*/
+
+                conv = new Conv(login);
+                if (conv.ShowDialog() == DialogResult.No)
+                {
+
+                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "VoiceChat-InitializeCall ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Wystąpił problem podczas inicjalizacji połączenia!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -497,9 +495,9 @@ namespace SecConvClient
                 //Send the message asynchronously.
                 clientSocket.BeginSendTo(msg, 0, message.Length, SocketFlags.None, sendToEP, new AsyncCallback(OnSend), null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "VoiceChat-SendMessage ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Wystąpił problem podczas wysyłania pakietów!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -513,16 +511,6 @@ namespace SecConvClient
             }
         }
     }
-
-    //The commands for interaction between the two parties.
-   /* enum Command
-    {
-        Invite, //Make a call.
-        Bye,    //End a call.
-        Busy,   //User busy.
-        OK,     //Response to an invite message. OK is send to indicate that call is accepted.
-        Null,   //No command.
-    }*/
 
     //Vocoder
     enum Vocoder
