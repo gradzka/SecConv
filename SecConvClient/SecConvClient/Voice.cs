@@ -210,8 +210,8 @@ namespace SecConvClient
                                 //if (MessageBox.Show("Call coming from " + msgReceived.strName + ".\r\n\r\nAccept it?",
                                 //   "VoiceChat", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 
-                                Program.secConv.gBCallIn.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = true; });
-                                Program.secConv.LUserCallIn.Invoke((MethodInvoker)delegate { Program.secConv.LUserCallIn.Text = msgTable[1]; });
+                                Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = true; });
+                                Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.LUserCallIn.Text = msgTable[1]; });
                                 Program.secConv.callerEndPoint = receivedFromEP;
                                 //Program.secConv.Refresh();
                             }
@@ -235,7 +235,7 @@ namespace SecConvClient
                     case (char)6: //FAIL
                         {
                             //jeszcze tu state change i historie!!!!
-                            Program.secConv.gBCallIn.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = false; });
+                            Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = false; });
                             if (Program.secConv.gBCallOut.Visible==true)
                             {
                                 CancelCall();
@@ -442,7 +442,7 @@ namespace SecConvClient
 
         private void UninitializeCall()
         {
-            Program.secConv.gbConv.Invoke((MethodInvoker)delegate { Program.secConv.gbConv.Visible = false; });
+            Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gbConv.Visible = false; });
             //Set the flag to end the Send and Receive threads.
             bStop = true;
 
@@ -477,8 +477,8 @@ namespace SecConvClient
 
         private void InitializeCall()
         {
-            Program.secConv.gBCallOut.Invoke((MethodInvoker)delegate { Program.secConv.gBCallOut.Visible = false; });
-            Program.secConv.gBCallIn.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = false; });
+            Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallOut.Visible = false; });
+            Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = false; });
             try
             {
                 //Start listening on port 1500.
@@ -496,11 +496,18 @@ namespace SecConvClient
 
                 //conv = new Conv(login);
 
-                Program.secConv.gbConv.Invoke((MethodInvoker)delegate { Program.secConv.gbConv.Visible = true; });
+                Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gbConv.Visible = true; Program.secConv.timerConv.Start(); });
                 Program.secConv.begin = DateTime.Now;
-                Program.secConv.timerConv.Start();
-                Program.secConv.LUserConv.Invoke((MethodInvoker)delegate { Program.secConv.LUserConv.Text = "z " + Program.secConv.LUserCallIn.Text; });
 
+                //Program.secConv.timerConv.Start();
+                if (Program.secConv.isReceiver == true)
+                {
+                    Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.LUserConv.Text = "z " + Program.secConv.LUserCallIn.Text; });
+                }
+                else
+                {
+                    Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.LUserConv.Text = Program.secConv.LUserCallOut.Text; });
+                }
 
 
             }

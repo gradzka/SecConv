@@ -20,7 +20,7 @@ namespace SecConvClient
         public EndPoint callerEndPoint;
         public DateTime begin;
         public DateTime end;
-        bool isReceiver = false;
+        public bool isReceiver = false;
 
         void waitForCommuniques()
         {
@@ -286,14 +286,16 @@ namespace SecConvClient
             timerConv.Stop();
             Program.voice.DropCall();
             //wyslij do serwera
+            Program.client = new SynchronousClient(Program.serverAddress);
             if (isReceiver == true)
             {
-                Communique.CallState(LUserConv.Text, Program.userLogin, begin, (end - begin)); 
+                Communique.CallState(LUserConv.Text.Remove(0,2), Program.userLogin, begin, (end - begin)); 
             }
             else
             {
-                Communique.CallState(Program.userLogin, LUserConv.Text, begin, (end - begin));
+                Communique.CallState(Program.userLogin, LUserConv.Text.Remove(0, 2), begin, (end - begin));
             }
+            Program.client.Disconnect();
             isReceiver = false;
         }
 

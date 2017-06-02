@@ -708,7 +708,7 @@
         private System.Windows.Forms.Timer timerIAM;
         public System.Windows.Forms.GroupBox gBCallOut;
         private System.Windows.Forms.Label LInfoCallOut;
-        private System.Windows.Forms.Label LUserCallOut;
+        public System.Windows.Forms.Label LUserCallOut;
         private System.Windows.Forms.Button BCancel;
         public System.Windows.Forms.GroupBox gBCallIn;
         private System.Windows.Forms.Label LInfoCallIn;
