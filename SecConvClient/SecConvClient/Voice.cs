@@ -26,7 +26,7 @@ namespace SecConvClient
         private SecondaryBuffer playbackBuffer;
         private BufferDescription playbackBufferDescription;
         private Socket clientSocket;
-        private bool bStop;                         //Flag to end the Start and Receive threads.
+        private volatile bool bStop;                         //Flag to end the Start and Receive threads.
         private IPEndPoint otherPartyIP;            //IP of party we want to make a call.
         private EndPoint otherPartyEP;
         private volatile bool bIsCallActive;                 //Tells whether we have an active call.
@@ -412,7 +412,6 @@ namespace SecConvClient
             finally
             {
                 nUdpClientFlag += 1;
-                udpClient.Close();
             }
         }
 
