@@ -19,7 +19,8 @@ namespace SecConvClient
         Thread commThread;
         public EndPoint callerEndPoint;
         public DateTime begin;
-        DateTime end;
+        public DateTime end;
+        bool isReceiver = false;
 
         void waitForCommuniques()
         {
@@ -270,6 +271,7 @@ namespace SecConvClient
         private void BAccept_Click(object sender, EventArgs e)
         {
             Program.voice.AcceptCall(callerEndPoint);
+            isReceiver = true;
         }
 
         private void BDecline_Click(object sender, EventArgs e)
@@ -283,6 +285,16 @@ namespace SecConvClient
             end = DateTime.UtcNow;
             timerConv.Stop();
             Program.voice.DropCall();
+            //wyslij do serwera
+            if (isReceiver == true)
+            {
+                Communique.CallState(LUserConv.Text, Program.userLogin, begin, (end - begin)); 
+            }
+            else
+            {
+                Communique.CallState(Program.userLogin, LUserConv.Text, begin, (end - begin));
+            }
+            isReceiver = false;
         }
 
         private void timerConv_Tick(object sender, EventArgs e)

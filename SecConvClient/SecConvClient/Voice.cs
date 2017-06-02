@@ -234,6 +234,7 @@ namespace SecConvClient
                     //Remote party is busy.
                     case (char)6: //FAIL
                         {
+                            //jeszcze tu state change i historie!!!!
                             Program.secConv.gBCallIn.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = false; });
                             if (Program.secConv.gBCallOut.Visible==true)
                             {
@@ -250,6 +251,9 @@ namespace SecConvClient
                             //would otherwise end the call.
                             if (receivedFromEP.Equals(otherPartyEP) == true)
                             {
+                                //tu zatrzymaj timer
+                                Program.secConv.timerConv.Stop();
+
                                 //if (conv != null && !conv.IsDisposed)
                                 //{
                                 //    conv.Close();
@@ -443,8 +447,16 @@ namespace SecConvClient
             bStop = true;
 
             bIsCallActive = false;
-           /* btnCall.Enabled = true;
-            btnEndCall.Enabled = false;*/
+            /* btnCall.Enabled = true;
+             btnEndCall.Enabled = false;*/
+
+            //uzupełnić history
+            string[] historyDetails = new string[3];
+            historyDetails[0] = Program.secConv.LUserConv.Text;
+            historyDetails[1] = Program.secConv.begin.ToString();
+            historyDetails[2] = (Program.secConv.end - Program.secConv.begin).ToString();
+            Program.secConv.listView2.Items.Insert(0, (new ListViewItem(historyDetails)));
+            Program.secConv.listView2.Refresh();
         }
 
         public void DropCall()
