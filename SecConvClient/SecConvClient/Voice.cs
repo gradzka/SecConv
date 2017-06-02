@@ -343,7 +343,7 @@ namespace SecConvClient
             }
             catch (Exception)
             {
-                MessageBox.Show("Wystąpił problem podczas wysyłania pakietów!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Wystąpił problem podczas wysyłania pakietów!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -361,6 +361,7 @@ namespace SecConvClient
 
                 //Close the socket.
                 udpClient.Close();
+                captureBuffer.Dispose();
             }
         }
 
@@ -407,7 +408,7 @@ namespace SecConvClient
             }
             catch (Exception)
             {
-                MessageBox.Show("Wystąpił problem podczas odbierania pakietów!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Wystąpił problem podczas odbierania pakietów!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
