@@ -274,7 +274,7 @@ namespace SecConvClient
             historyDetails[2] = "nieodebrane";
             listView2.Items.Insert(0, (new ListViewItem(historyDetails)));
             listView2.Refresh();
-            MessageBox.Show("Znajomy nie jest dostępny! Wysłano powiadomienie o próbie nawiązania połączenia.", "Niedostępny znajomy!");
+            //MessageBox.Show("Znajomy nie jest dostępny! Wysłano powiadomienie o próbie nawiązania połączenia.", "Niedostępny znajomy!");
             Program.client.Disconnect();
         }
 

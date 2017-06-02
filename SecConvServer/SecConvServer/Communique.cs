@@ -378,8 +378,11 @@ namespace SecConvServer
                 var user = ctx.Users.Where(x => x.Login == login).FirstOrDefault();
                 if (user != null)
                 {
-                    Program.onlineUsers[user.UserID].iAM = DateTime.Now;
-                    return StateChng(user.UserID);
+                    if (Program.onlineUsers.ContainsKey(user.UserID))
+                    {
+                        Program.onlineUsers[user.UserID].iAM = DateTime.Now;
+                        return StateChng(user.UserID);
+                    }
                 }              
             }
             return "<EOF>";

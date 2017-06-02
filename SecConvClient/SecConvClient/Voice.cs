@@ -241,7 +241,6 @@ namespace SecConvClient
                             historyDetails[2] = "nieodebrane";
                             Program.secConv.listView2.Items.Insert(0, (new ListViewItem(historyDetails)));
                             Program.secConv.listView2.Refresh();
-                            MessageBox.Show("Znajomy nie jest dostępny! Wysłano powiadomienie o próbie nawiązania połączenia.", "Niedostępny znajomy!");
                             //disconect with server
                             Program.client.Disconnect();
                             //close ring panel
@@ -306,7 +305,6 @@ namespace SecConvClient
             historyDetails[2] = "nieodebrane";
             Program.secConv.listView2.Items.Insert(0, (new ListViewItem(historyDetails)));
             Program.secConv.listView2.Refresh();
-            MessageBox.Show("Znajomy nie jest dostępny! Wysłano powiadomienie o próbie nawiązania połączenia.", "Niedostępny znajomy!");
         }
 
         /*
