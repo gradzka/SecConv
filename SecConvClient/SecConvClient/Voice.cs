@@ -33,9 +33,6 @@ namespace SecConvClient
         private Vocoder vocoder;
         private byte[] byteData = new byte[1024];   //Buffer to store the data received.
         private volatile int nUdpClientFlag;                 //Flag used to close the udpClient socket.
-        //CallOut callOut;
-        //CallIn callIN;
-        //Conv conv;
 
         public Voice()
         {
@@ -415,6 +412,7 @@ namespace SecConvClient
             finally
             {
                 nUdpClientFlag += 1;
+                udpClient.Close();
             }
         }
 
@@ -542,16 +540,6 @@ namespace SecConvClient
             catch (Exception)
             {
                 MessageBox.Show("Wystąpił problem podczas wysyłania pakietów!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void VoiceChat_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-            if (bIsCallActive)
-            {
-                UninitializeCall();
-                DropCall();
             }
         }
     }
