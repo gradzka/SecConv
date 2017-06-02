@@ -266,6 +266,16 @@ namespace SecConvClient
         private void BCancel_Click(object sender, EventArgs e)
         {
             Program.voice.CancelCall();
+            Program.client = new SynchronousClient(Program.serverAddress);
+            Communique.CallState(Program.userLogin, listView1.SelectedItems[0].Text, DateTime.Now, TimeSpan.Zero);
+            string[] historyDetails = new string[3];
+            historyDetails[0] = listView1.SelectedItems[0].Text;
+            historyDetails[1] = DateTime.Now.ToString();
+            historyDetails[2] = "nieodebrane";
+            listView2.Items.Insert(0, (new ListViewItem(historyDetails)));
+            listView2.Refresh();
+            MessageBox.Show("Znajomy nie jest dostępny! Wysłano powiadomienie o próbie nawiązania połączenia.", "Niedostępny znajomy!");
+            Program.client.Disconnect();
         }
 
         private void BAccept_Click(object sender, EventArgs e)

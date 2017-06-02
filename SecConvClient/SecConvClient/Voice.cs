@@ -231,12 +231,25 @@ namespace SecConvClient
                     //Remote party is busy.
                     case (char)6: //FAIL
                         {
-                            //jeszcze tu state change i historie!!!!
+                            //send msg to DB with history
+                            Program.client = new SynchronousClient(Program.serverAddress);
+                            Communique.CallState(Program.userLogin, Program.secConv.listView1.SelectedItems[0].Text, DateTime.Now, TimeSpan.Zero);
+                            //refresh user panel with histories
+                            string[] historyDetails = new string[3];
+                            historyDetails[0] = Program.secConv.listView1.SelectedItems[0].Text;
+                            historyDetails[1] = DateTime.Now.ToString();
+                            historyDetails[2] = "nieodebrane";
+                            Program.secConv.listView2.Items.Insert(0, (new ListViewItem(historyDetails)));
+                            Program.secConv.listView2.Refresh();
+                            MessageBox.Show("Znajomy nie jest dostępny! Wysłano powiadomienie o próbie nawiązania połączenia.", "Niedostępny znajomy!");
+                            //disconect with server
+                            Program.client.Disconnect();
+                            //close ring panel
                             Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = false; });
                             if (Program.secConv.gBCallOut.Visible==true)
                             {
                                 CancelCall();
-                                MessageBox.Show("Połaczenie odrzucone.", "SecConv", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                MessageBox.Show("Połączenie odrzucone.", "SecConv", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             }
                             break;
                         }
@@ -285,8 +298,15 @@ namespace SecConvClient
         public void DeclineCall(EndPoint receivedFromEP)
         {
             string msgTmp = (char)6 + " <EOF>"; //FAIL
-                                         //The call is declined. Send a busy response.
-            SendMessage(msgTmp, receivedFromEP);
+            SendMessage(msgTmp, receivedFromEP); //to another user
+            //caller date state
+            string[] historyDetails = new string[3];
+            historyDetails[0] = Program.secConv.LUserCallIn.Text;//get user who initialize call //listView1.SelectedItems[0].Text;
+            historyDetails[1] = DateTime.Now.ToString();
+            historyDetails[2] = "nieodebrane";
+            Program.secConv.listView2.Items.Insert(0, (new ListViewItem(historyDetails)));
+            Program.secConv.listView2.Refresh();
+            MessageBox.Show("Znajomy nie jest dostępny! Wysłano powiadomienie o próbie nawiązania połączenia.", "Niedostępny znajomy!");
         }
 
         /*

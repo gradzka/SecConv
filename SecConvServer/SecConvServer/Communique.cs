@@ -237,7 +237,7 @@ namespace SecConvServer
                 if (userID1!=0)
                 {
                     var user2 = ctx.Users.Where(x => x.Login == login2).Select(x=>new { x.UserID, x.Login }).FirstOrDefault();
-                    if (user2.UserID!=0)
+                    if (user2!=null)
                     {
                         var acq = ctx.Friends.Where(x => x.UserID1 == userID1 && x.UserID2 == user2.UserID).FirstOrDefault();
                         if (acq == null)
