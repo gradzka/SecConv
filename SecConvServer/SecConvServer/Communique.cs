@@ -379,10 +379,11 @@ namespace SecConvServer
                 if (user != null)
                 {
                     Program.onlineUsers[user.UserID].iAM = DateTime.Now;
-                }
-
-                return StateChng(user.UserID);
+                    return StateChng(user.UserID);
+                }              
             }
+            return "<EOF>";
+
         }
         //Outgoing messages
         public static string OK()

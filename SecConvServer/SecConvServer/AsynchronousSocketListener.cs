@@ -66,7 +66,7 @@ namespace SecConvServer
                 listener.Bind(localEndPoint);
                 listener.Listen(100);
 
-                Console.WriteLine("Server is running...");
+                Console.WriteLine("Server is running ("+ipAddress+")");
                 SetTimer();
                 while (true)
                 {
@@ -207,7 +207,7 @@ namespace SecConvServer
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                //Console.WriteLine(e.ToString());
             }
         }
     }

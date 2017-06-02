@@ -452,9 +452,9 @@ namespace SecConvClient
 
             //uzupełnić history
             string[] historyDetails = new string[3];
-            historyDetails[0] = Program.secConv.LUserConv.Text;
+            historyDetails[0] = Program.secConv.LUserConv.Text.Remove(0,2);
             historyDetails[1] = Program.secConv.begin.ToString();
-            historyDetails[2] = (Program.secConv.end - Program.secConv.begin).ToString();
+            historyDetails[2] = (Program.secConv.end - Program.secConv.begin).ToString().Split('.')[0];
             Program.secConv.listView2.Items.Insert(0, (new ListViewItem(historyDetails)));
             Program.secConv.listView2.Refresh();
         }
@@ -497,7 +497,7 @@ namespace SecConvClient
                 //conv = new Conv(login);
 
                 Program.secConv.gbConv.Invoke((MethodInvoker)delegate { Program.secConv.gbConv.Visible = true; });
-                Program.secConv.begin = DateTime.UtcNow;
+                Program.secConv.begin = DateTime.Now;
                 Program.secConv.timerConv.Start();
                 Program.secConv.LUserConv.Invoke((MethodInvoker)delegate { Program.secConv.LUserConv.Text = "z " + Program.secConv.LUserCallIn.Text; });
 

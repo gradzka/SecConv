@@ -282,7 +282,7 @@ namespace SecConvClient
 
         private void BDisconnect_Click(object sender, EventArgs e)
         {
-            end = DateTime.UtcNow;
+            end = DateTime.Now;
             timerConv.Stop();
             Program.voice.DropCall();
             //wyslij do serwera
@@ -299,7 +299,7 @@ namespace SecConvClient
 
         private void timerConv_Tick(object sender, EventArgs e)
         {
-            end = DateTime.UtcNow;
+            end = DateTime.Now;
             LTimeConv.Text = (end - begin).Hours.ToString().PadLeft(2, '0') + ":" + (end - begin).Minutes.ToString().PadLeft(2, '0') + ":" + (end - begin).Seconds.ToString().PadLeft(2, '0');
         }
     }
