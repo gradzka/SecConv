@@ -210,6 +210,7 @@ namespace SecConvClient
                                 Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = true; });
                                 Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.LUserCallIn.Text = msgTable[1]; });
                                 Program.secConv.callerEndPoint = receivedFromEP;
+                                Program.secConv.isReceiver = true;
                                 //Program.secConv.Refresh();
                             }
                             else
@@ -230,23 +231,29 @@ namespace SecConvClient
 
                     //Remote party is busy.
                     case (char)6: //FAIL
-                        {                 
+                        {
                             //send msg to DB with history
-                            
+
+                            string[] historyDetails = new string[3];
                             if (Program.secConv.isReceiver==false)//somebody call - you decline
                             {
                                 Program.client = new SynchronousClient(Program.serverAddress);
-                                Communique.CallState(Program.userLogin, Program.secConv.listView1.SelectedItems[0].Text, DateTime.Now, TimeSpan.Zero);
+                                Program.secConv.Invoke((MethodInvoker)delegate { Communique.CallState(Program.userLogin, Program.secConv.listView1.SelectedItems[0].Text, DateTime.Now, TimeSpan.Zero); });
                                 Program.client.Disconnect();
+                                
+                                Program.secConv.Invoke((MethodInvoker)delegate {historyDetails[0] = Program.secConv.listView1.SelectedItems[0].Text;});
                                 //Communique.CallState(Program.userLogin, Program.secConv.LUserCallIn.Text, DateTime.Now, TimeSpan.Zero);
                             }
-                            //else //somebody call - somebody decline
+                            else //somebody call - somebody decline
+                            {
+                                historyDetails[0] = Program.secConv.LUserCallIn.Text;
+                            }
                             //{
-                                
+                            Program.secConv.isReceiver = false;
                             //}
                             //refresh user panel with histories
-                            string[] historyDetails = new string[3];
-                            historyDetails[0] = Program.secConv.listView1.SelectedItems[0].Text;
+                            
+
                             historyDetails[1] = DateTime.Now.ToString();
                             historyDetails[2] = "nieodebrane";
                             Program.secConv.listView2.Items.Insert(0, (new ListViewItem(historyDetails)));
@@ -257,7 +264,7 @@ namespace SecConvClient
                             Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = false; });
                             if (Program.secConv.gBCallOut.Visible==true)
                             {
-                                Program.secConv.gBCallOut.Visible = false;
+                                Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallOut.Visible = false; });
                                 //CancelCall();
                                 MessageBox.Show("Połączenie odrzucone.", "SecConv", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             }

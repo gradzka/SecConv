@@ -281,7 +281,6 @@ namespace SecConvClient
         private void BAccept_Click(object sender, EventArgs e)
         {
             Program.voice.AcceptCall(callerEndPoint);
-            isReceiver = true;
         }
 
         private void BDecline_Click(object sender, EventArgs e)
