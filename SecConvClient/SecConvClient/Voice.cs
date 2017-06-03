@@ -530,10 +530,10 @@ namespace SecConvClient
 
                 //conv = new Conv(login);
 
-                Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gbConv.Visible = true; Program.secConv.timerConv.Start(); });
                 Program.secConv.begin = DateTime.Now;
+                Program.secConv.end = DateTime.Now;
+                Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gbConv.Visible = true; Program.secConv.timerConv.Start(); });
 
-                //Program.secConv.timerConv.Start();
                 if (Program.secConv.isReceiver == true)
                 {
                     Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.LUserConv.Text = "z " + Program.secConv.LUserCallIn.Text; });

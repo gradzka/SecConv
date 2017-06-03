@@ -418,6 +418,7 @@
             // 
             // listView2
             // 
+            this.listView2.AllowColumnReorder = true;
             this.listView2.BackColor = System.Drawing.Color.White;
             this.listView2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -429,6 +430,7 @@
             this.listView2.FullRowSelect = true;
             this.listView2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView2.Location = new System.Drawing.Point(-1, 6);
+            this.listView2.MultiSelect = false;
             this.listView2.Name = "listView2";
             this.listView2.Size = new System.Drawing.Size(312, 412);
             this.listView2.TabIndex = 0;
@@ -438,7 +440,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Znajomy";
-            this.columnHeader1.Width = 96;
+            this.columnHeader1.Width = 97;
             // 
             // columnHeader3
             // 
@@ -448,7 +450,7 @@
             // columnHeader4
             // 
             this.columnHeader4.Text = "Czas trwania";
-            this.columnHeader4.Width = 85;
+            this.columnHeader4.Width = 83;
             // 
             // tabPage3
             // 

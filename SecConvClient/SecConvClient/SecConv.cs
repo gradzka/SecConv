@@ -34,8 +34,13 @@ namespace SecConvClient
                     response = Program.client.Receive();
                     if (response.Length > 0)
                     {
-                        Communique.commFromServer(response);
-                        numberOfComm++;
+                        string[] comms = response.Split(new string[] { "<EOF>" }, StringSplitOptions.None);
+                        foreach (var comm in comms)
+                        {
+                            Communique.commFromServer(comm);
+                            numberOfComm++;
+                        }
+                        
                     }
                 }
                 catch (Exception)
@@ -274,7 +279,6 @@ namespace SecConvClient
             historyDetails[2] = "nieodebrane";
             listView2.Items.Insert(0, (new ListViewItem(historyDetails)));
             listView2.Refresh();
-            //MessageBox.Show("Znajomy nie jest dostępny! Wysłano powiadomienie o próbie nawiązania połączenia.", "Niedostępny znajomy!");
             Program.client.Disconnect();
         }
 
