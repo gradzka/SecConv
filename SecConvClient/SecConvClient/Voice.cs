@@ -26,13 +26,14 @@ namespace SecConvClient
         private SecondaryBuffer playbackBuffer;
         private BufferDescription playbackBufferDescription;
         private Socket clientSocket;
-        private volatile bool bStop;                         //Flag to end the Start and Receive threads.
+        private volatile bool bStop;                //Flag to end the Start and Receive threads.
         private IPEndPoint otherPartyIP;            //IP of party we want to make a call.
         private EndPoint otherPartyEP;
-        private volatile bool bIsCallActive;                 //Tells whether we have an active call.
+        private volatile bool bIsCallActive;        //Tells whether we have an active call.
         private Vocoder vocoder;
         private byte[] byteData = new byte[1024];   //Buffer to store the data received.
-        private volatile int nUdpClientFlag;                 //Flag used to close the udpClient socket.
+        private volatile int nUdpClientFlag;        //Flag used to close the udpClient socket.
+        private System.Media.SoundPlayer player;
 
         public Voice()
         {
@@ -42,6 +43,7 @@ namespace SecConvClient
         /*
          * Initializes all the data members.
          */
+        
         private void Initialize()
         {
             try
@@ -134,7 +136,11 @@ namespace SecConvClient
                 //Send an invite message.
                 char comm = (char)10;
                 string message = comm + " " + Program.userLogin +" "+ vocoder +" <EOF>";
+
                 SendMessage(message, otherPartyEP);
+                player = new System.Media.SoundPlayer("Wait.wav");
+                player.PlayLooping();
+
                 //if (callOut.ShowDialog(Program.secConv) == DialogResult.No)
                 //{ 
                 //    message = (char)6 + " <EOF>"; //FAIL
@@ -154,6 +160,7 @@ namespace SecConvClient
                 string message = (char)6 + " <EOF>"; //FAIL
                 SendMessage(message, otherPartyEP);
                 Program.secConv.gBCallOut.Visible = false;
+                player.Stop();
             }
             catch (Exception)
             {
@@ -195,6 +202,8 @@ namespace SecConvClient
                     //We have an incoming call.
                     case (char)10:
                         {
+                            player= new System.Media.SoundPlayer("Call.wav");
+                            player.PlayLooping();
                             string msgTmp = string.Empty;
                             if (bIsCallActive == false)
                             {
@@ -232,6 +241,7 @@ namespace SecConvClient
                     //Remote party is busy.
                     case (char)6: //FAIL
                         {
+                            player.Stop();
                             //send msg to DB with history
 
                             string[] historyDetails = new string[3];
@@ -511,6 +521,7 @@ namespace SecConvClient
 
         private void InitializeCall()
         {
+            player.Stop();
             Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallOut.Visible = false; });
             Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = false; });
             try
