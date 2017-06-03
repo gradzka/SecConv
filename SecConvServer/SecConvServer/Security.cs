@@ -13,6 +13,10 @@ namespace SecConvServer
         ECDiffieHellmanCng owner = new ECDiffieHellmanCng();//Initializes a new instance of the ECDiffieHellmanCng class with a random key pair.
         byte[] iv = { 126, 122, 93, 86, 153, 51, 216, 230, 93, 82, 240, 192, 201, 239, 119, 120 };
 
+        public ECDiffieHellmanPublicKey GetOwnerPublicKey()
+        {
+            return owner.PublicKey;
+        }
         public void CreatePublicKey()
         {
             owner.KeyDerivationFunction = ECDiffieHellmanKeyDerivationFunction.Hash; //Gets or sets the key derivation function for the ECDiffieHellmanCng class.

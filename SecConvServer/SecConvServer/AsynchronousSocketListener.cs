@@ -147,6 +147,7 @@ namespace SecConvServer
                     if (bits8==17)
                     {
                         sessionKey=Program.security.SetSessionKey(Encoding.ASCII.GetBytes(content.Substring(2)));
+                        Send(handler, (char)17 + " " + Program.security.GetOwnerPublicKey().ToString()+" <EOF>");
                         goto SESSIONKEY_RETURN;                     
                     }
 
