@@ -13,6 +13,7 @@ namespace SecConvServer
         public string login { get; set; }
         public DateTime iAM { get; set; }
         public string addressIP { get; set; }
+        public byte[] sessionKey { get; set; }
         //dictionary //login IP
         public Dictionary<string, string> friendWithChangedState {get;set;}
     }

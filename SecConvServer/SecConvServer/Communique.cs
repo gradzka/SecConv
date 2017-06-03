@@ -16,8 +16,8 @@ namespace SecConvServer
         public static void AddDelegateToDictionary()
         {
             //in, out
-            communiqueDictionary[0] = new Func<List<string>, string> (Communique.Register);
-            communiqueDictionary[1] = new Func<List<string>,Socket, string>(Communique.LogIn);
+            communiqueDictionary[0] = new Func<List<string>, string>(Communique.Register);
+            communiqueDictionary[1] = new Func<List<string>, byte[], Socket, string>(Communique.LogIn);
             communiqueDictionary[2] = new Func<List<string>, string>(Communique.LogOut);
             communiqueDictionary[3] = new Func<List<string>, string>(Communique.AccDel);
             communiqueDictionary[4] = new Func<List<string>, string>(Communique.PassChng);
@@ -26,7 +26,7 @@ namespace SecConvServer
             communiqueDictionary[11] = new Func<List<string>, string>(Communique.CallState);
             communiqueDictionary[13] = new Func<long, string>(Communique.History);
             communiqueDictionary[15] = new Func<List<string>, string>(Communique.Iam);
-            
+
         }
         //Incoming messages
         public static string Register(List<string> param)
@@ -35,13 +35,13 @@ namespace SecConvServer
             using (var ctx = new SecConvDBEntities())
             {
                 var newUser = new Users();
-                string login= param[0];//login
+                string login = param[0];//login
 
                 int loginUnique = ctx.Users.Where(x => x.Login == login).Count(); //check if login is unique
                 if (loginUnique == 0)
                 {
                     newUser.Login = login;
-                    newUser.Password = Utilities.hashBytePassHex(param[1]+login); //256 bit hash password          
+                    newUser.Password = Utilities.hashBytePassHex(param[1] + login); //256 bit hash password          
                     newUser.LastLogoutDate = DateTime.Now;
                     newUser.RegistrationDate = DateTime.Now;
 
@@ -57,24 +57,24 @@ namespace SecConvServer
                 }
                 else
                 {
-                    return Fail() ;
+                    return Fail();
                 }
             }
             //OK
             return OK();
 
         }
-        public static string LogIn(List<string> param, Socket client)
+        public static string LogIn(List<string> param, byte[] sessionKey, Socket client)
         {
             string login = param[0];
 
-            string password = Utilities.hashBytePassHex(param[1]+login);
+            string password = Utilities.hashBytePassHex(param[1] + login);
 
             //users -> online
             using (var ctx = new SecConvDBEntities())
             {
                 var user = ctx.Users.Where(x => x.Login == login && x.Password == password).FirstOrDefault();
-                if (user!=null)
+                if (user != null)
                 {
                     if (Program.onlineUsers.ContainsKey(user.UserID))
                     {
@@ -84,6 +84,8 @@ namespace SecConvServer
                     connectedClient.login = login;
                     connectedClient.iAM = DateTime.Now;
                     connectedClient.addressIP = ((IPEndPoint)client.RemoteEndPoint).Address.ToString();
+
+                    connectedClient.sessionKey = sessionKey;
                     connectedClient.friendWithChangedState = new Dictionary<string, string>();
                     //add to dictionary
                     Program.onlineUsers[user.UserID] = connectedClient;
@@ -142,16 +144,16 @@ namespace SecConvServer
                     return Fail();
                 }
             }
-                return OK();
+            return OK();
         }
         public static string AccDel(List<string> param)
         {
             string login = param[0];
-            string password = Utilities.hashBytePassHex(param[1]+login);
+            string password = Utilities.hashBytePassHex(param[1] + login);
             using (var ctx = new SecConvDBEntities())
             {
                 var userToDelete = ctx.Users.Where(x => x.Login == login && x.Password == password).FirstOrDefault();
-                if (userToDelete!=null)
+                if (userToDelete != null)
                 {
                     try
                     {
@@ -170,7 +172,7 @@ namespace SecConvServer
                         }
 
                         //2. delete acquaintances in both directions
-                        var userAcquaintances=ctx.Friends.Where(x => x.UserID1 == userToDelete.UserID);//first
+                        var userAcquaintances = ctx.Friends.Where(x => x.UserID1 == userToDelete.UserID);//first
                         foreach (var item in userAcquaintances)
                         {
                             ctx.Entry(item).State = System.Data.Entity.EntityState.Deleted;
@@ -198,16 +200,16 @@ namespace SecConvServer
             }
             return OK();
         }
-        public static string PassChng(List <string> param)
+        public static string PassChng(List<string> param)
         {
             string login = param[0];
-            string password1 = Utilities.hashBytePassHex(param[1]+login);
+            string password1 = Utilities.hashBytePassHex(param[1] + login);
             using (var ctx = new SecConvDBEntities())
             {
                 var userToChngPasswd = ctx.Users.Where(x => x.Login == login && x.Password == password1).FirstOrDefault();
-                if (userToChngPasswd!=null)
+                if (userToChngPasswd != null)
                 {
-                    userToChngPasswd.Password = Utilities.hashBytePassHex(param[2]+login);
+                    userToChngPasswd.Password = Utilities.hashBytePassHex(param[2] + login);
                     try
                     {
                         ctx.Entry(userToChngPasswd).State = System.Data.Entity.EntityState.Modified;
@@ -234,10 +236,10 @@ namespace SecConvServer
                 var acquaintance = new Friends();
                 //find users IDs
                 var userID1 = ctx.Users.Where(x => x.Login == login1).Select(x => x.UserID).FirstOrDefault();
-                if (userID1!=0)
+                if (userID1 != 0)
                 {
-                    var user2 = ctx.Users.Where(x => x.Login == login2).Select(x=>new { x.UserID, x.Login }).FirstOrDefault();
-                    if (user2!=null)
+                    var user2 = ctx.Users.Where(x => x.Login == login2).Select(x => new { x.UserID, x.Login }).FirstOrDefault();
+                    if (user2 != null)
                     {
                         var acq = ctx.Friends.Where(x => x.UserID1 == userID1 && x.UserID2 == user2.UserID).FirstOrDefault();
                         if (acq == null)
@@ -257,7 +259,7 @@ namespace SecConvServer
                                 {
                                     Program.onlineUsers[userID1].friendWithChangedState.Add(acqLogin, "0");
                                 }
-                                
+
                             }
                             catch (DbUpdateConcurrencyException)
                             {
@@ -289,15 +291,15 @@ namespace SecConvServer
             using (var ctx = new SecConvDBEntities())
             {
                 var userLoggedInID1 = ctx.Users.Where(x => x.Login == login1).Select(x => x.UserID).FirstOrDefault();
-                if (userLoggedInID1!=0)
+                if (userLoggedInID1 != 0)
                 {
                     var user1Friend = ctx.Users.Where(x => x.Login == login2).Select(x => new { x.UserID, x.Login }).FirstOrDefault();
-                    if (user1Friend.UserID!=0)
+                    if (user1Friend.UserID != 0)
                     {
                         var friend = ctx.Friends.Where(x => x.UserID1 == userLoggedInID1 && x.UserID2 == user1Friend.UserID).FirstOrDefault();
                         ctx.Entry(friend).State = System.Data.Entity.EntityState.Deleted;
                         try
-                        {           
+                        {
                             ctx.SaveChanges();
                             Program.onlineUsers[userLoggedInID1].friendWithChangedState.Remove(user1Friend.Login);
                         }
@@ -341,7 +343,7 @@ namespace SecConvServer
                         history.UserReceiverID = ReceiverID;
                         //yyyy-MM-dd-HH:mm:ss
                         history.Start = DateTime.ParseExact(param[2], "yyyy-MM-dd-HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                        
+
                         //HH:mm:ss
                         //TimeSpan duration = TimeSpan.Parse(param[3]);
                         history.Duration = new DateTime().Add(TimeSpan.Parse(param[3]));
@@ -366,7 +368,7 @@ namespace SecConvServer
                 }
             }
             return OK();
-        }   
+        }
         public static string Iam(List<string> param)
         {
             string login = string.Empty;
@@ -383,7 +385,7 @@ namespace SecConvServer
                         Program.onlineUsers[user.UserID].iAM = DateTime.Now;
                         return StateChng(user.UserID);
                     }
-                }              
+                }
             }
             return "<EOF>";
 
@@ -391,9 +393,9 @@ namespace SecConvServer
         //Outgoing messages
         public static string OK()
         {
-            return ((char)5).ToString()+"<EOF>";
+            return ((char)5).ToString() + "<EOF>";
         }
-         public static string Fail()
+        public static string Fail()
         {
             return ((char)6).ToString() + "<EOF>";
 
@@ -403,23 +405,22 @@ namespace SecConvServer
             using (var ctx = new SecConvDBEntities())
             {
                 var user = ctx.Users.Where(x => x.UserID == userID).FirstOrDefault();
-                if (user!=null)
+                if (user != null)
                 {
                     string message = string.Empty;
                     //0111 login_1 status_1 IP_1 login_2 status_2 IP_2...login_n status_n IP_n)
-                    message = ((char)7).ToString() + ' ';
                     var friends = ctx.Friends.Where(x => x.UserID1 == userID);//all friends
-                    
+
                     foreach (var item in friends)
                     {
-                        var friendLogin = ctx.Users.Where(x => x.UserID == item.UserID2).Select(x=>x.Login).FirstOrDefault();
-                        if (friendLogin!=null)
+                        var friendLogin = ctx.Users.Where(x => x.UserID == item.UserID2).Select(x => x.Login).FirstOrDefault();
+                        if (friendLogin != null)
                         {
-                            message += friendLogin+ " ";
+                            message += friendLogin + " ";
                             if (Program.onlineUsers.ContainsKey(item.UserID2))
                             {
                                 message += "1 ";
-                                message += Program.onlineUsers[item.UserID2].addressIP+ " ";
+                                message += Program.onlineUsers[item.UserID2].addressIP + " ";
                             }
                             else
                             {
@@ -432,6 +433,9 @@ namespace SecConvServer
                             return Fail();
                         }
                     }
+
+                    message = Encoding.ASCII.GetString(Program.security.EncryptMessage(Program.onlineUsers[userID].sessionKey, message));
+                    message = ((char)7).ToString() + ' '+message;
                     message += "<EOF>";
                     return message;
                 }
@@ -439,26 +443,25 @@ namespace SecConvServer
                 {
                     return Fail();
                 }
-            }        
+            }
         }
 
         public static string History(long userID)
         {
             string history = string.Empty;
-            history = ((char)13).ToString() + ' ';
             using (var ctx = new SecConvDBEntities())
             {
-                var histories = ctx.Histories.Where(x => x.UserSenderID == userID || x.UserReceiverID == userID).OrderBy(x=>x.Start).ToList();
+                var histories = ctx.Histories.Where(x => x.UserSenderID == userID || x.UserReceiverID == userID).OrderBy(x => x.Start).ToList();
                 if (histories.Count != 0)
                 {
                     foreach (var item in histories)
                     {
-                        if (item.UserSenderID==userID)//userID is sender
+                        if (item.UserSenderID == userID)//userID is sender
                         {
                             var friendLoginR = ctx.Users.Where(x => x.UserID == item.UserReceiverID).Select(x => x.Login).FirstOrDefault();
                             if (friendLoginR != null)
                             {
-                                history +=friendLoginR + " " + item.Start.ToString() + " " + item.Duration.ToString()+ " ";
+                                history += friendLoginR + " " + item.Start.ToString() + " " + item.Duration.ToString() + " ";
                             }
                         }
                         else //userID is receiver
@@ -471,7 +474,9 @@ namespace SecConvServer
                         }
                     }
                 }
-                return history+"<EOF>";
+                history= Encoding.ASCII.GetString(Program.security.EncryptMessage(Program.onlineUsers[userID].sessionKey, history));
+                history = ((char)13).ToString() + ' '+history;
+                return history + "<EOF>";
             }
         }
         public static string StateChng(long userID)
@@ -481,25 +486,44 @@ namespace SecConvServer
             //{
             //    Program.onlineUsers.Remove(userID);
             //}
-            string message = (char)14 + " ";//zwróć cały słownik jako string
+            string message=string.Empty;//zwróć cały słownik jako string
             foreach (var item in Program.onlineUsers[userID].friendWithChangedState)
             {
                 message += item.Key + " " + item.Value + " ";
             }
+
+            message = Encoding.ASCII.GetString(Program.security.EncryptMessage(Program.onlineUsers[userID].sessionKey, message));
+            message = (char)14 + " "+message;
             message += "<EOF>";
             Program.onlineUsers[userID].friendWithChangedState.Clear();//remove elements from dictionary
 
             return message;
         }
 
-        public static string ChooseCommunique(string message, Socket client)
+        public static string ChooseCommunique(string message, byte[] sessionKey, Socket client)
         {
-            //odszyfruj   
-            string decryptedMessage = message;
+            byte []sessKey;
+            long userID = 0;
+            string result = string.Empty;
 
-            string decryptedMessageBits = Utilities.getBinaryMessage(decryptedMessage);
+            if (message[0]==(char)1 || message[0]==(char)0)
+            {
+                sessKey = sessionKey;
+                if (sessKey == null) { return Fail(); }
+            }
+            else
+            {
+                //session key is in onlineUsers dictionary
+                userID = getUserIDHavingAdressIP(((IPEndPoint)client.RemoteEndPoint).Address.ToString());
+                sessKey = Program.onlineUsers[userID].sessionKey;
+                if (sessKey == null) { return Fail(); }
+            }
+
+            //odszyfruj   
+            string decryptedMessage = Program.security.DecryptMessage(Encoding.ASCII.GetBytes(message.Substring(2)), sessKey);
+            //string decryptedMessageBits = Utilities.getBinaryMessage(decryptedMessage);
             //take 8 bits to recognize the communique
-            int bits8 = Convert.ToInt32(decryptedMessageBits.Substring(0, 8), 2);//decimal value
+            int bits8 = Convert.ToInt32(message[0].ToString(), 2);//decimal value
 
             //parameters to send
             string[] sParameters = decryptedMessage.Split(' ');
@@ -513,16 +537,15 @@ namespace SecConvServer
                 }
             }
 
-            string result = string.Empty;
-            if (bits8!=1) //if it isn't login
+            if (bits8 != 1) //if it isn't login
             {
                 //http://stackoverflow.com/a/4233539
                 //call proper method
-                result=(string)communiqueDictionary[bits8].DynamicInvoke(parameters);
+                result = (string)communiqueDictionary[bits8].DynamicInvoke(parameters);
             }
             else
             {
-                result= (string)communiqueDictionary[bits8].DynamicInvoke(parameters, client);
+                result = (string)communiqueDictionary[bits8].DynamicInvoke(parameters, sessionKey, client);
             }
             return result;
         }
@@ -532,8 +555,8 @@ namespace SecConvServer
             long userID = -1;
 
             foreach (KeyValuePair<long, ConnectedClient> item in Program.onlineUsers)
-            {            
-                if(item.Value.addressIP==addressIP)
+            {
+                if (item.Value.addressIP == addressIP)
                 {
                     userID = item.Key;
                 }

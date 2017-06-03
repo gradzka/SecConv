@@ -84,6 +84,7 @@
     <Compile Include="SecConv.Designer.cs">
       <DependentUpon>SecConv.cs</DependentUpon>
     </Compile>
+    <Compile Include="Security.cs" />
     <Compile Include="SynchronousClient.cs" />
     <Compile Include="Voice.cs" />
     <EmbeddedResource Include="Conv.resx">

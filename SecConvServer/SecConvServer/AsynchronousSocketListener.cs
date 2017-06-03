@@ -117,9 +117,12 @@ namespace SecConvServer
             // from the asynchronous state object.
             StateObject state = (StateObject)ar.AsyncState;
             Socket handler = state.workSocket;
-
+            byte[] sessionKey = null;
+            int bytesRead = 0;
+            
+            SESSIONKEY_RETURN:
             // Read data from the client socket. 
-            int bytesRead = handler.EndReceive(ar);
+             bytesRead = handler.EndReceive(ar);
 
             if (bytesRead > 0)
             {
@@ -141,7 +144,14 @@ namespace SecConvServer
                     //take 8 bits to recognize the communique
                     int bits8 = Convert.ToInt32(messageBits.Substring(0, 8), 2);//decimal value
 
-                    content = Communique.ChooseCommunique(content, handler);
+                    if (bits8==17)
+                    {
+                        sessionKey=Program.security.SetSessionKey(Encoding.ASCII.GetBytes(content.Substring(2)));
+                        goto SESSIONKEY_RETURN;                     
+                    }
+
+
+                    content = Communique.ChooseCommunique(content, sessionKey, handler);
                     // Echo the data back to the client.
 
                     if (bits8 != 2 && bits8!=11)
@@ -151,6 +161,7 @@ namespace SecConvServer
 
                     if (bits8 == 1 && content== ((char)5).ToString() + "<EOF>") //logIn
                     {
+
                         string userAddressIP = ((IPEndPoint)handler.RemoteEndPoint).Address.ToString();
                         long userID = Communique.getUserIDHavingAdressIP(userAddressIP);
                         if (userID == -1)
@@ -167,7 +178,7 @@ namespace SecConvServer
                         handler.Shutdown(SocketShutdown.Both);
                         handler.Close();
 
-                    if (bits8 == 0 || bits8 == 2)
+                    if (bits8 == 0)
                     {
 
                     }

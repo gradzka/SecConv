@@ -15,6 +15,7 @@ namespace SecConvServer
     {
         //dictionary of logged in people
         public static Dictionary<long, ConnectedClient> onlineUsers = new Dictionary<long, ConnectedClient>();
+        public static Security security = new Security();
         static void Main(string[] args)
         {
             SQLiteConnection m_dbConnection;
@@ -35,6 +36,7 @@ namespace SecConvServer
             //Communique.CallState(lista);*/
             //Communique.CallState(lista);
 
+            security.CreatePublicKey();
             AsynchronousSocketListener.StartListening();
 
         }

@@ -96,6 +96,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SecConvDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Security.cs" />
     <Compile Include="StateObject.cs" />
     <Compile Include="Users.cs">
       <DependentUpon>SecConvDB.tt</DependentUpon>
