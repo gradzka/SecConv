@@ -27,19 +27,30 @@ namespace SecConvClient
                 try
                 {
                     Program.client = new SynchronousClient(TServerIP.Text);
-                    if (Communique.LogIn(TLogin.Text, TPassword.Text) == true)
+                    var serverKey = Communique.KeyExchange();
+                    if (serverKey != null)
                     {
-                        Program.userLogin = TLogin.Text;
-                        Program.serverAddress = TServerIP.Text;
-                        this.DialogResult = DialogResult.Yes;
-                        this.Close();
+                        var sessKey = Program.security.SetSessionKey(serverKey);
+                        if (Communique.LogIn(TLogin.Text, TPassword.Text, sessKey) == true)
+                        {
+                            Program.userLogin = TLogin.Text;
+                            Program.serverAddress = TServerIP.Text;
+                            this.DialogResult = DialogResult.Yes;
+                            Program.sessionKeyWithServer = sessKey;
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Podane dane logowania są niepoprawne lub użytkownik jest już zalogowany!", "Błąd!");
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Podane dane logowania są niepoprawne lub użytkownik jest już zalogowany!", "Błąd!");
+                        Program.client.Disconnect();
+                        MessageBox.Show("Problem z połączeniem z serwerem!", "Błąd!");
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Problem z połączeniem z serwerem lub adres jest niepoprawny!", "Błąd!");
                 }

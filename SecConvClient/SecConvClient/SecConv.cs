@@ -183,7 +183,7 @@ namespace SecConvClient
                             MessageBox.Show("Stare hasło jest niepoprawne!", "Błąd!");
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         MessageBox.Show("Problem z połączeniem z serwerem!", "Błąd!");
                     }
@@ -246,6 +246,7 @@ namespace SecConvClient
             }
             Program.userLogin = "";
             Program.serverAddress = "";
+            Program.sessionKeyWithServer = null;
         }
 
         private void timer1_Tick(object sender, EventArgs e)

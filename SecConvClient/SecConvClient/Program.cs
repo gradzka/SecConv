@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,6 +14,11 @@ namespace SecConvClient
         public static SynchronousClient client;
         public static SecConv secConv;
         public static Voice voice;
+        public static Security security = new Security();
+
+        public static byte[] sessionKeyWithServer = null;
+        public static byte[] sessionKeyWithClient = null;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -28,6 +34,7 @@ namespace SecConvClient
 
             LogIn logIn;
             Register register;
+            security.CreatePublicKey();
 
             DialogResult dialogResult = DialogResult.No;
 

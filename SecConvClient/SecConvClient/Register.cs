@@ -36,16 +36,26 @@ namespace SecConvClient
                     try
                     {
                         Program.client = new SynchronousClient(TServerIP.Text);
-                        if (Communique.Register(TLogin.Text, TPassword1.Text) == true)
+                        var serverKey = Communique.KeyExchange();
+                        if (serverKey != null)
                         {
-                            MessageBox.Show("Rejestracja użytkownika " + TLogin.Text + " przebiegła pomyślnie!", "Sukces!");
-                            this.DialogResult = DialogResult.No;
-                            this.Close();
+                            var sessKey = Program.security.SetSessionKey(serverKey);
+                            if (Communique.Register(TLogin.Text, TPassword1.Text, sessKey) == true)
+                            {
+                                MessageBox.Show("Rejestracja użytkownika " + TLogin.Text + " przebiegła pomyślnie!", "Sukces!");
+                                this.DialogResult = DialogResult.No;
+                                this.Close();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Podany login jest już zajęty!", "Błąd!");
+                                Program.client.Disconnect();
+                            }
                         }
                         else
                         {
-                            MessageBox.Show("Podany login jest już zajęty!", "Błąd!");
                             Program.client.Disconnect();
+                            MessageBox.Show("Problem z połączeniem z serwerem!", "Błąd!");
                         }
                     }
                     catch (Exception)
