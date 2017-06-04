@@ -370,7 +370,7 @@ namespace SecConvServer
             return OK();
         }
         public static string Iam(List<string> param)
-        {
+         {
             string login = string.Empty;
             login = param[0];
 
@@ -387,17 +387,16 @@ namespace SecConvServer
                     }
                 }
             }
-            return "<EOF>";
-
+            return " <EOF>";
         }
         //Outgoing messages
         public static string OK()
         {
-            return ((char)5).ToString() + "<EOF>";
+            return ((char)5).ToString() + " <EOF>";
         }
         public static string Fail()
         {
-            return ((char)6).ToString() + "<EOF>";
+            return ((char)6).ToString() + " <EOF>";
 
         }
         public static string LogIP(long userID)
@@ -436,7 +435,7 @@ namespace SecConvServer
 
                     message = Convert.ToBase64String(Program.security.EncryptMessage(Program.onlineUsers[userID].sessionKey, message));
                     message = ((char)7).ToString() + ' '+message;
-                    message += "<EOF>";
+                    message += " <EOF>";
                     return message;
                 }
                 else
@@ -476,7 +475,7 @@ namespace SecConvServer
                 }
                 history= Convert.ToBase64String(Program.security.EncryptMessage(Program.onlineUsers[userID].sessionKey, history));
                 history = ((char)13).ToString() + ' '+history;
-                return history + "<EOF>";
+                return history + " <EOF>";
             }
         }
         public static string StateChng(long userID)
@@ -494,7 +493,7 @@ namespace SecConvServer
 
             message = Convert.ToBase64String(Program.security.EncryptMessage(Program.onlineUsers[userID].sessionKey, message));
             message = (char)14 + " "+message;
-            message += "<EOF>";
+            message += " <EOF>";
             Program.onlineUsers[userID].friendWithChangedState.Clear();//remove elements from dictionary
 
             return message;

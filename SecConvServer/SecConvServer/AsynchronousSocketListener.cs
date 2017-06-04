@@ -16,8 +16,8 @@ namespace SecConvServer
         private static System.Timers.Timer aTimer;
         private static void SetTimer()
         {
-            // Create a timer with a two second interval.
-            aTimer = new System.Timers.Timer(60000);
+            // Create a timer with a 61 seconds interval.
+            aTimer = new System.Timers.Timer(61000);
             // Hook up the Elapsed event for the timer. 
             aTimer.Elapsed += OnTimedEvent;
             aTimer.AutoReset = true;
@@ -167,7 +167,7 @@ namespace SecConvServer
                             Send(handler, content);
                         }
 
-                        if (bits8 == 1 && content == ((char)5).ToString() + "<EOF>") //logIn
+                        if (bits8 == 1 && content == ((char)5).ToString() + " <EOF>") //logIn
                         {
 
                             string userAddressIP = ((IPEndPoint)handler.RemoteEndPoint).Address.ToString();
