@@ -138,7 +138,8 @@ namespace SecConvClient
                 string message = comm + " " + Program.userLogin +" "+ vocoder +" <EOF>";
 
                 SendMessage(message, otherPartyEP);
-                player = new System.Media.SoundPlayer("Wait.wav");
+                player = new System.Media.SoundPlayer();
+                player.Stream = Properties.Resources.Wait;
                 player.PlayLooping();
 
                 //if (callOut.ShowDialog(Program.secConv) == DialogResult.No)
@@ -202,7 +203,8 @@ namespace SecConvClient
                     //We have an incoming call.
                     case (char)10:
                         {
-                            player= new System.Media.SoundPlayer("Call.wav");
+                            player = new System.Media.SoundPlayer();
+                            player.Stream = Properties.Resources.Call1;
                             player.PlayLooping();
                             string msgTmp = string.Empty;
                             if (bIsCallActive == false)

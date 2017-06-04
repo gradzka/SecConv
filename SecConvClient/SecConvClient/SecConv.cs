@@ -208,7 +208,7 @@ namespace SecConvClient
                     Program.client = new SynchronousClient(Program.serverAddress);
                     if (Communique.AccDel(Program.userLogin, TPassword.Text) == true)
                     {
-                        MessageBox.Show("Usunięcie konta użytkownika " + Program.userLogin + " przebiegła pomyślnie!", "Sukces!");
+                        MessageBox.Show("Usunięcie konta użytkownika " + Program.userLogin + " przebiegło pomyślnie!", "Sukces!");
                         DialogResult = DialogResult.No;
                         Program.client.Disconnect();
                         this.Close();

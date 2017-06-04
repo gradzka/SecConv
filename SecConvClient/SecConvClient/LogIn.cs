@@ -50,7 +50,7 @@ namespace SecConvClient
                         MessageBox.Show("Problem z połączeniem z serwerem!", "Błąd!");
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     MessageBox.Show("Problem z połączeniem z serwerem lub adres jest niepoprawny!", "Błąd!");
                 }
