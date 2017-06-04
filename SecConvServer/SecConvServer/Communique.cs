@@ -434,7 +434,7 @@ namespace SecConvServer
                         }
                     }
 
-                    message = Encoding.ASCII.GetString(Program.security.EncryptMessage(Program.onlineUsers[userID].sessionKey, message));
+                    message = Convert.ToBase64String(Program.security.EncryptMessage(Program.onlineUsers[userID].sessionKey, message));
                     message = ((char)7).ToString() + ' '+message;
                     message += "<EOF>";
                     return message;
@@ -474,7 +474,7 @@ namespace SecConvServer
                         }
                     }
                 }
-                history= Encoding.ASCII.GetString(Program.security.EncryptMessage(Program.onlineUsers[userID].sessionKey, history));
+                history= Convert.ToBase64String(Program.security.EncryptMessage(Program.onlineUsers[userID].sessionKey, history));
                 history = ((char)13).ToString() + ' '+history;
                 return history + "<EOF>";
             }
@@ -492,7 +492,7 @@ namespace SecConvServer
                 message += item.Key + " " + item.Value + " ";
             }
 
-            message = Encoding.ASCII.GetString(Program.security.EncryptMessage(Program.onlineUsers[userID].sessionKey, message));
+            message = Convert.ToBase64String(Program.security.EncryptMessage(Program.onlineUsers[userID].sessionKey, message));
             message = (char)14 + " "+message;
             message += "<EOF>";
             Program.onlineUsers[userID].friendWithChangedState.Clear();//remove elements from dictionary
@@ -505,6 +505,7 @@ namespace SecConvServer
             byte []sessKey;
             long userID = 0;
             string result = string.Empty;
+            char mess = message[0];
 
             if (message[0]==(char)1 || message[0]==(char)0)
             {
@@ -515,15 +516,22 @@ namespace SecConvServer
             {
                 //session key is in onlineUsers dictionary
                 userID = getUserIDHavingAdressIP(((IPEndPoint)client.RemoteEndPoint).Address.ToString());
-                sessKey = Program.onlineUsers[userID].sessionKey;
-                if (sessKey == null) { return Fail(); }
+                if (userID > 0)
+                {
+                    sessKey = Program.onlineUsers[userID].sessionKey;
+                    if (sessKey == null) { return Fail(); }
+                }
+                else
+                {
+                    return Fail();
+                }
             }
 
             //odszyfruj   
-            string decryptedMessage = Program.security.DecryptMessage(Encoding.ASCII.GetBytes(message.Substring(2)), sessKey);
+            string decryptedMessage = Program.security.DecryptMessage(Convert.FromBase64String(message.Substring(2, message.Length-8)), sessKey);
             //string decryptedMessageBits = Utilities.getBinaryMessage(decryptedMessage);
             //take 8 bits to recognize the communique
-            int bits8 = Convert.ToInt32(message[0].ToString(), 2);//decimal value
+            int bits8 = (int)message[0];//decimal value
 
             //parameters to send
             string[] sParameters = decryptedMessage.Split(' ');
@@ -531,10 +539,10 @@ namespace SecConvServer
             for (int i = 0; i < sParameters.Length; i++)
             {
                 //0 has bits to recognize the communique
-                if (i != 0)
-                {
+                //if (i != 0)
+                //{
                     parameters.Add(sParameters[i]);
-                }
+                //}
             }
 
             if (bits8 != 1) //if it isn't login
@@ -559,6 +567,7 @@ namespace SecConvServer
                 if (item.Value.addressIP == addressIP)
                 {
                     userID = item.Key;
+                    return userID;
                 }
             }
             return userID;

@@ -120,7 +120,7 @@ namespace SecConvServer
             byte[] sessionKey = null;
             int bytesRead = 0;
             
-            SESSIONKEY_RETURN:
+            //SESSIONKEY_RETURN:
             // Read data from the client socket. 
              bytesRead = handler.EndReceive(ar);
 
@@ -144,44 +144,52 @@ namespace SecConvServer
                     //take 8 bits to recognize the communique
                     int bits8 = Convert.ToInt32(messageBits.Substring(0, 8), 2);//decimal value
 
-                    if (bits8==17)
+                    if (bits8 == 17)
                     {
-                        sessionKey=Program.security.SetSessionKey(Encoding.ASCII.GetBytes(content.Substring(2)));
-                        Send(handler, (char)17 + " " + Program.security.GetOwnerPublicKey().ToString()+" <EOF>");
-                        goto SESSIONKEY_RETURN;                     
+                        sessionKey = Program.security.SetSessionKey(Convert.FromBase64String(content.Substring(2, content.Length - 8)));
+                        state.sessionKey = sessionKey;
+                        Send(handler, (char)17 + " " + Convert.ToBase64String(Program.security.GetOwnerPublicKey().ToByteArray()) + " <EOF>");
+                        //goto SESSIONKEY_RETURN;  
+                        state.buffer = new byte[1024];
+                        state.sb = new StringBuilder();
+                        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
+                        new AsyncCallback(ReadCallback), state);
                     }
-
-
-                    content = Communique.ChooseCommunique(content, sessionKey, handler);
-                    // Echo the data back to the client.
-
-                    if (bits8 != 2 && bits8!=11)
-                    {
-                        Send(handler, content);
-                    }
-
-                    if (bits8 == 1 && content== ((char)5).ToString() + "<EOF>") //logIn
+                    else
                     {
 
-                        string userAddressIP = ((IPEndPoint)handler.RemoteEndPoint).Address.ToString();
-                        long userID = Communique.getUserIDHavingAdressIP(userAddressIP);
-                        if (userID == -1)
+
+                        content = Communique.ChooseCommunique(content, state.sessionKey, handler);
+                        // Echo the data back to the client.
+
+                        if (bits8 != 2 && bits8 != 11)
                         {
-                            Send(handler, Communique.Fail());
+                            Send(handler, content);
                         }
+
+                        if (bits8 == 1 && content == ((char)5).ToString() + "<EOF>") //logIn
                         {
-                            Send(handler, Communique.LogIP(userID)); //data about friend
-                            Thread.Sleep(250);//miliseconds
-                            Send(handler, Communique.History(userID));//userID history
+
+                            string userAddressIP = ((IPEndPoint)handler.RemoteEndPoint).Address.ToString();
+                            long userID = Communique.getUserIDHavingAdressIP(userAddressIP);
+                            if (userID == -1)
+                            {
+                                Send(handler, Communique.Fail());
+                            }
+                            {
+                                Send(handler, Communique.LogIP(userID)); //data about friend
+                                Thread.Sleep(250);//miliseconds
+                                Send(handler, Communique.History(userID));//userID history
+                            }
                         }
-                    }
-                   
+
                         handler.Shutdown(SocketShutdown.Both);
                         handler.Close();
 
-                    if (bits8 == 0)
-                    {
+                        if (bits8 == 0)
+                        {
 
+                        }
                     }
 
                 }

@@ -15,6 +15,7 @@ namespace SecConvServer
 
         public ECDiffieHellmanPublicKey GetOwnerPublicKey()
         {
+            
             return owner.PublicKey;
         }
         public void CreatePublicKey()
@@ -24,10 +25,10 @@ namespace SecConvServer
         }
         public byte[] SetSessionKey(byte[] clientPublicKey) //set session key
         {
-            CngKey k = CngKey.Import(clientPublicKey, CngKeyBlobFormat.EccPublicBlob); //firs argument public key from client
-            byte[] SessionKey = owner.DeriveKeyMaterial(CngKey.Import(clientPublicKey, CngKeyBlobFormat.EccPublicBlob));//firs argument public key from client           
-
-            return SessionKey;
+            //CngKey k = CngKey.Import(clientPublicKey, CngKeyBlobFormat.EccPublicBlob); //firs argument public key from client
+            byte[] sessionKey = owner.DeriveKeyMaterial(CngKey.Import(clientPublicKey, CngKeyBlobFormat.EccPublicBlob));//firs argument public key from client           
+            //byte[] sessionKey = owner.DeriveKeyMaterial(ECDiffieHellmanCngPublicKey.FromByteArray(clientPublicKey, CngKeyBlobFormat.EccPublicBlob));
+            return sessionKey;
         }
 
         public  byte[] EncryptMessage(byte[] key, string secretMessage)
