@@ -94,7 +94,8 @@ namespace SecConvClient
             string message = comm + " " + Convert.ToBase64String(Program.security.EncryptMessage(Program.sessionKeyWithServer, login)) + " <EOF>";
 
             Program.client.Send(message);
-            commFromServer(Program.client.Receive());
+            message = Program.client.Receive();
+            commFromServer(message.Substring(0,message.Length-6));
         }
 
         public static byte[] KeyExchange()
