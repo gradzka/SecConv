@@ -24,7 +24,6 @@ namespace SecConvClient
 
         void waitForCommuniques()
         {
-            Thread.Sleep(200);
             string response = String.Empty;
             int numberOfComm = 0;
             while (numberOfComm<2)
@@ -34,7 +33,7 @@ namespace SecConvClient
                     response = Program.client.Receive();
                     if (response.Length > 0)
                     {
-                        string[] comms = response.Split(new string[] { "<EOF>" }, StringSplitOptions.None);
+                        string[] comms = response.Split(new string[] { " <EOF>" }, StringSplitOptions.None);
                         foreach (var comm in comms)
                         {
                             Communique.commFromServer(comm);
@@ -83,6 +82,7 @@ namespace SecConvClient
                 LUserCallOut.Text = "z " + listView1.SelectedItems[0].Text.ToString();
                 gBCallOut.Visible = true;
                 Program.voice.Call();
+                timerCallOut.Start();
             }
         }
 
@@ -183,7 +183,7 @@ namespace SecConvClient
                             MessageBox.Show("Stare hasło jest niepoprawne!", "Błąd!");
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         MessageBox.Show("Problem z połączeniem z serwerem!", "Błąd!");
                     }
@@ -247,6 +247,14 @@ namespace SecConvClient
             Program.userLogin = "";
             Program.serverAddress = "";
             Program.sessionKeyWithServer = null;
+
+            if (Program.voice.player != null)
+            {
+                Program.voice.player.Stop();
+            }
+            Program.voice.clientSocket.Close();
+            Program.voice = null;
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -317,6 +325,12 @@ namespace SecConvClient
         {
             end = DateTime.Now;
             LTimeConv.Text = (end - begin).Hours.ToString().PadLeft(2, '0') + ":" + (end - begin).Minutes.ToString().PadLeft(2, '0') + ":" + (end - begin).Seconds.ToString().PadLeft(2, '0');
+        }
+
+        private void timerCallOut_Tick(object sender, EventArgs e)
+        {
+            timerCallOut.Stop();
+            BCancel_Click(null, null);
         }
     }
 

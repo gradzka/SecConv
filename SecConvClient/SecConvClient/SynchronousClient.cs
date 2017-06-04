@@ -48,10 +48,15 @@ namespace SecConvClient
         {
             bytes = new byte[1024];
             int bytesRec = 0;
+            string answer = string.Empty;
             try
             {
-                // Receive the response from the remote device.
-                bytesRec = socket.Receive(bytes);
+                while (!answer.Contains("<EOF>"))
+                {
+                    // Receive the response from the remote device.
+                    bytesRec = socket.Receive(bytes);
+                    answer+= Encoding.ASCII.GetString(bytes, 0, bytesRec);
+                }
             }
             catch (ArgumentNullException ane)
             {
@@ -68,7 +73,7 @@ namespace SecConvClient
                 Console.WriteLine("Unexpected exception : {0}", e.ToString());
                 throw;
             }
-            return Encoding.ASCII.GetString(bytes, 0, bytesRec);
+            return answer;
         }
 
         public void Send(String data)

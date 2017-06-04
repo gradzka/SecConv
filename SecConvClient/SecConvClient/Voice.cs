@@ -25,7 +25,7 @@ namespace SecConvClient
         private Device device;
         private SecondaryBuffer playbackBuffer;
         private BufferDescription playbackBufferDescription;
-        private Socket clientSocket;
+        public Socket clientSocket;
         private volatile bool bStop;                //Flag to end the Start and Receive threads.
         private IPEndPoint otherPartyIP;            //IP of party we want to make a call.
         private EndPoint otherPartyEP;
@@ -33,7 +33,7 @@ namespace SecConvClient
         private Vocoder vocoder;
         private byte[] byteData = new byte[1024];   //Buffer to store the data received.
         private volatile int nUdpClientFlag;        //Flag used to close the udpClient socket.
-        private System.Media.SoundPlayer player;
+        public System.Media.SoundPlayer player;
 
         public Voice()
         {
@@ -105,7 +105,7 @@ namespace SecConvClient
             }
             catch (Exception)
             {
-                MessageBox.Show("Wystąpił problem z inicjalizacją obiektu Voice!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Wystąpił problem z inicjalizacją obiektu Voice!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -176,7 +176,7 @@ namespace SecConvClient
             }
             catch (Exception)
             {
-                MessageBox.Show("Wystąpił problem podczas wysyłania pakietów!", "OnSend", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Wystąpił problem podczas wysyłania pakietów!", "OnSend", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -308,7 +308,7 @@ namespace SecConvClient
             }
             catch (Exception)
             {
-                MessageBox.Show("Wystąpił problem podczas odbierania pakietów!", "OnReceive", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Wystąpił problem podczas odbierania pakietów!", "OnReceive", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -324,6 +324,7 @@ namespace SecConvClient
 
         public void DeclineCall(EndPoint receivedFromEP)
         {
+            player.Stop();
             string msgTmp = (char)6 + " <EOF>"; //FAIL
             SendMessage(msgTmp, receivedFromEP); //to another user
             //caller date state
@@ -479,7 +480,7 @@ namespace SecConvClient
             }
             catch (Exception)
             {
-                MessageBox.Show("Wystąpił problem podczas metody \"CreateNotifyPositions()\"!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Wystąpił problem podczas metody \"CreateNotifyPositions()\"!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -586,7 +587,7 @@ namespace SecConvClient
             }
             catch (Exception)
             {
-                MessageBox.Show("Wystąpił problem podczas wysyłania pakietów!", "SendMessage", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Wystąpił problem podczas wysyłania pakietów!", "SendMessage", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

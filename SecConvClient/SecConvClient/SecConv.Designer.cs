@@ -77,6 +77,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timerIAM = new System.Windows.Forms.Timer(this.components);
             this.timerConv = new System.Windows.Forms.Timer(this.components);
+            this.timerCallOut = new System.Windows.Forms.Timer(this.components);
             this.toolStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gBCallOut.SuspendLayout();
@@ -642,6 +643,11 @@
             this.timerConv.Interval = 200;
             this.timerConv.Tick += new System.EventHandler(this.timerConv_Tick);
             // 
+            // timerCallOut
+            // 
+            this.timerCallOut.Interval = 30000;
+            this.timerCallOut.Tick += new System.EventHandler(this.timerCallOut_Tick);
+            // 
             // SecConv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -723,5 +729,6 @@
         private System.Windows.Forms.Button BDisconnect;
         public System.Windows.Forms.Label LUserConv;
         public System.Windows.Forms.Timer timerConv;
+        private System.Windows.Forms.Timer timerCallOut;
     }
 }
