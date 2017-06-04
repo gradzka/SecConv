@@ -53,7 +53,21 @@ namespace SecConvServer
             // The DNS name of the computer
             // running the listener is "host.contoso.com".
             IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-            IPAddress ipAddress = ipHostInfo.AddressList[1];
+            int i = 0;
+            Console.WriteLine("Choose server IPv4 address:");
+            foreach (var item in ipHostInfo.AddressList)
+            {
+                Console.WriteLine( i + " - " + item);
+                i++;
+            }
+            do
+            {
+                Console.Write("Type: ");
+                i = (int)(Console.ReadKey().KeyChar) - 48;
+                Console.WriteLine();
+            } while (i < 0 || i >= ipHostInfo.AddressList.Count());
+
+            IPAddress ipAddress = ipHostInfo.AddressList[i];
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
 
             // Create a TCP/IP socket.
