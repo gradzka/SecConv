@@ -252,7 +252,11 @@ namespace SecConvClient
             {
                 Program.voice.player.Stop();
             }
-            Program.voice.clientSocket.Close();
+            if(Program.voice.clientSocket!=null)
+            {
+                Program.voice.clientSocket.Shutdown(SocketShutdown.Both);
+                Program.voice.clientSocket.Close();
+            }
             Program.voice = null;
 
         }
