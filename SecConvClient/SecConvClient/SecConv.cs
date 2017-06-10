@@ -86,7 +86,7 @@ namespace SecConvClient
             }
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void tSBLogOut_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.No;
             this.Close();
@@ -236,6 +236,18 @@ namespace SecConvClient
             }
             try
             {
+                if(gBCallIn.Visible==true)
+                {
+                    BDecline_Click(null, null);
+                }
+                else if(gBCallOut.Visible == true)
+                {
+                    BCancel_Click(null, null);
+                }
+                else if(gbConv.Visible == true)
+                {
+                    BDisconnect_Click(null, null);
+                }
                 Program.client = new SynchronousClient(Program.serverAddress);
                 Communique.LogOut(Program.userLogin);
                 Program.client.Disconnect();               

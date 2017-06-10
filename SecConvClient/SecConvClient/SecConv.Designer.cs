@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecConv));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.tSBLogOut = new System.Windows.Forms.ToolStripButton();
             this.tSBContact = new System.Windows.Forms.ToolStripButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.gBCallOut = new System.Windows.Forms.GroupBox();
@@ -94,7 +94,7 @@
             // 
             this.toolStrip1.BackColor = System.Drawing.Color.Transparent;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
+            this.tSBLogOut,
             this.tSBContact});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -102,18 +102,18 @@
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // tSBLogOut
             // 
-            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton1.AutoToolTip = false;
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.ForeColor = System.Drawing.Color.Black;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(55, 22);
-            this.toolStripButton1.Text = "Wyloguj";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.tSBLogOut.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tSBLogOut.AutoToolTip = false;
+            this.tSBLogOut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tSBLogOut.ForeColor = System.Drawing.Color.Black;
+            this.tSBLogOut.Image = ((System.Drawing.Image)(resources.GetObject("tSBLogOut.Image")));
+            this.tSBLogOut.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tSBLogOut.Name = "tSBLogOut";
+            this.tSBLogOut.Size = new System.Drawing.Size(55, 22);
+            this.tSBLogOut.Text = "Wyloguj";
+            this.tSBLogOut.Click += new System.EventHandler(this.tSBLogOut_Click);
             // 
             // tSBContact
             // 
@@ -684,7 +684,7 @@
 
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton tSBContact;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton tSBLogOut;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage2;

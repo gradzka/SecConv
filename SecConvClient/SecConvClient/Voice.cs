@@ -361,7 +361,7 @@ namespace SecConvClient
 
                 MemoryStream memStream = new MemoryStream(halfBuffer);
                 bStop = false;
-                while (!bStop)
+                while (!bStop && Program.secConv.Visible)
                 {
                     autoResetEvent.WaitOne();
                     memStream.Seek(0, SeekOrigin.Begin);
@@ -424,7 +424,7 @@ namespace SecConvClient
                 bStop = false;
                 IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
 
-                while (!bStop)
+                while (!bStop && Program.secConv.Visible) // && secConv jest włączony
                 {
                     //Receive data.
                     byte[] byteData = udpClient.Receive(ref remoteEP);
@@ -559,7 +559,7 @@ namespace SecConvClient
 
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 MessageBox.Show("Wystąpił problem podczas inicjalizacji połączenia!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
