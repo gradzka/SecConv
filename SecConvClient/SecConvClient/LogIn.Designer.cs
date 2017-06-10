@@ -36,9 +36,6 @@
             this.BLogIn = new System.Windows.Forms.Button();
             this.TPassword = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.BTipServerIP = new System.Windows.Forms.Button();
-            this.BTipPass = new System.Windows.Forms.Button();
-            this.BTipLogin = new System.Windows.Forms.Button();
             this.BRegister = new System.Windows.Forms.Button();
             this.TServerIP = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -73,10 +70,14 @@
             // TLogin
             // 
             this.TLogin.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.TLogin.ForeColor = System.Drawing.Color.Gray;
             this.TLogin.Location = new System.Drawing.Point(9, 19);
             this.TLogin.Name = "TLogin";
-            this.TLogin.Size = new System.Drawing.Size(145, 26);
+            this.TLogin.Size = new System.Drawing.Size(181, 26);
             this.TLogin.TabIndex = 2;
+            this.TLogin.Text = "Login";
+            this.TLogin.Enter += new System.EventHandler(this.Textbox_Enter);
+            this.TLogin.Leave += new System.EventHandler(this.Textbox_Leave);
             // 
             // BLogIn
             // 
@@ -96,59 +97,15 @@
             // TPassword
             // 
             this.TPassword.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.TPassword.ForeColor = System.Drawing.Color.Gray;
             this.TPassword.Location = new System.Drawing.Point(9, 51);
             this.TPassword.Name = "TPassword";
-            this.TPassword.Size = new System.Drawing.Size(145, 26);
+            this.TPassword.Size = new System.Drawing.Size(181, 26);
             this.TPassword.TabIndex = 3;
+            this.TPassword.Text = "Hasło";
             this.TPassword.UseSystemPasswordChar = true;
-            // 
-            // BTipServerIP
-            // 
-            this.BTipServerIP.BackColor = System.Drawing.Color.IndianRed;
-            this.BTipServerIP.FlatAppearance.BorderSize = 0;
-            this.BTipServerIP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTipServerIP.Font = new System.Drawing.Font("Calibri", 11.25F);
-            this.BTipServerIP.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.BTipServerIP.Location = new System.Drawing.Point(223, 195);
-            this.BTipServerIP.Name = "BTipServerIP";
-            this.BTipServerIP.Size = new System.Drawing.Size(28, 26);
-            this.BTipServerIP.TabIndex = 17;
-            this.BTipServerIP.TabStop = false;
-            this.BTipServerIP.Text = "?";
-            this.toolTip1.SetToolTip(this.BTipServerIP, "Wpisz adres serwera");
-            this.BTipServerIP.UseVisualStyleBackColor = false;
-            // 
-            // BTipPass
-            // 
-            this.BTipPass.BackColor = System.Drawing.Color.IndianRed;
-            this.BTipPass.FlatAppearance.BorderSize = 0;
-            this.BTipPass.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTipPass.Font = new System.Drawing.Font("Calibri", 11.25F);
-            this.BTipPass.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.BTipPass.Location = new System.Drawing.Point(160, 51);
-            this.BTipPass.Name = "BTipPass";
-            this.BTipPass.Size = new System.Drawing.Size(28, 26);
-            this.BTipPass.TabIndex = 16;
-            this.BTipPass.TabStop = false;
-            this.BTipPass.Text = "?";
-            this.toolTip1.SetToolTip(this.BTipPass, "Wpisz hasło");
-            this.BTipPass.UseVisualStyleBackColor = false;
-            // 
-            // BTipLogin
-            // 
-            this.BTipLogin.BackColor = System.Drawing.Color.IndianRed;
-            this.BTipLogin.FlatAppearance.BorderSize = 0;
-            this.BTipLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTipLogin.Font = new System.Drawing.Font("Calibri", 11.25F);
-            this.BTipLogin.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.BTipLogin.Location = new System.Drawing.Point(160, 19);
-            this.BTipLogin.Name = "BTipLogin";
-            this.BTipLogin.Size = new System.Drawing.Size(28, 26);
-            this.BTipLogin.TabIndex = 15;
-            this.BTipLogin.TabStop = false;
-            this.BTipLogin.Text = "?";
-            this.toolTip1.SetToolTip(this.BTipLogin, "Wpisz login");
-            this.BTipLogin.UseVisualStyleBackColor = false;
+            this.TPassword.Enter += new System.EventHandler(this.Textbox_Enter);
+            this.TPassword.Leave += new System.EventHandler(this.Textbox_Leave);
             // 
             // BRegister
             // 
@@ -157,7 +114,7 @@
             this.BRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BRegister.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BRegister.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.BRegister.Location = new System.Drawing.Point(74, 395);
+            this.BRegister.Location = new System.Drawing.Point(74, 390);
             this.BRegister.Name = "BRegister";
             this.BRegister.Size = new System.Drawing.Size(179, 26);
             this.BRegister.TabIndex = 5;
@@ -168,18 +125,20 @@
             // TServerIP
             // 
             this.TServerIP.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.TServerIP.ForeColor = System.Drawing.Color.Gray;
             this.TServerIP.Location = new System.Drawing.Point(72, 195);
             this.TServerIP.Name = "TServerIP";
-            this.TServerIP.Size = new System.Drawing.Size(145, 26);
+            this.TServerIP.Size = new System.Drawing.Size(181, 26);
             this.TServerIP.TabIndex = 6;
+            this.TServerIP.Text = "Adres IP serwera";
+            this.TServerIP.Enter += new System.EventHandler(this.Textbox_Enter);
+            this.TServerIP.Leave += new System.EventHandler(this.Textbox_Leave);
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
             this.groupBox1.Controls.Add(this.TLogin);
             this.groupBox1.Controls.Add(this.TPassword);
-            this.groupBox1.Controls.Add(this.BTipPass);
-            this.groupBox1.Controls.Add(this.BTipLogin);
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox1.Location = new System.Drawing.Point(63, 232);
             this.groupBox1.Name = "groupBox1";
@@ -195,7 +154,6 @@
             this.BackgroundImage = global::SecConvClient.Properties.Resources.background2;
             this.ClientSize = new System.Drawing.Size(320, 471);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.BTipServerIP);
             this.Controls.Add(this.TServerIP);
             this.Controls.Add(this.BRegister);
             this.Controls.Add(this.BLogIn);
@@ -224,9 +182,6 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button BRegister;
         private System.Windows.Forms.TextBox TServerIP;
-        private System.Windows.Forms.Button BTipServerIP;
-        private System.Windows.Forms.Button BTipPass;
-        private System.Windows.Forms.Button BTipLogin;
         private System.Windows.Forms.GroupBox groupBox1;
     }
 }

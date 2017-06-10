@@ -70,5 +70,43 @@ namespace SecConvClient
                            "Robert Kazimierczak:\t https://github.com/kazimierczak-robert",
                            "Autorzy projektu");
         }
+
+        private void TServerIP_Leave(object sender, EventArgs e)
+        {
+            //if (String.IsNullOrWhiteSpace(myTxtbx.Text)) { myTxtbx.Text = "Enter text here..."; }
+        }
+
+        private void Textbox_Enter(object sender, EventArgs e)
+        {
+            if ((((TextBox)sender).Name== "TServerIP" && ((TextBox)sender).Text == "Adres IP serwera") ||
+                (((TextBox)sender).Name == "TLogin" && ((TextBox)sender).Text == "Login") ||
+                (((TextBox)sender).Name == "TPassword" && ((TextBox)sender).Text == "Hasło"))
+            {
+                ((TextBox)sender).Text = "";
+                ((TextBox)sender).ForeColor = SystemColors.WindowText;
+            }
+        }
+
+        private void Textbox_Leave(object sender, EventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(((TextBox)sender).Text))
+            {
+                if (((TextBox)sender).Name == "TServerIP")
+                {
+                    ((TextBox)sender).Text = "Adres IP serwera";
+                    ((TextBox)sender).ForeColor = Color.Gray;
+                }
+                else if (((TextBox)sender).Name == "TLogin")
+                {
+                    ((TextBox)sender).Text = "Login";
+                    ((TextBox)sender).ForeColor = Color.Gray;
+                }
+                else if (((TextBox)sender).Name == "TPassword")
+                {
+                    ((TextBox)sender).Text = "Hasło";
+                    ((TextBox)sender).ForeColor = Color.Gray;
+                }
+            }
+        }
     }
 }

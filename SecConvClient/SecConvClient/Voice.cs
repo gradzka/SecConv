@@ -77,6 +77,7 @@ namespace SecConvClient
                 playbackBufferDescription = new BufferDescription();
                 playbackBufferDescription.BufferBytes = waveFormat.AverageBytesPerSecond / 5;
                 playbackBufferDescription.Format = waveFormat;
+                playbackBufferDescription.Flags = BufferDescriptionFlags.GlobalFocus;
                 playbackBuffer = new SecondaryBuffer(playbackBufferDescription, device);
 
                 bufferSize = captureBufferDescription.BufferBytes;
@@ -84,8 +85,8 @@ namespace SecConvClient
                 bIsCallActive = false;
                 nUdpClientFlag = 0;
 
-                //Using UDP sockets
-                clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                //Using TCP sockets
+                clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 clientSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
                 EndPoint ourEP = new IPEndPoint(IPAddress.Any, 14450);
                 //Listen asynchronously on port 1450 for coming messages.
