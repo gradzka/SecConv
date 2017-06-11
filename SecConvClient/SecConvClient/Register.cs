@@ -19,11 +19,11 @@ namespace SecConvClient
 
         private void BRegister_Click(object sender, EventArgs e)
         {
-            if(TLogin.Text=="" || TPassword1.Text=="" || TPassword2.Text=="" || TServerIP.Text=="")
+            if (TLogin.Text == "" || TPassword1.Text == "" || TPassword2.Text == "" || TServerIP.Text == "")
             {
                 MessageBox.Show("Przynajmniej jedno z wymaganych pól jest nieuzupełnione!", "Błąd!");
             }
-            else if(TPassword1.Text!= TPassword2.Text)
+            else if (TPassword1.Text != TPassword2.Text)
             {
                 MessageBox.Show("Podane hasła nie są identyczne!", "Błąd!");
             }
@@ -66,8 +66,8 @@ namespace SecConvClient
                 else
                 {
                     MessageBox.Show("Hasło nie spełnia kryteriów!", "Błąd!");
-                }        
-                
+                }
+
             }
         }
 
@@ -123,6 +123,22 @@ namespace SecConvClient
                     ((TextBox)sender).ForeColor = Color.Gray;
                 }
             }
+        }
+        private void Enter_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                BRegister.PerformClick();
+            }
+        }
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            if (Form.ModifierKeys == Keys.None && keyData == Keys.Escape)
+            {
+                BBack.PerformClick();
+                return true;
+            }
+            return base.ProcessDialogKey(keyData);
         }
     }
 }

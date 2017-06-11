@@ -81,6 +81,7 @@
             this.TPassword1.Text = "Hasło";
             this.TPassword1.UseSystemPasswordChar = true;
             this.TPassword1.Enter += new System.EventHandler(this.Textbox_Enter);
+            this.TPassword1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_KeyDown);
             this.TPassword1.Leave += new System.EventHandler(this.Textbox_Leave);
             // 
             // BRegister
@@ -108,6 +109,7 @@
             this.TLogin.TabIndex = 5;
             this.TLogin.Text = "Login";
             this.TLogin.Enter += new System.EventHandler(this.Textbox_Enter);
+            this.TLogin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_KeyDown);
             this.TLogin.Leave += new System.EventHandler(this.Textbox_Leave);
             // 
             // TPassword2
@@ -121,6 +123,7 @@
             this.TPassword2.Text = "Hasło";
             this.TPassword2.UseSystemPasswordChar = true;
             this.TPassword2.Enter += new System.EventHandler(this.Textbox_Enter);
+            this.TPassword2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_KeyDown);
             this.TPassword2.Leave += new System.EventHandler(this.Textbox_Leave);
             // 
             // BTipPass1
@@ -181,6 +184,7 @@
             this.TServerIP.TabIndex = 13;
             this.TServerIP.Text = "Adres IP serwera";
             this.TServerIP.Enter += new System.EventHandler(this.Textbox_Enter);
+            this.TServerIP.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_KeyDown);
             this.TServerIP.Leave += new System.EventHandler(this.Textbox_Leave);
             // 
             // groupBox1
@@ -212,6 +216,7 @@
             this.Controls.Add(this.toolStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "Register";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

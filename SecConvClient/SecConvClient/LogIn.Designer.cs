@@ -77,6 +77,7 @@
             this.TLogin.TabIndex = 2;
             this.TLogin.Text = "Login";
             this.TLogin.Enter += new System.EventHandler(this.Textbox_Enter);
+            this.TLogin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_KeyDown);
             this.TLogin.Leave += new System.EventHandler(this.Textbox_Leave);
             // 
             // BLogIn
@@ -105,6 +106,7 @@
             this.TPassword.Text = "Hasło";
             this.TPassword.UseSystemPasswordChar = true;
             this.TPassword.Enter += new System.EventHandler(this.Textbox_Enter);
+            this.TPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_KeyDown);
             this.TPassword.Leave += new System.EventHandler(this.Textbox_Leave);
             // 
             // BRegister
@@ -132,6 +134,7 @@
             this.TServerIP.TabIndex = 6;
             this.TServerIP.Text = "Adres IP serwera";
             this.TServerIP.Enter += new System.EventHandler(this.Textbox_Enter);
+            this.TServerIP.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_KeyDown);
             this.TServerIP.Leave += new System.EventHandler(this.Textbox_Leave);
             // 
             // groupBox1
@@ -160,6 +163,7 @@
             this.Controls.Add(this.toolStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "LogIn";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

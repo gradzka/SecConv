@@ -108,5 +108,21 @@ namespace SecConvClient
                 }
             }
         }
+        private void Enter_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode==Keys.Enter)
+            {
+                BLogIn.PerformClick();
+            }
+        }
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            if (Form.ModifierKeys == Keys.None && keyData == Keys.Escape)
+            {
+                this.Close();
+                return true;
+            }
+            return base.ProcessDialogKey(keyData);
+        }
     }
 }
