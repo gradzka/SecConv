@@ -63,14 +63,12 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button6 = new System.Windows.Forms.Button();
             this.BDeleteAccount = new System.Windows.Forms.Button();
             this.TPassword = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.TOldPass = new System.Windows.Forms.Label();
             this.BChangePassword = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.BTipPass1 = new System.Windows.Forms.Button();
             this.TPassword2 = new System.Windows.Forms.TextBox();
             this.TPassword1 = new System.Windows.Forms.TextBox();
             this.TPasswordOld = new System.Windows.Forms.TextBox();
@@ -78,6 +76,9 @@
             this.timerIAM = new System.Windows.Forms.Timer(this.components);
             this.timerConv = new System.Windows.Forms.Timer(this.components);
             this.timerCallOut = new System.Windows.Forms.Timer(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gBCallOut.SuspendLayout();
@@ -470,7 +471,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button6);
+            this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.BDeleteAccount);
             this.groupBox2.Controls.Add(this.TPassword);
             this.groupBox2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -482,22 +483,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Usuń konto";
             // 
-            // button6
-            // 
-            this.button6.BackColor = System.Drawing.Color.IndianRed;
-            this.button6.FlatAppearance.BorderSize = 0;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Font = new System.Drawing.Font("Calibri", 11.25F);
-            this.button6.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button6.Location = new System.Drawing.Point(205, 65);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(28, 26);
-            this.button6.TabIndex = 16;
-            this.button6.TabStop = false;
-            this.button6.Text = "?";
-            this.toolTip1.SetToolTip(this.button6, "Podaj obecne hasło");
-            this.button6.UseVisualStyleBackColor = false;
-            // 
             // BDeleteAccount
             // 
             this.BDeleteAccount.BackColor = System.Drawing.Color.Brown;
@@ -505,10 +490,10 @@
             this.BDeleteAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BDeleteAccount.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BDeleteAccount.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.BDeleteAccount.Location = new System.Drawing.Point(54, 97);
+            this.BDeleteAccount.Location = new System.Drawing.Point(100, 97);
             this.BDeleteAccount.Name = "BDeleteAccount";
-            this.BDeleteAccount.Size = new System.Drawing.Size(145, 26);
-            this.BDeleteAccount.TabIndex = 17;
+            this.BDeleteAccount.Size = new System.Drawing.Size(179, 26);
+            this.BDeleteAccount.TabIndex = 12;
             this.BDeleteAccount.Text = "Usuń konto";
             this.toolTip1.SetToolTip(this.BDeleteAccount, "Usunięcia konta nie można cofnąć!");
             this.BDeleteAccount.UseVisualStyleBackColor = false;
@@ -517,18 +502,19 @@
             // TPassword
             // 
             this.TPassword.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TPassword.Location = new System.Drawing.Point(54, 65);
+            this.TPassword.Location = new System.Drawing.Point(100, 65);
             this.TPassword.Name = "TPassword";
-            this.TPassword.Size = new System.Drawing.Size(145, 26);
-            this.TPassword.TabIndex = 16;
+            this.TPassword.Size = new System.Drawing.Size(179, 26);
+            this.TPassword.TabIndex = 11;
             this.TPassword.UseSystemPasswordChar = true;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.TOldPass);
             this.groupBox1.Controls.Add(this.BChangePassword);
-            this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.BTipPass1);
             this.groupBox1.Controls.Add(this.TPassword2);
             this.groupBox1.Controls.Add(this.TPassword1);
             this.groupBox1.Controls.Add(this.TPasswordOld);
@@ -541,6 +527,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Zmień hasło";
             // 
+            // TOldPass
+            // 
+            this.TOldPass.AutoSize = true;
+            this.TOldPass.Location = new System.Drawing.Point(14, 36);
+            this.TOldPass.Name = "TOldPass";
+            this.TOldPass.Size = new System.Drawing.Size(80, 15);
+            this.TOldPass.TabIndex = 16;
+            this.TOldPass.Text = "Obecne hasło";
+            this.TOldPass.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
             // BChangePassword
             // 
             this.BChangePassword.BackColor = System.Drawing.Color.Brown;
@@ -548,29 +544,13 @@
             this.BChangePassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BChangePassword.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BChangePassword.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.BChangePassword.Location = new System.Drawing.Point(54, 128);
+            this.BChangePassword.Location = new System.Drawing.Point(100, 128);
             this.BChangePassword.Name = "BChangePassword";
-            this.BChangePassword.Size = new System.Drawing.Size(145, 26);
-            this.BChangePassword.TabIndex = 15;
+            this.BChangePassword.Size = new System.Drawing.Size(179, 26);
+            this.BChangePassword.TabIndex = 10;
             this.BChangePassword.Text = "Zmień hasło";
             this.BChangePassword.UseVisualStyleBackColor = false;
             this.BChangePassword.Click += new System.EventHandler(this.BChangePassword_Click);
-            // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.Color.IndianRed;
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Calibri", 11.25F);
-            this.button4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button4.Location = new System.Drawing.Point(205, 96);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(28, 26);
-            this.button4.TabIndex = 14;
-            this.button4.TabStop = false;
-            this.button4.Text = "?";
-            this.toolTip1.SetToolTip(this.button4, "Wpisz nowe hasło powtórnie");
-            this.button4.UseVisualStyleBackColor = false;
             // 
             // button3
             // 
@@ -579,7 +559,7 @@
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Calibri", 11.25F);
             this.button3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button3.Location = new System.Drawing.Point(205, 64);
+            this.button3.Location = new System.Drawing.Point(251, 63);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(28, 26);
             this.button3.TabIndex = 13;
@@ -590,35 +570,19 @@
         "");
             this.button3.UseVisualStyleBackColor = false;
             // 
-            // BTipPass1
-            // 
-            this.BTipPass1.BackColor = System.Drawing.Color.IndianRed;
-            this.BTipPass1.FlatAppearance.BorderSize = 0;
-            this.BTipPass1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTipPass1.Font = new System.Drawing.Font("Calibri", 11.25F);
-            this.BTipPass1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.BTipPass1.Location = new System.Drawing.Point(205, 32);
-            this.BTipPass1.Name = "BTipPass1";
-            this.BTipPass1.Size = new System.Drawing.Size(28, 26);
-            this.BTipPass1.TabIndex = 12;
-            this.BTipPass1.TabStop = false;
-            this.BTipPass1.Text = "?";
-            this.toolTip1.SetToolTip(this.BTipPass1, "Podaj obecne hasło");
-            this.BTipPass1.UseVisualStyleBackColor = false;
-            // 
             // TPassword2
             // 
             this.TPassword2.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TPassword2.Location = new System.Drawing.Point(54, 96);
+            this.TPassword2.Location = new System.Drawing.Point(100, 96);
             this.TPassword2.Name = "TPassword2";
-            this.TPassword2.Size = new System.Drawing.Size(145, 26);
+            this.TPassword2.Size = new System.Drawing.Size(179, 26);
             this.TPassword2.TabIndex = 9;
             this.TPassword2.UseSystemPasswordChar = true;
             // 
             // TPassword1
             // 
             this.TPassword1.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TPassword1.Location = new System.Drawing.Point(54, 64);
+            this.TPassword1.Location = new System.Drawing.Point(100, 63);
             this.TPassword1.Name = "TPassword1";
             this.TPassword1.Size = new System.Drawing.Size(145, 26);
             this.TPassword1.TabIndex = 8;
@@ -627,9 +591,9 @@
             // TPasswordOld
             // 
             this.TPasswordOld.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TPasswordOld.Location = new System.Drawing.Point(54, 32);
+            this.TPasswordOld.Location = new System.Drawing.Point(100, 31);
             this.TPasswordOld.Name = "TPasswordOld";
-            this.TPasswordOld.Size = new System.Drawing.Size(145, 26);
+            this.TPasswordOld.Size = new System.Drawing.Size(179, 26);
             this.TPasswordOld.TabIndex = 7;
             this.TPasswordOld.UseSystemPasswordChar = true;
             // 
@@ -647,6 +611,36 @@
             // 
             this.timerCallOut.Interval = 30000;
             this.timerCallOut.Tick += new System.EventHandler(this.timerCallOut_Tick);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(14, 68);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(71, 15);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Nowe hasło";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(14, 101);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(71, 15);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Nowe hasło";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(14, 70);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(80, 15);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "Obecne hasło";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // SecConv
             // 
@@ -700,11 +694,7 @@
         private System.Windows.Forms.TextBox TPassword2;
         private System.Windows.Forms.TextBox TPassword1;
         private System.Windows.Forms.TextBox TPasswordOld;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Button BTipPass1;
-        private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button BDeleteAccount;
         private System.Windows.Forms.TextBox TPassword;
         private System.Windows.Forms.Button BChangePassword;
@@ -730,5 +720,10 @@
         public System.Windows.Forms.Label LUserConv;
         public System.Windows.Forms.Timer timerConv;
         private System.Windows.Forms.Timer timerCallOut;
+        private System.Windows.Forms.Label TOldPass;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
