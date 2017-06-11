@@ -26,6 +26,8 @@ namespace SecConvClient
         {
             string response = String.Empty;
             int numberOfComm = 0;
+            string[] comms=null;
+            Thread.Sleep(100);
             while (numberOfComm<2)
             {
                 try
@@ -33,19 +35,20 @@ namespace SecConvClient
                     response = Program.client.Receive();
                     if (response.Length > 0)
                     {
-                        string[] comms = response.Split(new string[] { " <EOF>" }, StringSplitOptions.None);
+                        comms = response.Split(new string[] { " <EOF>" }, StringSplitOptions.None);
+                        comms = comms.Take(comms.Length - 1).ToArray();
                         foreach (var comm in comms)
                         {
                             Communique.commFromServer(comm);
                             numberOfComm++;
-                        }
-                        
+                        }   
                     }
                 }
                 catch (Exception)
-                {  }
+                {
+                    numberOfComm +=comms.Length;
+                }
             }
-            Thread.Sleep(1000);
             Program.client.Disconnect();
         }
 
