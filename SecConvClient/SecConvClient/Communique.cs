@@ -148,8 +148,7 @@ namespace SecConvClient
                 {
                     friend = new ListViewItem(friendDetails, 1);
                 }
-                Program.secConv.listView1.Items.Add(friend);
-
+                Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.listView1.Items.Add(friend); });
             }
         }
 
@@ -162,8 +161,8 @@ namespace SecConvClient
                 historyDetails = new string[3];
                 historyDetails[0] = history[i];
                 historyDetails[1] = history[i + 1] + " " + history[i + 2];
-                historyDetails[2] = history[i + 4] == "00:00:00"? "nieodebrane": history[i + 4];                 
-                Program.secConv.listView2.Items.Insert(0,new ListViewItem(historyDetails));
+                historyDetails[2] = history[i + 4] == "00:00:00"? "nieodebrane": history[i + 4];
+                Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.listView2.Items.Insert(0, new ListViewItem(historyDetails)); });
             }
         }
         static void StateChng(string messageFromServer)
