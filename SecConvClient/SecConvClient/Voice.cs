@@ -204,6 +204,15 @@ namespace SecConvClient
                     //We have an incoming call.
                     case (char)10:
                         {
+                            if(Program.secConv.gBCallOut.Visible == true)
+                            {
+                                Program.secConv.Invoke((MethodInvoker)delegate 
+                                {
+                                    Program.secConv.timerCallOut.Stop();
+                                    Program.secConv.gBCallOut.Visible = false;
+                                    player.Stop();
+                                });
+                            }
                             player = new System.Media.SoundPlayer();
                             player.Stream = Properties.Resources.Call1;
                             player.PlayLooping();
@@ -219,8 +228,13 @@ namespace SecConvClient
                                 //if (MessageBox.Show("Call coming from " + msgReceived.strName + ".\r\n\r\nAccept it?",
                                 //   "VoiceChat", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 
-                                Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = true; });
-                                Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.LUserCallIn.Text = msgTable[1]; });
+                                Program.secConv.Invoke((MethodInvoker)delegate 
+                                {
+                                    Program.secConv.gBCallIn.Visible = true;
+                                    Program.secConv.LUserCallIn.Text = msgTable[1];
+                                    Program.secConv.gBChangePass.Enabled = false;
+                                    Program.secConv.gBDelAcc.Enabled = false;
+                                });
                                 Program.secConv.callerEndPoint = receivedFromEP;
                                 Program.secConv.isReceiver = true;
                                 //Program.secConv.Refresh();
@@ -237,6 +251,10 @@ namespace SecConvClient
                         {
                             //callOut.Close();
                             //Start a call.
+                            Program.secConv.Invoke((MethodInvoker)delegate 
+                            {
+                                Program.secConv.timerCallOut.Stop();
+                            });
                             InitializeCall();
                             break;
                         }
@@ -251,10 +269,14 @@ namespace SecConvClient
                             if (Program.secConv.isReceiver==false)//somebody call - you decline
                             {
                                 Program.client = new SynchronousClient(Program.serverAddress);
-                                Program.secConv.Invoke((MethodInvoker)delegate { Communique.CallState(Program.userLogin, Program.secConv.listView1.SelectedItems[0].Text, DateTime.Now, TimeSpan.Zero); });
+                                Program.secConv.Invoke((MethodInvoker)delegate 
+                                {
+                                    Program.secConv.timerCallOut.Stop();
+                                    Communique.CallState(Program.userLogin, Program.secConv.listView1.SelectedItems[0].Text, DateTime.Now, TimeSpan.Zero);
+                                    historyDetails[0] = Program.secConv.listView1.SelectedItems[0].Text;
+                                });
                                 Program.client.Disconnect();
                                 
-                                Program.secConv.Invoke((MethodInvoker)delegate {historyDetails[0] = Program.secConv.listView1.SelectedItems[0].Text;});
                                 //Communique.CallState(Program.userLogin, Program.secConv.LUserCallIn.Text, DateTime.Now, TimeSpan.Zero);
                             }
                             else //somebody call - somebody decline
@@ -274,10 +296,18 @@ namespace SecConvClient
                             //disconect with server
                             
                             //close ring panel
-                            Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = false; });
+                            Program.secConv.Invoke((MethodInvoker)delegate 
+                            {
+                                Program.secConv.gBCallIn.Visible = false;
+                                Program.secConv.gBChangePass.Enabled = true;
+                                Program.secConv.gBDelAcc.Enabled = true;
+                            });
                             if (Program.secConv.gBCallOut.Visible==true)
                             {
-                                Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallOut.Visible = false; });
+                                Program.secConv.Invoke((MethodInvoker)delegate 
+                                {
+                                    Program.secConv.gBCallOut.Visible = false;
+                                });
                                 //CancelCall();
                                 MessageBox.Show("Połączenie odrzucone.", "SecConv", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             }
@@ -490,7 +520,12 @@ namespace SecConvClient
 
         private void UninitializeCall()
         {
-            Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gbConv.Visible = false; });
+            Program.secConv.Invoke((MethodInvoker)delegate
+            {
+                Program.secConv.gbConv.Visible = false;
+                Program.secConv.gBChangePass.Enabled = true;
+                Program.secConv.gBDelAcc.Enabled = true;
+            });
             //Set the flag to end the Send and Receive threads.
             bStop = true;
 
@@ -526,8 +561,11 @@ namespace SecConvClient
         private void InitializeCall()
         {
             player.Stop();
-            Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallOut.Visible = false; });
-            Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gBCallIn.Visible = false; });
+            Program.secConv.Invoke((MethodInvoker)delegate 
+            {
+                Program.secConv.gBCallOut.Visible = false;
+                Program.secConv.gBCallIn.Visible = false;
+            });
             try
             {
                 //Start listening on port 1500.
@@ -547,20 +585,28 @@ namespace SecConvClient
 
                 Program.secConv.begin = DateTime.Now;
                 Program.secConv.end = DateTime.Now;
-                Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.gbConv.Visible = true; Program.secConv.timerConv.Start(); });
+                Program.secConv.Invoke((MethodInvoker)delegate 
+                {
+                    Program.secConv.gbConv.Visible = true;
+                    Program.secConv.timerConv.Start();
+                });
 
                 if (Program.secConv.isReceiver == true)
                 {
-                    Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.LUserConv.Text = "z " + Program.secConv.LUserCallIn.Text; });
+                    Program.secConv.Invoke((MethodInvoker)delegate 
+                    {
+                        Program.secConv.LUserConv.Text = "z " + Program.secConv.LUserCallIn.Text;
+                    });
                 }
                 else
                 {
-                    Program.secConv.Invoke((MethodInvoker)delegate { Program.secConv.LUserConv.Text = Program.secConv.LUserCallOut.Text; });
+                    Program.secConv.Invoke((MethodInvoker)delegate
+                    {
+                        Program.secConv.LUserConv.Text = Program.secConv.LUserCallOut.Text;
+                    });
                 }
-
-
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Wystąpił problem podczas inicjalizacji połączenia!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

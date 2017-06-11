@@ -86,6 +86,8 @@ namespace SecConvClient
                 gBCallOut.Visible = true;
                 Program.voice.Call();
                 timerCallOut.Start();
+                gBChangePass.Enabled = false;
+                gBDelAcc.Enabled = false;
             }
         }
 
@@ -298,6 +300,7 @@ namespace SecConvClient
 
         private void BCancel_Click(object sender, EventArgs e)
         {
+            timerCallOut.Stop();
             Program.voice.CancelCall();
             Program.client = new SynchronousClient(Program.serverAddress);
             Communique.CallState(Program.userLogin, listView1.SelectedItems[0].Text, DateTime.Now, TimeSpan.Zero);
@@ -308,6 +311,8 @@ namespace SecConvClient
             listView2.Items.Insert(0, (new ListViewItem(historyDetails)));
             listView2.Refresh();
             Program.client.Disconnect();
+            gBChangePass.Enabled = true;
+            gBDelAcc.Enabled = true;
         }
 
         private void BAccept_Click(object sender, EventArgs e)
@@ -319,6 +324,8 @@ namespace SecConvClient
         {
             Program.voice.DeclineCall(callerEndPoint);
             gBCallIn.Visible = false;
+            gBChangePass.Enabled = true;
+            gBDelAcc.Enabled = true;
         }
 
         private void BDisconnect_Click(object sender, EventArgs e)

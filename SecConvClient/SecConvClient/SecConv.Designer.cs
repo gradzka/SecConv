@@ -62,10 +62,13 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gBDelAcc = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.BDeleteAccount = new System.Windows.Forms.Button();
             this.TPassword = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gBChangePass = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.TOldPass = new System.Windows.Forms.Label();
             this.BChangePassword = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -76,9 +79,6 @@
             this.timerIAM = new System.Windows.Forms.Timer(this.components);
             this.timerConv = new System.Windows.Forms.Timer(this.components);
             this.timerCallOut = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gBCallOut.SuspendLayout();
@@ -87,8 +87,8 @@
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.gBDelAcc.SuspendLayout();
+            this.gBChangePass.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -459,8 +459,8 @@
             this.tabPage3.AutoScroll = true;
             this.tabPage3.BackColor = System.Drawing.Color.White;
             this.tabPage3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage3.Controls.Add(this.groupBox2);
-            this.tabPage3.Controls.Add(this.groupBox1);
+            this.tabPage3.Controls.Add(this.gBDelAcc);
+            this.tabPage3.Controls.Add(this.gBChangePass);
             this.tabPage3.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
@@ -469,19 +469,29 @@
             this.tabPage3.TabIndex = 5;
             this.tabPage3.Text = "Ustawienia";
             // 
-            // groupBox2
+            // gBDelAcc
             // 
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.BDeleteAccount);
-            this.groupBox2.Controls.Add(this.TPassword);
-            this.groupBox2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.groupBox2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.groupBox2.Location = new System.Drawing.Point(7, 222);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(295, 178);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Usuń konto";
+            this.gBDelAcc.Controls.Add(this.label3);
+            this.gBDelAcc.Controls.Add(this.BDeleteAccount);
+            this.gBDelAcc.Controls.Add(this.TPassword);
+            this.gBDelAcc.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.gBDelAcc.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.gBDelAcc.Location = new System.Drawing.Point(7, 222);
+            this.gBDelAcc.Name = "gBDelAcc";
+            this.gBDelAcc.Size = new System.Drawing.Size(295, 178);
+            this.gBDelAcc.TabIndex = 1;
+            this.gBDelAcc.TabStop = false;
+            this.gBDelAcc.Text = "Usuń konto";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(14, 70);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(80, 15);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "Obecne hasło";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // BDeleteAccount
             // 
@@ -508,24 +518,44 @@
             this.TPassword.TabIndex = 11;
             this.TPassword.UseSystemPasswordChar = true;
             // 
-            // groupBox1
+            // gBChangePass
             // 
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.TOldPass);
-            this.groupBox1.Controls.Add(this.BChangePassword);
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.TPassword2);
-            this.groupBox1.Controls.Add(this.TPassword1);
-            this.groupBox1.Controls.Add(this.TPasswordOld);
-            this.groupBox1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.groupBox1.Location = new System.Drawing.Point(7, 17);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(295, 178);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Zmień hasło";
+            this.gBChangePass.Controls.Add(this.label2);
+            this.gBChangePass.Controls.Add(this.label1);
+            this.gBChangePass.Controls.Add(this.TOldPass);
+            this.gBChangePass.Controls.Add(this.BChangePassword);
+            this.gBChangePass.Controls.Add(this.button3);
+            this.gBChangePass.Controls.Add(this.TPassword2);
+            this.gBChangePass.Controls.Add(this.TPassword1);
+            this.gBChangePass.Controls.Add(this.TPasswordOld);
+            this.gBChangePass.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.gBChangePass.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.gBChangePass.Location = new System.Drawing.Point(7, 17);
+            this.gBChangePass.Name = "gBChangePass";
+            this.gBChangePass.Size = new System.Drawing.Size(295, 178);
+            this.gBChangePass.TabIndex = 0;
+            this.gBChangePass.TabStop = false;
+            this.gBChangePass.Text = "Zmień hasło";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(14, 101);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(71, 15);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Nowe hasło";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(14, 68);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(71, 15);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Nowe hasło";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // TOldPass
             // 
@@ -612,36 +642,6 @@
             this.timerCallOut.Interval = 30000;
             this.timerCallOut.Tick += new System.EventHandler(this.timerCallOut_Tick);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 68);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 15);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "Nowe hasło";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 101);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 15);
-            this.label2.TabIndex = 18;
-            this.label2.Text = "Nowe hasło";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 70);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 15);
-            this.label3.TabIndex = 19;
-            this.label3.Text = "Obecne hasło";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            // 
             // SecConv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -665,10 +665,10 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gBDelAcc.ResumeLayout(false);
+            this.gBDelAcc.PerformLayout();
+            this.gBChangePass.ResumeLayout(false);
+            this.gBChangePass.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -689,8 +689,8 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button BDeleteFriend;
         private System.Windows.Forms.Button BAddFriend;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        public System.Windows.Forms.GroupBox gBChangePass;
+        public System.Windows.Forms.GroupBox gBDelAcc;
         private System.Windows.Forms.TextBox TPassword2;
         private System.Windows.Forms.TextBox TPassword1;
         private System.Windows.Forms.TextBox TPasswordOld;
@@ -719,7 +719,7 @@
         private System.Windows.Forms.Button BDisconnect;
         public System.Windows.Forms.Label LUserConv;
         public System.Windows.Forms.Timer timerConv;
-        private System.Windows.Forms.Timer timerCallOut;
+        public System.Windows.Forms.Timer timerCallOut;
         private System.Windows.Forms.Label TOldPass;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label3;
