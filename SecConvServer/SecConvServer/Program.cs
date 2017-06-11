@@ -8,6 +8,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Net;
 using System.Net.Sockets;
+using System.Diagnostics;
 
 namespace SecConvServer
 {
@@ -18,6 +19,11 @@ namespace SecConvServer
         public static Security security = new Security();
         static void Main(string[] args)
         {
+            String thisprocessname = Process.GetCurrentProcess().ProcessName;
+
+            if (Process.GetProcesses().Count(p => p.ProcessName == thisprocessname) > 1)
+                return;
+
             SQLiteConnection m_dbConnection;
             m_dbConnection = new SQLiteConnection("Data Source=SecConvDB.sqlite; Version=3;");
             m_dbConnection.Open();
