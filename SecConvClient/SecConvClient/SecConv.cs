@@ -56,8 +56,6 @@ namespace SecConvClient
         {
             InitializeComponent();
             this.Text = Program.userLogin + " - SecConv";
-            commThread = new Thread(waitForCommuniques);
-            commThread.Start();
             timerIAM.Start();
         }
 
@@ -359,6 +357,11 @@ namespace SecConvClient
             BCancel_Click(null, null);
         }
 
+        private void SecConv_Shown(object sender, EventArgs e)
+        {
+            commThread = new Thread(waitForCommuniques);
+            commThread.Start();
+        }
     }
 
     public static class Prompt

@@ -656,6 +656,7 @@
             this.Name = "SecConv";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SecConv_FormClosed);
+            this.Shown += new System.EventHandler(this.SecConv_Shown);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.tabPage1.ResumeLayout(false);
