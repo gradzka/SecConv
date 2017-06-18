@@ -29,7 +29,9 @@ namespace SecConvClient
             String thisprocessname = Process.GetCurrentProcess().ProcessName;
 
             if (Process.GetProcesses().Count(p => p.ProcessName == thisprocessname) > 1)
+            {
                 return;
+            }
 
 
             Application.EnableVisualStyles();
@@ -63,8 +65,7 @@ namespace SecConvClient
                     register = new Register();
                     dialogResult = register.ShowDialog();
                 }
-            }
-            
+            }  
         }
     }
 }

@@ -107,10 +107,6 @@ namespace SecConvClient
                                            ref remoteEP,
                                            new AsyncCallback(OnReceive),
                                            null);
-
-                senderThread = new Thread(new ThreadStart(Send));
-                receiverThread = new Thread(new ThreadStart(Receive));
-
             }
             catch (Exception)
             {
@@ -589,6 +585,8 @@ namespace SecConvClient
                 //Start listening on port 1550.
                 udpClient = new UdpClient(1550);
 
+                senderThread = new Thread(new ThreadStart(Send));
+                receiverThread = new Thread(new ThreadStart(Receive));
                 bIsCallActive = true;
 
                 //Start the receiver and sender thread.

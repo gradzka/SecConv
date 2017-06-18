@@ -76,12 +76,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Communique.cs" />
-    <Compile Include="Conv.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Conv.Designer.cs">
-      <DependentUpon>Conv.cs</DependentUpon>
-    </Compile>
     <Compile Include="LogIn.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,9 +99,6 @@
     <Compile Include="Security.cs" />
     <Compile Include="SynchronousClient.cs" />
     <Compile Include="Voice.cs" />
-    <EmbeddedResource Include="Conv.resx">
-      <DependentUpon>Conv.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="LogIn.resx">
       <DependentUpon>LogIn.cs</DependentUpon>
     </EmbeddedResource>

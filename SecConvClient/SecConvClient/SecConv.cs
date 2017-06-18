@@ -27,7 +27,7 @@ namespace SecConvClient
             string response = String.Empty;
             int numberOfComm = 0;
             string[] comms=null;
-            Thread.Sleep(100);
+            while (!Program.secConv.Visible) { }
             while (numberOfComm<2)
             {
                 try
