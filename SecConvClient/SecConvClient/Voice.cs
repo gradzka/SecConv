@@ -9,6 +9,7 @@ using System.Threading;
 using System.Net.Sockets;
 using System.Net;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace SecConvClient
 {
@@ -35,6 +36,9 @@ namespace SecConvClient
         private volatile int nUdpClientFlag;        //Flag used to close the udpClient socket.
         public System.Media.SoundPlayer player;
 
+        private Thread senderThread;
+        private Thread receiverThread;
+
         public Voice()
         {
             Initialize();
@@ -49,7 +53,7 @@ namespace SecConvClient
             try
             {
                 device = new Device();
-                device.SetCooperativeLevel(Program.secConv, CooperativeLevel.Normal);
+                device.SetCooperativeLevel(Program.secConv, CooperativeLevel.Priority);
 
                 CaptureDevicesCollection captureDeviceCollection = new CaptureDevicesCollection();
 
@@ -89,7 +93,7 @@ namespace SecConvClient
                 clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 clientSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
                 EndPoint ourEP = new IPEndPoint(IPAddress.Any, 14450);
-                //Listen asynchronously on port 1450 for coming messages.
+                //Listen asynchronously on port 14450 for coming messages.
                 clientSocket.Bind(ourEP);
 
                 //Receive data from any IP.
@@ -103,6 +107,10 @@ namespace SecConvClient
                                            ref remoteEP,
                                            new AsyncCallback(OnReceive),
                                            null);
+
+                senderThread = new Thread(new ThreadStart(Send));
+                receiverThread = new Thread(new ThreadStart(Receive));
+
             }
             catch (Exception)
             {
@@ -392,7 +400,7 @@ namespace SecConvClient
 
                 MemoryStream memStream = new MemoryStream(halfBuffer);
                 bStop = false;
-                while (!bStop && Program.secConv.Visible)
+                while (!bStop && Process.GetCurrentProcess().MainWindowHandle != IntPtr.Zero)
                 {
                     autoResetEvent.WaitOne();
                     memStream.Seek(0, SeekOrigin.Begin);
@@ -455,7 +463,7 @@ namespace SecConvClient
                 bStop = false;
                 IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
 
-                while (!bStop && Program.secConv.Visible) // && secConv jest włączony
+                while (!bStop && Process.GetCurrentProcess().MainWindowHandle != IntPtr.Zero) 
                 {
                     //Receive data.
                     byte[] byteData = udpClient.Receive(ref remoteEP);
@@ -540,6 +548,16 @@ namespace SecConvClient
             historyDetails[2] = (Program.secConv.end - Program.secConv.begin).ToString().Split('.')[0];
             Program.secConv.listView2.Items.Insert(0, (new ListViewItem(historyDetails)));
             Program.secConv.listView2.Refresh();
+
+            bStop = true;
+            if (receiverThread.IsAlive)
+            {
+                receiverThread.Join();
+            }
+            if (senderThread.IsAlive)
+            {
+                senderThread.Join();
+            }
         }
 
         public void DropCall()
@@ -568,11 +586,9 @@ namespace SecConvClient
             });
             try
             {
-                //Start listening on port 1500.
+                //Start listening on port 1550.
                 udpClient = new UdpClient(1550);
 
-                Thread senderThread = new Thread(new ThreadStart(Send));
-                Thread receiverThread = new Thread(new ThreadStart(Receive));
                 bIsCallActive = true;
 
                 //Start the receiver and sender thread.
